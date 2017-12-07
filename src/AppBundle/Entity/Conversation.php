@@ -21,11 +21,15 @@ class Conversation
      */
     private $id;
 
-    //todo
+    /**
+     * @ManyToMany(targetEntity="User")
+     * @JoinTable(name="personnesConversations",
+     *     joinColumns={@JoinColumn(name="conversation_id", referencedColumnName="id")})
+     */
     private $personnes;
 
     /**
-     * @OneToMany(targetEntity="Conversation", mappedBy="$idConversation")
+     * @OneToMany(targetEntity="Message", mappedBy="idConversation")
      */
     private $messages;
 

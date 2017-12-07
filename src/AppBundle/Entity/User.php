@@ -36,5 +36,17 @@ class user
      */
     private $password;
 
+    /**
+     * @ManyToMany(targetEntity="Conversation")
+     * @JoinTable(name="personnesConversations",
+     *     joinColumns={@JoinColumn(name="user_id", referencedColumnName="id")})
+     */
+    private $conversations;
 
+    /**
+     * @ManyToMany(targetEntity="Charge")
+     * @JoinTable(name="personnesCharges",
+     *     joinColumns={@JoinColumn(name="user_id", referencedColumnName="id")})
+     */
+    private $charges;
 }

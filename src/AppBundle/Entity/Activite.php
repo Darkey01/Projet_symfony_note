@@ -44,7 +44,9 @@ class Activite
      */
     private $date;
 
-    //TODO
+    /**
+     * @OneToOne(targetEntity="User")
+     */
     private $redacteur;
 
 

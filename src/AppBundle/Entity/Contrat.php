@@ -43,6 +43,8 @@ class Contrat
     private $dateFin;
 
 
+    private $charges;
+
     /**
      * Get id
      *

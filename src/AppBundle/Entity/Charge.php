@@ -51,7 +51,11 @@ class Charge
      */
     private $statut;
 
-    //TODO
+    /**
+     * @ManyToMany(targetEntity="User")
+     * @JoinTable(name="personnesCharges",
+     *     joinColumns={@JoinColumn(name="charge_id", referencedColumnName="id")})
+     */
     private $proprietaires;
 
     /**
@@ -62,7 +66,10 @@ class Charge
     private $pieceJointe;
 
 
-    //TODO
+    /**
+     * @ManyToOne(targetEntity="Contrat")
+     * @ORM\JoinColumn(nullable=true)
+     */
     private $contrat;
 
 
@@ -175,11 +182,11 @@ class Charge
     /**
      * Set proprietaires
      *
-     * @param array $proprietaires
+     * @param User $proprietaires
      *
      * @return Charge
      */
-    public function setProprietaires(User$proprietaires)
+    public function setProprietaires( $proprietaires)
     {
         $this->proprietaires = $proprietaires;
 
@@ -223,7 +230,7 @@ class Charge
     /**
      * Set contrat
      *
-     * @param \stdClass $contrat
+     * @param Contrat $contrat
      *
      * @return Charge
      */
