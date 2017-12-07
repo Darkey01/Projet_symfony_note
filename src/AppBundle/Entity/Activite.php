@@ -2,7 +2,9 @@
 
 namespace AppBundle\Entity;
 
+use App\Entity\user;
 use Doctrine\ORM\Mapping as ORM;
+
 
 /**
  * Activite
@@ -42,11 +44,7 @@ class Activite
      */
     private $date;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="redacteur", type="string", length=255)
-     */
+    //TODO
     private $redacteur;
 
 
@@ -135,11 +133,11 @@ class Activite
     /**
      * Set redacteur
      *
-     * @param string $redacteur
+     * @param $redacteur
      *
      * @return Activite
      */
-    public function setRedacteur($redacteur)
+    public function setRedacteur(User $redacteur)
     {
         $this->redacteur = $redacteur;
 

@@ -21,11 +21,7 @@ class Versement
      */
     private $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="proprietaire", type="string", length=255)
-     */
+    //TODO
     private $proprietaire;
 
     /**
@@ -42,11 +38,7 @@ class Versement
      */
     private $date;
 
-    /**
-     * @var array
-     *
-     * @ORM\Column(name="piecesJointes", type="array", nullable=true)
-     */
+    //TODO
     private $piecesJointes;
 
     /**
@@ -56,11 +48,7 @@ class Versement
      */
     private $type;
 
-    /**
-     * @var \stdClass
-     *
-     * @ORM\Column(name="chargeLiee", type="object")
-     */
+    //TODO
     private $chargeLiee;
 
 

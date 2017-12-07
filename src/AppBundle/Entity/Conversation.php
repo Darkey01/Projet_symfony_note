@@ -21,17 +21,11 @@ class Conversation
      */
     private $id;
 
-    /**
-     * @var array
-     *
-     * @ORM\Column(name="Personnes", type="array")
-     */
+    //todo
     private $personnes;
 
     /**
-     * @var array
-     *
-     * @ORM\Column(name="Messages", type="array")
+     * @OneToMany(targetEntity="Conversation", mappedBy="$idConversation")
      */
     private $messages;
 

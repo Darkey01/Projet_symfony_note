@@ -56,39 +56,19 @@ class Projet
      */
     private $dateCloture;
 
-    /**
-     * @var \stdClass
-     *
-     * @ORM\Column(name="filDiscussion", type="object")
-     */
+//TODO
     private $filDiscussion;
 
-    /**
-     * @var array
-     *
-     * @ORM\Column(name="listeSondage", type="array")
-     */
+    //TODO
     private $listeSondage;
 
-    /**
-     * @var array
-     *
-     * @ORM\Column(name="piecesJointes", type="array")
-     */
+    //TODO
     private $piecesJointes;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="proprietaire", type="string", length=255)
-     */
+    //TODO
     private $proprietaire;
 
-    /**
-     * @var array
-     *
-     * @ORM\Column(name="personnesConcernees", type="array", nullable=true)
-     */
+    //TOdo
     private $personnesConcernees;
 
 

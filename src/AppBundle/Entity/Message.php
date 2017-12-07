@@ -43,9 +43,7 @@ class Message
     private $dateMessage;
 
     /**
-     * @var \stdClass
-     *
-     * @ORM\Column(name="idConversation", type="object")
+     * @ManyToOne(targetEntity="Conversation", cascade={"all"})
      */
     private $idConversation;
 

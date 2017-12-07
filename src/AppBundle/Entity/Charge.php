@@ -2,7 +2,9 @@
 
 namespace AppBundle\Entity;
 
+
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\user;
 
 /**
  * Charge
@@ -49,11 +51,7 @@ class Charge
      */
     private $statut;
 
-    /**
-     * @var array
-     *
-     * @ORM\Column(name="proprietaires", type="array")
-     */
+    //TODO
     private $proprietaires;
 
     /**
@@ -64,11 +62,7 @@ class Charge
     private $pieceJointe;
 
 
-    /**
-     * @var \stdClass
-     *
-     * @ORM\Column(name="contrat", type="object", nullable=true)
-     */
+    //TODO
     private $contrat;
 
 
@@ -185,7 +179,7 @@ class Charge
      *
      * @return Charge
      */
-    public function setProprietaires($proprietaires)
+    public function setProprietaires(User$proprietaires)
     {
         $this->proprietaires = $proprietaires;
 
@@ -233,7 +227,7 @@ class Charge
      *
      * @return Charge
      */
-    public function setContrat($contrat)
+    public function setContrat(Contrat $contrat)
     {
         $this->contrat = $contrat;
 
