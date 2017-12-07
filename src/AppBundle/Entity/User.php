@@ -26,6 +26,15 @@ class user
      */
     private $name;
 
+    /**
+     * @ORM\Column(type="String", length=100)
+     */
+    private $mail;
+
+    /**
+     * @ORM\Column(type="String", length=100)
+     */
+    private $password;
 
 
 }
