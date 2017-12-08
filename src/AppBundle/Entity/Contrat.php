@@ -43,6 +43,10 @@ class Contrat
     private $dateFin;
 
 
+    /**
+     * @OneToMany(targetEntity="Charge", mappedBy="contrat")
+     *  @ORM\JoinColumn(nullable=true)
+     */
     private $charges;
 
     /**

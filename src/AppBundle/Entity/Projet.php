@@ -56,16 +56,21 @@ class Projet
      */
     private $dateCloture;
 
-//TODO
+    /**
+     * @OneToOne(targetEntity="Discussion")
+     * @JoinColumn(name="projetId", referencedColumnName="id", nullable=false )
+     */
     private $filDiscussion;
 
-    //TODO
+    //
     private $listeSondage;
 
     //TODO
     private $piecesJointes;
 
-    //TODO
+    /**
+     * @ManyToOne(targetEntity="User")²
+     */
     private $proprietaire;
 
     //TOdo

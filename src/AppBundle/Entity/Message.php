@@ -28,11 +28,7 @@ class Message
      */
     private $text;
 
-    /**
-     * @var \stdClass
-     *
-     * @ORM\Column(name="idUser", type="object")
-     */
+    //TODO
     private $idUser;
 
     /**
@@ -46,6 +42,8 @@ class Message
      * @ManyToOne(targetEntity="Conversation", cascade={"all"})
      */
     private $idConversation;
+
+
 
 
     /**

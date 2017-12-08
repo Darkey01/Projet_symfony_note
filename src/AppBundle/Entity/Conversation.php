@@ -42,6 +42,13 @@ class Conversation
 
 
     /**
+     * @OneToOne(targetEntity="Projet")
+     *
+     */
+    private $projetId;
+
+
+    /**
      * Get id
      *
      * @return int
