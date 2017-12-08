@@ -28,7 +28,9 @@ class Message
      */
     private $text;
 
-    //TODO
+    /**
+     * @ManyToOne(targetEntity="User", cascade={"all"})
+     */
     private $idUser;
 
     /**

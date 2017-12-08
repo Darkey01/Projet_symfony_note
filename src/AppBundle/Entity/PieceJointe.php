@@ -48,6 +48,11 @@ class pieceJointe
     private $versement;
 
     /**
+     * @ManyToOne(targetEntity="Projet")
+     */
+    private $idProjet;
+
+    /**
      * Get id
      *
      * @return int

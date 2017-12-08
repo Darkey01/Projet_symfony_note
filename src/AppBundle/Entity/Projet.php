@@ -62,18 +62,26 @@ class Projet
      */
     private $filDiscussion;
 
-    //
+    /**
+     * @OneToMany(targetEntity="Sondage", mappedBy="idProjet")
+     */
     private $listeSondage;
 
-    //TODO
+    /**
+     * @OneToMany(targetEntity="PieceJointe", mappedBy="idProjet")
+     */
     private $piecesJointes;
 
     /**
-     * @ManyToOne(targetEntity="User")²
+     * @ManyToOne(targetEntity="User")
      */
     private $proprietaire;
 
-    //TOdo
+    /**
+     * @ManyToMany(targetEntity="User")
+     * @JoinTable(name="personnesProjet",
+     *     joinColumns={@JoinColumn(name="projet_id", referencedColumnName="id")})
+     */
     private $personnesConcernees;
 
 

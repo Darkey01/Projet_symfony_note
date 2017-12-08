@@ -53,7 +53,9 @@ class Versement
      */
     private $type;
 
-    //TODO
+    /**
+     * @ManyToOne(targetEntity="Charge")
+     */
     private $chargeLiee;
 
 

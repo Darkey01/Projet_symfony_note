@@ -59,4 +59,16 @@ class user
      * @OneToMany(targetEntity="Projet", mappedBy="proprietaire")
      */
     private $projetsCrees;
+
+    /**
+     * @ManyToMany(targetEntity="Projet")
+     * @JoinTable(name="personnesProjet",
+     *     joinColumns={@JoinColumn(name="user_id", referencedColumnName="id")})
+     */
+    private $projets;
+
+    /**
+     * @OneToMany(targetEntity="Message", mappedBy="idUser")
+     */
+    private $messages;
 }

@@ -74,6 +74,12 @@ class Charge
 
 
     /**
+     * @OneToMany(targetEntity="Versement", mappedBy="chargeLiee")
+     */
+    private $versements;
+
+
+    /**
      * Get id
      *
      * @return int

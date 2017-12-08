@@ -33,6 +33,10 @@ class Sondage
      */
     private $reponse;
 
+    /**
+     * @ManyToOne(targetEntity="Projet")
+     */
+    private $idProjet;
 
     /**
      * Get id
