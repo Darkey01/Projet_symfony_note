@@ -49,7 +49,7 @@ class Versement
     /**
      * @var string
      *
-     * @ORM\Column(name="type", type="string", length=255)
+     * @ORM\Column(name="type", type="string", length=255, columnDefinition="ENUM('Cheque', 'Virement bancaire')"))
      */
     private $type;
 

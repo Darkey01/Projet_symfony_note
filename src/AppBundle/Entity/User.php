@@ -71,4 +71,11 @@ class user
      * @OneToMany(targetEntity="Message", mappedBy="idUser")
      */
     private $messages;
+
+    /**
+     * @ManyToMany(targetEntity="ReponseSondage")
+     * @JoinTable(name="Votes",
+     *     joinColumns={@JoinColumn(name="user_Id", referencedColumnName="id")})
+     */
+    private $reponseId;
 }

@@ -33,6 +33,14 @@ class ReponseSondage
      */
     private $reponse;
 
+    /**
+     * @ManyToMany(targetEntity="User")
+     * @JoinTable(name="Votes",
+     *     joinColumns={@JoinColumn(name="reponse_id", referencedColumnName="id")})
+     */
+     private $userId;
+
+
 
     /**
      * Get id

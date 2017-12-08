@@ -38,8 +38,9 @@ class Projet
     /**
      * @var string
      *
-     * @ORM\Column(name="statut", type="string", length=100)
+     * @ORM\Column(name="statut", type="string", length=100, columnDefinition="ENUM('En discussion', 'En attente d execution, 'Execute')")
      */
+
     private $statut;
 
     /**
