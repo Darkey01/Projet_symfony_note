@@ -21,7 +21,9 @@ class Versement
      */
     private $id;
 
-    //TODO
+    /**
+     * @ManyToOne(targetEntity="User")
+     */
     private $proprietaire;
 
     /**
@@ -38,7 +40,10 @@ class Versement
      */
     private $date;
 
-    //TODO
+    /**
+     * @OneToMany(targetEntity="PieceJointe", mappedBy="id")
+     */
+
     private $piecesJointes;
 
     /**
