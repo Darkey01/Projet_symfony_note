@@ -49,4 +49,14 @@ class user
      *     joinColumns={@JoinColumn(name="user_id", referencedColumnName="id")})
      */
     private $charges;
+
+    /**
+     * @OneToMany(targetEntity="Versement", mappedBy="proprietaire")
+     */
+    private $versements;
+
+    /**
+     * @OneToMany(targetEntity="Projet", mappedBy="proprietaire")
+     */
+    private $projetsCrees;
 }
