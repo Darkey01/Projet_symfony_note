@@ -47,8 +47,9 @@ class Charge
     /**
      * @var string
      *
-     * @ORM\Column(name="statut", type="string", length=20)
+     * @ORM\Column(name="statut", type="string", length=20, columnDefinition="ENUM('Paye', 'A payer')")
      */
+
     private $statut;
 
     /**

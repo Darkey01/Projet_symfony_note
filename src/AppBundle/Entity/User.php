@@ -59,4 +59,11 @@ class user
      * @OneToMany(targetEntity="Projet", mappedBy="proprietaire")
      */
     private $projetsCrees;
+
+    /**
+     * @ManyToMany(targetEntity="ReponseSondage")
+     * @JoinTable(name="Votes",
+     *     joinColumns={@JoinColumn(name="user_Id", referencedColumnName="id")})
+     */
+    private $reponseId;
 }
