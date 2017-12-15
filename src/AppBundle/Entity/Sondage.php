@@ -39,8 +39,6 @@ class Sondage
     private $idProjet;
 
     /**
-     * Get id
-     *
      * @return int
      */
     public function getId()
@@ -49,22 +47,14 @@ class Sondage
     }
 
     /**
-     * Set question
-     *
-     * @param string $question
-     *
-     * @return Sondage
+     * @param int $id
      */
-    public function setQuestion($question)
+    public function setId($id)
     {
-        $this->question = $question;
-
-        return $this;
+        $this->id = $id;
     }
 
     /**
-     * Get question
-     *
      * @return string
      */
     public function getQuestion()
@@ -73,27 +63,44 @@ class Sondage
     }
 
     /**
-     * Set reponse
-     *
-     * @param string $reponse
-     *
-     * @return Sondage
+     * @param string $question
      */
-    public function setReponse($reponse)
+    public function setQuestion($question)
     {
-        $this->reponse = $reponse;
-
-        return $this;
+        $this->question = $question;
     }
 
     /**
-     * Get reponse
-     *
-     * @return string
+     * @return mixed
      */
     public function getReponse()
     {
         return $this->reponse;
     }
+
+    /**
+     * @param mixed $reponse
+     */
+    public function setReponse($reponse)
+    {
+        $this->reponse = $reponse;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIdProjet()
+    {
+        return $this->idProjet;
+    }
+
+    /**
+     * @param mixed $idProjet
+     */
+    public function setIdProjet($idProjet)
+    {
+        $this->idProjet = $idProjet;
+    }
+
 }
 

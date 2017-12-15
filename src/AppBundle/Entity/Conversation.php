@@ -45,10 +45,7 @@ class Conversation
      */
     private $projetId;
 
-
     /**
-     * Get id
-     *
      * @return int
      */
     public function getId()
@@ -57,23 +54,15 @@ class Conversation
     }
 
     /**
-     * Set personnes
-     *
-     * @param array $personnes
-     *
-     * @return Conversation
+     * @param int $id
      */
-    public function setPersonnes($personnes)
+    public function setId($id)
     {
-        $this->personnes = $personnes;
-
-        return $this;
+        $this->id = $id;
     }
 
     /**
-     * Get personnes
-     *
-     * @return array
+     * @return mixed
      */
     public function getPersonnes()
     {
@@ -81,23 +70,15 @@ class Conversation
     }
 
     /**
-     * Set messages
-     *
-     * @param array $messages
-     *
-     * @return Conversation
+     * @param mixed $personnes
      */
-    public function setMessages($messages)
+    public function setPersonnes($personnes)
     {
-        $this->messages = $messages;
-
-        return $this;
+        $this->personnes = $personnes;
     }
 
     /**
-     * Get messages
-     *
-     * @return array
+     * @return mixed
      */
     public function getMessages()
     {
@@ -105,27 +86,44 @@ class Conversation
     }
 
     /**
-     * Set titre
-     *
-     * @param string $titre
-     *
-     * @return Conversation
+     * @param mixed $messages
      */
-    public function setTitre($titre)
+    public function setMessages($messages)
     {
-        $this->titre = $titre;
-
-        return $this;
+        $this->messages = $messages;
     }
 
     /**
-     * Get titre
-     *
      * @return string
      */
     public function getTitre()
     {
         return $this->titre;
     }
+
+    /**
+     * @param string $titre
+     */
+    public function setTitre($titre)
+    {
+        $this->titre = $titre;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProjetId()
+    {
+        return $this->projetId;
+    }
+
+    /**
+     * @param mixed $projetId
+     */
+    public function setProjetId($projetId)
+    {
+        $this->projetId = $projetId;
+    }
+
 }
 

@@ -53,8 +53,6 @@ class PieceJointe
     private $idProjet;
 
     /**
-     * Get id
-     *
      * @return int
      */
     public function getId()
@@ -63,22 +61,14 @@ class PieceJointe
     }
 
     /**
-     * Set nom
-     *
-     * @param string $nom
-     *
-     * @return pieceJointe
+     * @param int $id
      */
-    public function setNom($nom)
+    public function setId($id)
     {
-        $this->nom = $nom;
-
-        return $this;
+        $this->id = $id;
     }
 
     /**
-     * Get nom
-     *
      * @return string
      */
     public function getNom()
@@ -87,22 +77,14 @@ class PieceJointe
     }
 
     /**
-     * Set type
-     *
-     * @param string $type
-     *
-     * @return pieceJointe
+     * @param string $nom
      */
-    public function setType($type)
+    public function setNom($nom)
     {
-        $this->type = $type;
-
-        return $this;
+        $this->nom = $nom;
     }
 
     /**
-     * Get type
-     *
      * @return string
      */
     public function getType()
@@ -111,27 +93,60 @@ class PieceJointe
     }
 
     /**
-     * Set fichier
-     *
-     * @param string $fichier
-     *
-     * @return pieceJointe
+     * @param string $type
      */
-    public function setFichier($fichier)
+    public function setType($type)
     {
-        $this->fichier = $fichier;
-
-        return $this;
+        $this->type = $type;
     }
 
     /**
-     * Get fichier
-     *
      * @return string
      */
     public function getFichier()
     {
         return $this->fichier;
     }
+
+    /**
+     * @param string $fichier
+     */
+    public function setFichier($fichier)
+    {
+        $this->fichier = $fichier;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVersement()
+    {
+        return $this->versement;
+    }
+
+    /**
+     * @param mixed $versement
+     */
+    public function setVersement($versement)
+    {
+        $this->versement = $versement;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIdProjet()
+    {
+        return $this->idProjet;
+    }
+
+    /**
+     * @param mixed $idProjet
+     */
+    public function setIdProjet($idProjet)
+    {
+        $this->idProjet = $idProjet;
+    }
+
 }
 

@@ -48,10 +48,7 @@ class Activite
      */
     private $redacteur;
 
-
     /**
-     * Get id
-     *
      * @return int
      */
     public function getId()
@@ -60,22 +57,14 @@ class Activite
     }
 
     /**
-     * Set titre
-     *
-     * @param string $titre
-     *
-     * @return Activite
+     * @param int $id
      */
-    public function setTitre($titre)
+    public function setId($id)
     {
-        $this->titre = $titre;
-
-        return $this;
+        $this->id = $id;
     }
 
     /**
-     * Get titre
-     *
      * @return string
      */
     public function getTitre()
@@ -84,22 +73,14 @@ class Activite
     }
 
     /**
-     * Set note
-     *
-     * @param string $note
-     *
-     * @return Activite
+     * @param string $titre
      */
-    public function setNote($note)
+    public function setTitre($titre)
     {
-        $this->note = $note;
-
-        return $this;
+        $this->titre = $titre;
     }
 
     /**
-     * Get note
-     *
      * @return string
      */
     public function getNote()
@@ -108,22 +89,14 @@ class Activite
     }
 
     /**
-     * Set date
-     *
-     * @param \DateTime $date
-     *
-     * @return Activite
+     * @param string $note
      */
-    public function setDate($date)
+    public function setNote($note)
     {
-        $this->date = $date;
-
-        return $this;
+        $this->note = $note;
     }
 
     /**
-     * Get date
-     *
      * @return \DateTime
      */
     public function getDate()
@@ -132,27 +105,29 @@ class Activite
     }
 
     /**
-     * Set redacteur
-     *
-     * @param $redacteur
-     *
-     * @return Activite
+     * @param \DateTime $date
      */
-    public function setRedacteur($redacteur)
+    public function setDate($date)
     {
-        $this->redacteur = $redacteur;
-
-        return $this;
+        $this->date = $date;
     }
 
     /**
-     * Get redacteur
-     *
-     * @return string
+     * @return mixed
      */
     public function getRedacteur()
     {
         return $this->redacteur;
     }
+
+    /**
+     * @param mixed $redacteur
+     */
+    public function setRedacteur($redacteur)
+    {
+        $this->redacteur = $redacteur;
+    }
+
+
 }
 

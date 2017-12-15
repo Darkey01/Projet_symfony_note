@@ -50,8 +50,6 @@ class Contrat
     private $charges;
 
     /**
-     * Get id
-     *
      * @return int
      */
     public function getId()
@@ -60,22 +58,14 @@ class Contrat
     }
 
     /**
-     * Set nom
-     *
-     * @param string $nom
-     *
-     * @return Contrat
+     * @param int $id
      */
-    public function setNom($nom)
+    public function setId($id)
     {
-        $this->nom = $nom;
-
-        return $this;
+        $this->id = $id;
     }
 
     /**
-     * Get nom
-     *
      * @return string
      */
     public function getNom()
@@ -84,22 +74,14 @@ class Contrat
     }
 
     /**
-     * Set dateSignature
-     *
-     * @param \DateTime $dateSignature
-     *
-     * @return Contrat
+     * @param string $nom
      */
-    public function setDateSignature($dateSignature)
+    public function setNom($nom)
     {
-        $this->dateSignature = $dateSignature;
-
-        return $this;
+        $this->nom = $nom;
     }
 
     /**
-     * Get dateSignature
-     *
      * @return \DateTime
      */
     public function getDateSignature()
@@ -108,27 +90,45 @@ class Contrat
     }
 
     /**
-     * Set dateFin
-     *
-     * @param \DateTime $dateFin
-     *
-     * @return Contrat
+     * @param \DateTime $dateSignature
      */
-    public function setDateFin($dateFin)
+    public function setDateSignature($dateSignature)
     {
-        $this->dateFin = $dateFin;
-
-        return $this;
+        $this->dateSignature = $dateSignature;
     }
 
     /**
-     * Get dateFin
-     *
      * @return \DateTime
      */
     public function getDateFin()
     {
         return $this->dateFin;
     }
+
+    /**
+     * @param \DateTime $dateFin
+     */
+    public function setDateFin($dateFin)
+    {
+        $this->dateFin = $dateFin;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCharges()
+    {
+        return $this->charges;
+    }
+
+    /**
+     * @param mixed $charges
+     */
+    public function setCharges($charges)
+    {
+        $this->charges = $charges;
+    }
+
+
 }
 

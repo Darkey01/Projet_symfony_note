@@ -58,10 +58,7 @@ class Versement
      */
     private $chargeLiee;
 
-
     /**
-     * Get id
-     *
      * @return int
      */
     public function getId()
@@ -70,23 +67,15 @@ class Versement
     }
 
     /**
-     * Set proprietaire
-     *
-     * @param string $proprietaire
-     *
-     * @return Versement
+     * @param int $id
      */
-    public function setProprietaire($proprietaire)
+    public function setId($id)
     {
-        $this->proprietaire = $proprietaire;
-
-        return $this;
+        $this->id = $id;
     }
 
     /**
-     * Get proprietaire
-     *
-     * @return string
+     * @return mixed
      */
     public function getProprietaire()
     {
@@ -94,22 +83,14 @@ class Versement
     }
 
     /**
-     * Set montant
-     *
-     * @param float $montant
-     *
-     * @return Versement
+     * @param mixed $proprietaire
      */
-    public function setMontant($montant)
+    public function setProprietaire($proprietaire)
     {
-        $this->montant = $montant;
-
-        return $this;
+        $this->proprietaire = $proprietaire;
     }
 
     /**
-     * Get montant
-     *
      * @return float
      */
     public function getMontant()
@@ -118,22 +99,14 @@ class Versement
     }
 
     /**
-     * Set date
-     *
-     * @param \DateTime $date
-     *
-     * @return Versement
+     * @param float $montant
      */
-    public function setDate($date)
+    public function setMontant($montant)
     {
-        $this->date = $date;
-
-        return $this;
+        $this->montant = $montant;
     }
 
     /**
-     * Get date
-     *
      * @return \DateTime
      */
     public function getDate()
@@ -142,23 +115,15 @@ class Versement
     }
 
     /**
-     * Set piecesJointes
-     *
-     * @param array $piecesJointes
-     *
-     * @return Versement
+     * @param \DateTime $date
      */
-    public function setPiecesJointes($piecesJointes)
+    public function setDate($date)
     {
-        $this->piecesJointes = $piecesJointes;
-
-        return $this;
+        $this->date = $date;
     }
 
     /**
-     * Get piecesJointes
-     *
-     * @return array
+     * @return mixed
      */
     public function getPiecesJointes()
     {
@@ -166,22 +131,14 @@ class Versement
     }
 
     /**
-     * Set type
-     *
-     * @param string $type
-     *
-     * @return Versement
+     * @param mixed $piecesJointes
      */
-    public function setType($type)
+    public function setPiecesJointes($piecesJointes)
     {
-        $this->type = $type;
-
-        return $this;
+        $this->piecesJointes = $piecesJointes;
     }
 
     /**
-     * Get type
-     *
      * @return string
      */
     public function getType()
@@ -190,27 +147,28 @@ class Versement
     }
 
     /**
-     * Set chargeLiee
-     *
-     * @param \stdClass $chargeLiee
-     *
-     * @return Versement
+     * @param string $type
      */
-    public function setChargeLiee($chargeLiee)
+    public function setType($type)
     {
-        $this->chargeLiee = $chargeLiee;
-
-        return $this;
+        $this->type = $type;
     }
 
     /**
-     * Get chargeLiee
-     *
-     * @return \stdClass
+     * @return mixed
      */
     public function getChargeLiee()
     {
         return $this->chargeLiee;
     }
+
+    /**
+     * @param mixed $chargeLiee
+     */
+    public function setChargeLiee($chargeLiee)
+    {
+        $this->chargeLiee = $chargeLiee;
+    }
+
 }
 

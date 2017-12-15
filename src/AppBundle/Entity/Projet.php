@@ -83,10 +83,7 @@ class Projet
      */
     private $personnesConcernees;
 
-
     /**
-     * Get id
-     *
      * @return int
      */
     public function getId()
@@ -95,22 +92,14 @@ class Projet
     }
 
     /**
-     * Set nom
-     *
-     * @param string $nom
-     *
-     * @return Projet
+     * @param int $id
      */
-    public function setNom($nom)
+    public function setId($id)
     {
-        $this->nom = $nom;
-
-        return $this;
+        $this->id = $id;
     }
 
     /**
-     * Get nom
-     *
      * @return string
      */
     public function getNom()
@@ -119,22 +108,14 @@ class Projet
     }
 
     /**
-     * Set description
-     *
-     * @param string $description
-     *
-     * @return Projet
+     * @param string $nom
      */
-    public function setDescription($description)
+    public function setNom($nom)
     {
-        $this->description = $description;
-
-        return $this;
+        $this->nom = $nom;
     }
 
     /**
-     * Get description
-     *
      * @return string
      */
     public function getDescription()
@@ -143,22 +124,14 @@ class Projet
     }
 
     /**
-     * Set statut
-     *
-     * @param string $statut
-     *
-     * @return Projet
+     * @param string $description
      */
-    public function setStatut($statut)
+    public function setDescription($description)
     {
-        $this->statut = $statut;
-
-        return $this;
+        $this->description = $description;
     }
 
     /**
-     * Get statut
-     *
      * @return string
      */
     public function getStatut()
@@ -167,22 +140,14 @@ class Projet
     }
 
     /**
-     * Set dateOuverture
-     *
-     * @param \DateTime $dateOuverture
-     *
-     * @return Projet
+     * @param string $statut
      */
-    public function setDateOuverture($dateOuverture)
+    public function setStatut($statut)
     {
-        $this->dateOuverture = $dateOuverture;
-
-        return $this;
+        $this->statut = $statut;
     }
 
     /**
-     * Get dateOuverture
-     *
      * @return \DateTime
      */
     public function getDateOuverture()
@@ -191,22 +156,14 @@ class Projet
     }
 
     /**
-     * Set dateCloture
-     *
-     * @param \DateTime $dateCloture
-     *
-     * @return Projet
+     * @param \DateTime $dateOuverture
      */
-    public function setDateCloture($dateCloture)
+    public function setDateOuverture($dateOuverture)
     {
-        $this->dateCloture = $dateCloture;
-
-        return $this;
+        $this->dateOuverture = $dateOuverture;
     }
 
     /**
-     * Get dateCloture
-     *
      * @return \DateTime
      */
     public function getDateCloture()
@@ -215,23 +172,15 @@ class Projet
     }
 
     /**
-     * Set filDiscussion
-     *
-     * @param \stdClass $filDiscussion
-     *
-     * @return Projet
+     * @param \DateTime $dateCloture
      */
-    public function setFilDiscussion($filDiscussion)
+    public function setDateCloture($dateCloture)
     {
-        $this->filDiscussion = $filDiscussion;
-
-        return $this;
+        $this->dateCloture = $dateCloture;
     }
 
     /**
-     * Get filDiscussion
-     *
-     * @return \stdClass
+     * @return mixed
      */
     public function getFilDiscussion()
     {
@@ -239,23 +188,15 @@ class Projet
     }
 
     /**
-     * Set listeSondage
-     *
-     * @param array $listeSondage
-     *
-     * @return Projet
+     * @param mixed $filDiscussion
      */
-    public function setListeSondage($listeSondage)
+    public function setFilDiscussion($filDiscussion)
     {
-        $this->listeSondage = $listeSondage;
-
-        return $this;
+        $this->filDiscussion = $filDiscussion;
     }
 
     /**
-     * Get listeSondage
-     *
-     * @return array
+     * @return mixed
      */
     public function getListeSondage()
     {
@@ -263,23 +204,15 @@ class Projet
     }
 
     /**
-     * Set piecesJointes
-     *
-     * @param array $piecesJointes
-     *
-     * @return Projet
+     * @param mixed $listeSondage
      */
-    public function setPiecesJointes($piecesJointes)
+    public function setListeSondage($listeSondage)
     {
-        $this->piecesJointes = $piecesJointes;
-
-        return $this;
+        $this->listeSondage = $listeSondage;
     }
 
     /**
-     * Get piecesJointes
-     *
-     * @return array
+     * @return mixed
      */
     public function getPiecesJointes()
     {
@@ -287,23 +220,15 @@ class Projet
     }
 
     /**
-     * Set proprietaire
-     *
-     * @param string $proprietaire
-     *
-     * @return Projet
+     * @param mixed $piecesJointes
      */
-    public function setProprietaire($proprietaire)
+    public function setPiecesJointes($piecesJointes)
     {
-        $this->proprietaire = $proprietaire;
-
-        return $this;
+        $this->piecesJointes = $piecesJointes;
     }
 
     /**
-     * Get proprietaire
-     *
-     * @return string
+     * @return mixed
      */
     public function getProprietaire()
     {
@@ -311,27 +236,28 @@ class Projet
     }
 
     /**
-     * Set personnesConcernees
-     *
-     * @param array $personnesConcernees
-     *
-     * @return Projet
+     * @param mixed $proprietaire
      */
-    public function setPersonnesConcernees($personnesConcernees)
+    public function setProprietaire($proprietaire)
     {
-        $this->personnesConcernees = $personnesConcernees;
-
-        return $this;
+        $this->proprietaire = $proprietaire;
     }
 
     /**
-     * Get personnesConcernees
-     *
-     * @return array
+     * @return mixed
      */
     public function getPersonnesConcernees()
     {
         return $this->personnesConcernees;
     }
+
+    /**
+     * @param mixed $personnesConcernees
+     */
+    public function setPersonnesConcernees($personnesConcernees)
+    {
+        $this->personnesConcernees = $personnesConcernees;
+    }
+
 }
 

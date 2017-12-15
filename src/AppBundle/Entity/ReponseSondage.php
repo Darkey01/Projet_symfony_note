@@ -38,11 +38,7 @@ class ReponseSondage
      */
      private $users;
 
-
-
     /**
-     * Get id
-     *
      * @return int
      */
     public function getId()
@@ -51,23 +47,15 @@ class ReponseSondage
     }
 
     /**
-     * Set idSondage
-     *
-     * @param integer $idSondage
-     *
-     * @return ReponseSondage
+     * @param int $id
      */
-    public function setIdSondage($idSondage)
+    public function setId($id)
     {
-        $this->idSondage = $idSondage;
-
-        return $this;
+        $this->id = $id;
     }
 
     /**
-     * Get idSondage
-     *
-     * @return int
+     * @return mixed
      */
     public function getIdSondage()
     {
@@ -75,27 +63,44 @@ class ReponseSondage
     }
 
     /**
-     * Set reponse
-     *
-     * @param string $reponse
-     *
-     * @return ReponseSondage
+     * @param mixed $idSondage
      */
-    public function setReponse($reponse)
+    public function setIdSondage($idSondage)
     {
-        $this->reponse = $reponse;
-
-        return $this;
+        $this->idSondage = $idSondage;
     }
 
     /**
-     * Get reponse
-     *
      * @return string
      */
     public function getReponse()
     {
         return $this->reponse;
     }
+
+    /**
+     * @param string $reponse
+     */
+    public function setReponse($reponse)
+    {
+        $this->reponse = $reponse;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUsers()
+    {
+        return $this->users;
+    }
+
+    /**
+     * @param mixed $users
+     */
+    public function setUsers($users)
+    {
+        $this->users = $users;
+    }
+
 }
 

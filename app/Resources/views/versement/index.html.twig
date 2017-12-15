@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Versements list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Montant</th>
+                <th>Date</th>
+                <th>Type</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for versement in versements %}
+            <tr>
+                <td><a href="{{ path('versement_show', { 'id': versement.id }) }}">{{ versement.id }}</a></td>
+                <td>{{ versement.montant }}</td>
+                <td>{% if versement.date %}{{ versement.date|date('Y-m-d') }}{% endif %}</td>
+                <td>{{ versement.type }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('versement_show', { 'id': versement.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('versement_edit', { 'id': versement.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('versement_new') }}">Create a new versement</a>
+        </li>
+    </ul>
+{% endblock %}

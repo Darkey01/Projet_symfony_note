@@ -45,12 +45,7 @@ class Message
      */
     private $idConversation;
 
-
-
-
     /**
-     * Get id
-     *
      * @return int
      */
     public function getId()
@@ -59,22 +54,14 @@ class Message
     }
 
     /**
-     * Set text
-     *
-     * @param string $text
-     *
-     * @return Message
+     * @param int $id
      */
-    public function setText($text)
+    public function setId($id)
     {
-        $this->text = $text;
-
-        return $this;
+        $this->id = $id;
     }
 
     /**
-     * Get text
-     *
      * @return string
      */
     public function getText()
@@ -83,23 +70,15 @@ class Message
     }
 
     /**
-     * Set idUser
-     *
-     * @param \stdClass $idUser
-     *
-     * @return Message
+     * @param string $text
      */
-    public function setIdUser($idUser)
+    public function setText($text)
     {
-        $this->idUser = $idUser;
-
-        return $this;
+        $this->text = $text;
     }
 
     /**
-     * Get idUser
-     *
-     * @return \stdClass
+     * @return mixed
      */
     public function getIdUser()
     {
@@ -107,22 +86,14 @@ class Message
     }
 
     /**
-     * Set dateMessage
-     *
-     * @param \DateTime $dateMessage
-     *
-     * @return Message
+     * @param mixed $idUser
      */
-    public function setDateMessage($dateMessage)
+    public function setIdUser($idUser)
     {
-        $this->dateMessage = $dateMessage;
-
-        return $this;
+        $this->idUser = $idUser;
     }
 
     /**
-     * Get dateMessage
-     *
      * @return \DateTime
      */
     public function getDateMessage()
@@ -131,27 +102,28 @@ class Message
     }
 
     /**
-     * Set idConversation
-     *
-     * @param \stdClass $idConversation
-     *
-     * @return Message
+     * @param \DateTime $dateMessage
      */
-    public function setIdConversation($idConversation)
+    public function setDateMessage($dateMessage)
     {
-        $this->idConversation = $idConversation;
-
-        return $this;
+        $this->dateMessage = $dateMessage;
     }
 
     /**
-     * Get idConversation
-     *
-     * @return \stdClass
+     * @return mixed
      */
     public function getIdConversation()
     {
         return $this->idConversation;
     }
+
+    /**
+     * @param mixed $idConversation
+     */
+    public function setIdConversation($idConversation)
+    {
+        $this->idConversation = $idConversation;
+    }
+
 }
 

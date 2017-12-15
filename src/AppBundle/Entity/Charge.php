@@ -76,10 +76,7 @@ class Charge
      */
     private $versements;
 
-
     /**
-     * Get id
-     *
      * @return int
      */
     public function getId()
@@ -88,22 +85,14 @@ class Charge
     }
 
     /**
-     * Set titre
-     *
-     * @param string $titre
-     *
-     * @return Charge
+     * @param int $id
      */
-    public function setTitre($titre)
+    public function setId($id)
     {
-        $this->titre = $titre;
-
-        return $this;
+        $this->id = $id;
     }
 
     /**
-     * Get titre
-     *
      * @return string
      */
     public function getTitre()
@@ -112,22 +101,14 @@ class Charge
     }
 
     /**
-     * Set montant
-     *
-     * @param float $montant
-     *
-     * @return Charge
+     * @param string $titre
      */
-    public function setMontant($montant)
+    public function setTitre($titre)
     {
-        $this->montant = $montant;
-
-        return $this;
+        $this->titre = $titre;
     }
 
     /**
-     * Get montant
-     *
      * @return float
      */
     public function getMontant()
@@ -136,22 +117,14 @@ class Charge
     }
 
     /**
-     * Set dateEcheance
-     *
-     * @param \DateTime $dateEcheance
-     *
-     * @return Charge
+     * @param float $montant
      */
-    public function setDateEcheance($dateEcheance)
+    public function setMontant($montant)
     {
-        $this->dateEcheance = $dateEcheance;
-
-        return $this;
+        $this->montant = $montant;
     }
 
     /**
-     * Get dateEcheance
-     *
      * @return \DateTime
      */
     public function getDateEcheance()
@@ -160,22 +133,14 @@ class Charge
     }
 
     /**
-     * Set statut
-     *
-     * @param string $statut
-     *
-     * @return Charge
+     * @param \DateTime $dateEcheance
      */
-    public function setStatut($statut)
+    public function setDateEcheance($dateEcheance)
     {
-        $this->statut = $statut;
-
-        return $this;
+        $this->dateEcheance = $dateEcheance;
     }
 
     /**
-     * Get statut
-     *
      * @return string
      */
     public function getStatut()
@@ -184,23 +149,15 @@ class Charge
     }
 
     /**
-     * Set proprietaires
-     *
-     * @param Proprietaire $proprietaires
-     *
-     * @return Charge
+     * @param string $statut
      */
-    public function setProprietaires( $proprietaires)
+    public function setStatut($statut)
     {
-        $this->proprietaires = $proprietaires;
-
-        return $this;
+        $this->statut = $statut;
     }
 
     /**
-     * Get proprietaires
-     *
-     * @return array
+     * @return mixed
      */
     public function getProprietaires()
     {
@@ -208,22 +165,14 @@ class Charge
     }
 
     /**
-     * Set pieceJointe
-     *
-     * @param string $pieceJointe
-     *
-     * @return Charge
+     * @param mixed $proprietaires
      */
-    public function setPieceJointe($pieceJointe)
+    public function setProprietaires($proprietaires)
     {
-        $this->pieceJointe = $pieceJointe;
-
-        return $this;
+        $this->proprietaires = $proprietaires;
     }
 
     /**
-     * Get pieceJointe
-     *
      * @return string
      */
     public function getPieceJointe()
@@ -232,27 +181,44 @@ class Charge
     }
 
     /**
-     * Set contrat
-     *
-     * @param Contrat $contrat
-     *
-     * @return Charge
+     * @param string $pieceJointe
      */
-    public function setContrat($contrat)
+    public function setPieceJointe($pieceJointe)
     {
-        $this->contrat = $contrat;
-
-        return $this;
+        $this->pieceJointe = $pieceJointe;
     }
 
     /**
-     * Get contrat
-     *
-     * @return \stdClass
+     * @return mixed
      */
     public function getContrat()
     {
         return $this->contrat;
     }
+
+    /**
+     * @param mixed $contrat
+     */
+    public function setContrat($contrat)
+    {
+        $this->contrat = $contrat;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVersements()
+    {
+        return $this->versements;
+    }
+
+    /**
+     * @param mixed $versements
+     */
+    public function setVersements($versements)
+    {
+        $this->versements = $versements;
+    }
+
 }
 
