@@ -38,7 +38,7 @@ class Projet
     /**
      * @var string
      *
-     * @ORM\Column(name="statut", type="string", length=100, columnDefinition="ENUM('En discussion', 'En attente d execution, 'Execute')")
+     * @ORM\Column(name="statut", type="string", length=100, columnDefinition="ENUM('En discussion', 'En attente d execution', 'Execute')")
      */
 
     private $statut;
@@ -58,30 +58,28 @@ class Projet
     private $dateCloture;
 
     /**
-     * @OneToOne(targetEntity="Discussion")
-     * @JoinColumn(name="projetId", referencedColumnName="id", nullable=false )
+     * @ORM\OneToOne(targetEntity="Conversation")
+     * @ORM\JoinColumn(name="projetId", referencedColumnName="id", nullable=false)
      */
     private $filDiscussion;
 
     /**
-     * @OneToMany(targetEntity="Sondage", mappedBy="idProjet")
+     * @ORM\OneToMany(targetEntity="Sondage", mappedBy="idProjet")
      */
     private $listeSondage;
 
     /**
-     * @OneToMany(targetEntity="PieceJointe", mappedBy="idProjet")
+     * @ORM\OneToMany(targetEntity="PieceJointe", mappedBy="idProjet")
      */
     private $piecesJointes;
 
     /**
-     * @ManyToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="Propietaire")
      */
     private $proprietaire;
 
     /**
-     * @ManyToMany(targetEntity="User")
-     * @JoinTable(name="personnesProjet",
-     *     joinColumns={@JoinColumn(name="projet_id", referencedColumnName="id")})
+     * @ORM\ManyToMany(targetEntity="Propietaire" , mappedBy="projets")
      */
     private $personnesConcernees;
 

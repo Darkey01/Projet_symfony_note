@@ -44,7 +44,7 @@ class Contrat
 
 
     /**
-     * @OneToMany(targetEntity="Charge", mappedBy="contrat")
+     * @ORM\OneToMany(targetEntity="Charge", mappedBy="contrat")
      *  @ORM\JoinColumn(nullable=true)
      */
     private $charges;

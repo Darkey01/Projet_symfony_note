@@ -22,7 +22,7 @@ class ReponseSondage
     private $id;
 
     /**
-     * @ManyToOne(targetEntity="Sondage")
+     * @ORM\ManyToOne(targetEntity="Sondage")
      */
     private $idSondage;
 
@@ -34,11 +34,9 @@ class ReponseSondage
     private $reponse;
 
     /**
-     * @ManyToMany(targetEntity="User")
-     * @JoinTable(name="Votes",
-     *     joinColumns={@JoinColumn(name="reponse_id", referencedColumnName="id")})
+     * @ORM\ManyToMany(targetEntity="Propietaire", mappedBy="reponses")
      */
-     private $userId;
+     private $users;
 
 
 

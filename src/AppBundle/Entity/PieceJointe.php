@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="piece_jointe")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\pieceJointeRepository")
  */
-class pieceJointe
+class PieceJointe
 {
     /**
      * @var int
@@ -43,12 +43,12 @@ class pieceJointe
     private $fichier;
 
     /**
-     * @ManyToOne(targetEntity="Versement")
+     * @ORM\ManyToOne(targetEntity="Versement")
      */
     private $versement;
 
     /**
-     * @ManyToOne(targetEntity="Projet")
+     * @ORM\ManyToOne(targetEntity="Projet")
      */
     private $idProjet;
 

@@ -4,7 +4,6 @@ namespace AppBundle\Entity;
 
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\user;
 
 /**
  * Charge
@@ -53,9 +52,7 @@ class Charge
     private $statut;
 
     /**
-     * @ManyToMany(targetEntity="User")
-     * @JoinTable(name="personnesCharges",
-     *     joinColumns={@JoinColumn(name="charge_id", referencedColumnName="id")})
+     * @ORM\ManyToMany(targetEntity="Propietaire" , mappedBy="charges")
      */
     private $proprietaires;
 
@@ -68,14 +65,14 @@ class Charge
 
 
     /**
-     * @ManyToOne(targetEntity="Contrat")
+     * @@ORM\ManyToOne(targetEntity="Contrat")
      * @ORM\JoinColumn(nullable=true)
      */
     private $contrat;
 
 
     /**
-     * @OneToMany(targetEntity="Versement", mappedBy="chargeLiee")
+     * @ORM\OneToMany(targetEntity="Versement", mappedBy="chargeLiee")
      */
     private $versements;
 
@@ -189,7 +186,7 @@ class Charge
     /**
      * Set proprietaires
      *
-     * @param User $proprietaires
+     * @param Propietaire $proprietaires
      *
      * @return Charge
      */
@@ -241,7 +238,7 @@ class Charge
      *
      * @return Charge
      */
-    public function setContrat(Contrat $contrat)
+    public function setContrat($contrat)
     {
         $this->contrat = $contrat;
 

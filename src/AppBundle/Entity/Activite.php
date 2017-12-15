@@ -2,7 +2,6 @@
 
 namespace AppBundle\Entity;
 
-use App\Entity\user;
 use Doctrine\ORM\Mapping as ORM;
 
 
@@ -45,7 +44,7 @@ class Activite
     private $date;
 
     /**
-     * @OneToOne(targetEntity="User")
+     * @ORM\OneToOne(targetEntity="Propietaire")
      */
     private $redacteur;
 
@@ -139,7 +138,7 @@ class Activite
      *
      * @return Activite
      */
-    public function setRedacteur(User $redacteur)
+    public function setRedacteur($redacteur)
     {
         $this->redacteur = $redacteur;
 

@@ -22,14 +22,12 @@ class Conversation
     private $id;
 
     /**
-     * @ManyToMany(targetEntity="User")
-     * @JoinTable(name="personnesConversations",
-     *     joinColumns={@JoinColumn(name="conversation_id", referencedColumnName="id")})
+     * @ORM\ManyToMany(targetEntity="Propietaire", mappedBy="conversations")
      */
     private $personnes;
 
     /**
-     * @OneToMany(targetEntity="Message", mappedBy="idConversation")
+     * @ORM\OneToMany(targetEntity="Message", mappedBy="idConversation")
      */
     private $messages;
 
@@ -42,7 +40,7 @@ class Conversation
 
 
     /**
-     * @OneToOne(targetEntity="Projet")
+     * @ORM\OneToOne(targetEntity="Projet")
      *
      */
     private $projetId;

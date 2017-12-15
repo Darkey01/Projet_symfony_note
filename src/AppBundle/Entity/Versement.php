@@ -22,7 +22,7 @@ class Versement
     private $id;
 
     /**
-     * @ManyToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="Propietaire")
      */
     private $proprietaire;
 
@@ -41,7 +41,7 @@ class Versement
     private $date;
 
     /**
-     * @OneToMany(targetEntity="PieceJointe", mappedBy="id")
+     * @ORM\OneToMany(targetEntity="PieceJointe", mappedBy="id")
      */
 
     private $piecesJointes;
@@ -54,7 +54,7 @@ class Versement
     private $type;
 
     /**
-     * @ManyToOne(targetEntity="Charge")
+     * @ORM\ManyToOne(targetEntity="Charge")
      */
     private $chargeLiee;
 

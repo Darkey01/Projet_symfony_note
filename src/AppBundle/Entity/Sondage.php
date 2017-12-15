@@ -29,12 +29,12 @@ class Sondage
     private $question;
 
     /**
-     * @OneToMany(targetEntity="ReponseSondage", mappedBy="idSondage")
+     * @ORM\OneToMany(targetEntity="ReponseSondage", mappedBy="idSondage")
      */
     private $reponse;
 
     /**
-     * @ManyToOne(targetEntity="Projet")
+     * @ORM\ManyToOne(targetEntity="Projet")
      */
     private $idProjet;
 

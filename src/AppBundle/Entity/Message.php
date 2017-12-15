@@ -29,7 +29,7 @@ class Message
     private $text;
 
     /**
-     * @ManyToOne(targetEntity="User", cascade={"all"})
+     * @ORM\ManyToOne(targetEntity="Propietaire", cascade={"all"})
      */
     private $idUser;
 
@@ -41,7 +41,7 @@ class Message
     private $dateMessage;
 
     /**
-     * @ManyToOne(targetEntity="Conversation", cascade={"all"})
+     * @ORM\ManyToOne(targetEntity="Conversation", cascade={"all"})
      */
     private $idConversation;
 
