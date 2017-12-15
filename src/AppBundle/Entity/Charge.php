@@ -52,7 +52,7 @@ class Charge
     private $statut;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Propietaire" , mappedBy="charges")
+     * @ORM\ManyToMany(targetEntity="Proprietaire" , mappedBy="charges")
      */
     private $proprietaires;
 
@@ -186,7 +186,7 @@ class Charge
     /**
      * Set proprietaires
      *
-     * @param Propietaire $proprietaires
+     * @param Proprietaire $proprietaires
      *
      * @return Charge
      */

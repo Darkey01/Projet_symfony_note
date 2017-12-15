@@ -34,7 +34,7 @@ class ReponseSondage
     private $reponse;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Propietaire", mappedBy="reponses")
+     * @ORM\ManyToMany(targetEntity="Proprietaire", mappedBy="reponses")
      */
      private $users;
 

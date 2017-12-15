@@ -2,32 +2,46 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Proprietaire;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
-
 /**
- * @Route("/user")
+ * Proprietaire controller.
+ *
+ * @Route("proprietaire")
  */
 class ProprietaireController extends Controller
 {
     /**
-     * @Route("/", name="listUser")
+     * Lists all proprietaire entities.
+     *
+     * @Route("/", name="proprietaire_index")
+     * @Method("GET")
      */
-    public function listAction()
+    public function indexAction()
     {
-        return $this->render('AppBundle:Propietaire:list.html.twig', array(
-            // ...
+        $em = $this->getDoctrine()->getManager();
+
+        $proprietaires = $em->getRepository('AppBundle:Proprietaire')->findAll();
+
+        return $this->render('proprietaire/index.html.twig', array(
+            'proprietaires' => $proprietaires,
         ));
     }
 
     /**
-     * @Route(" /{id}", requirements={"id" = "\d+"})
+     * Finds and displays a proprietaire entity.
+     *
+     * @Route("/{id}", name="proprietaire_show")
+     * @Method("GET")
      */
-    public function detailsAction($id)
+    public function showAction(Proprietaire $proprietaire)
     {
-        return $this->render('AppBundle:Propietaire:detail.html.twig', array(
-            // ...
+
+        return $this->render('proprietaire/show.html.twig', array(
+            'proprietaire' => $proprietaire,
         ));
     }
 }

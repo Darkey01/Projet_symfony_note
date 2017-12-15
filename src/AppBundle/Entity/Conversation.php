@@ -22,7 +22,7 @@ class Conversation
     private $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Propietaire", mappedBy="conversations")
+     * @ORM\ManyToMany(targetEntity="Proprietaire", mappedBy="conversations")
      */
     private $personnes;
 

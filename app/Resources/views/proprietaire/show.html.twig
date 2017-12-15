@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Proprietaire</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ proprietaire.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ proprietaire.name }}</td>
+            </tr>
+            <tr>
+                <th>Mail</th>
+                <td>{{ proprietaire.mail }}</td>
+            </tr>
+            <tr>
+                <th>Password</th>
+                <td>{{ proprietaire.password }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('proprietaire_index') }}">Back to the list</a>
+        </li>
+    </ul>
+{% endblock %}

@@ -29,7 +29,7 @@ class Message
     private $text;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Propietaire", cascade={"all"})
+     * @ORM\ManyToOne(targetEntity="Proprietaire", cascade={"all"})
      */
     private $idUser;
 

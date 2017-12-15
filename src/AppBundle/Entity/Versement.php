@@ -22,7 +22,7 @@ class Versement
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Propietaire")
+     * @ORM\ManyToOne(targetEntity="Proprietaire")
      */
     private $proprietaire;
 

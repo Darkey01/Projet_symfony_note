@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Proprietaires list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Mail</th>
+                <th>Password</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for proprietaire in proprietaires %}
+            <tr>
+                <td><a href="{{ path('proprietaire_show', { 'id': proprietaire.id }) }}">{{ proprietaire.id }}</a></td>
+                <td>{{ proprietaire.name }}</td>
+                <td>{{ proprietaire.mail }}</td>
+                <td>{{ proprietaire.password }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('proprietaire_show', { 'id': proprietaire.id }) }}">show</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    
+{% endblock %}

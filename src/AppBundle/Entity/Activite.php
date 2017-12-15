@@ -44,7 +44,7 @@ class Activite
     private $date;
 
     /**
-     * @ORM\OneToOne(targetEntity="Propietaire")
+     * @ORM\OneToOne(targetEntity="Proprietaire")
      */
     private $redacteur;
 
