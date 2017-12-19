@@ -24,21 +24,6 @@ class Proprietaire
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=100)
-     */
-    private $name;
-
-    /**
-     * @ORM\Column(type="string", length=100)
-     */
-    private $mail;
-
-    /**
-     * @ORM\Column(type="string", length=100)
-     */
-    private $password;
-
-    /**
      * @ORM\ManyToMany(targetEntity="Conversation")
      * @ORM\JoinTable(name="personnesConversations",
      *     joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},

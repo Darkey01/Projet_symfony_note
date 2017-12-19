@@ -31,6 +31,8 @@ class ProprietaireController extends Controller
         ));
     }
 
+
+
     /**
      * Finds and displays a proprietaire entity.
      *
