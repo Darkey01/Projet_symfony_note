@@ -13,7 +13,7 @@ class ChargeType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('titre')->add('montant')->add('dateEcheance')->add('statut')->add('pieceJointe')->add('proprietaires');
+        $builder->add('titre')->add('montant')->add('dateEcheance')->add('pieceJointe');
     }/**
      * {@inheritdoc}
      */

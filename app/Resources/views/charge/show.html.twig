@@ -34,15 +34,10 @@
 
     <ul>
         <li>
-            <a href="{{ path('charge_index') }}">Back to the list</a>
-        </li>
-        <li>
             <a href="{{ path('charge_edit', { 'id': charge.id }) }}">Edit</a>
         </li>
         <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
+            <a href="{{ path('charge_delete', { 'id': charge.id }) }}">Delete</a>
         </li>
     </ul>
 {% endblock %}

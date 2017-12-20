@@ -11,14 +11,15 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Charge controller.
  *
- * @Route("/proprietaire/charge")
+ * @Route("/")
  */
 class ChargeController extends Controller
 {
+
     /**
      * Lists all charge entities.
      *
-     * @Route("/", name="accueil_proprietaire")
+     * @Route("proprietaire/charge", name="accueil_proprietaire")
      * @Method("GET")
      */
     public function indexAction()
@@ -33,9 +34,26 @@ class ChargeController extends Controller
     }
 
     /**
+     * Lists all charge entities.
+     *
+     * @Route("admin/charges", name="listChargeAdmin")
+     * @Method("GET")
+     */
+    public function listChargeAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $charges = $em->getRepository('AppBundle:Charge')->findAll();
+
+        return $this->render('charge/index.html.twig', array(
+            'charges' => $charges,
+        ));
+    }
+
+    /**
      * Creates a new charge entity.
      *
-     * @Route("/new", name="charge_new")
+     * @Route("admin/charge/new", name="addCharge")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
@@ -45,11 +63,12 @@ class ChargeController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $charge->setStatut('A payer');
             $em = $this->getDoctrine()->getManager();
             $em->persist($charge);
             $em->flush();
 
-            return $this->redirectToRoute('charge_show', array('id' => $charge->getId()));
+            return $this->redirectToRoute('charge_admin_show', array('id' => $charge->getId()));
         }
 
         return $this->render('charge/new.html.twig', array(
@@ -60,8 +79,8 @@ class ChargeController extends Controller
 
     /**
      * Finds and displays a charge entity.
-     *
-     * @Route("/{id}", name="charge_show")
+     * @Route("admin/charge/{id}", name="charge_admin_show")
+     * @Route("proprietaire/charge/{id}", name="charge_proprietaire_show")
      * @Method("GET")
      */
     public function showAction(Charge $charge)
@@ -102,21 +121,16 @@ class ChargeController extends Controller
     /**
      * Deletes a charge entity.
      *
-     * @Route("/{id}", name="charge_delete")
-     * @Method("DELETE")
+     * @Route("/delete/{id}", name="charge_delete")
+     * @Method("GET")
      */
     public function deleteAction(Request $request, Charge $charge)
     {
-        $form = $this->createDeleteForm($charge);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($charge);
             $em->flush();
-        }
 
-        return $this->redirectToRoute('charge_index');
+        return $this->redirectToRoute('listChargeAdmin');
     }
 
     /**
@@ -129,7 +143,7 @@ class ChargeController extends Controller
     private function createDeleteForm(Charge $charge)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('charge_delete', array('id' => $charge->getId())))
+            ->setAction($this->generateUrl('charge_admin_show', array('id' => $charge->getId())))
             ->setMethod('DELETE')
             ->getForm()
         ;

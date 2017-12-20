@@ -24,7 +24,7 @@ class Proprietaire
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="User")
+     * @ORM\OneToOne(targetEntity="User",cascade={"persist"})
      */
     private $user;
 
