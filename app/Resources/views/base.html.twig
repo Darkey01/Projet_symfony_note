@@ -24,6 +24,9 @@
             <div class="container">
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+
+
                     {% if is_granted('ROLE_ADMIN') %}
                         {{ include('template/menu_admin.html.twig') }}
                     {% endif %}
@@ -34,6 +37,7 @@
                         {% if is_granted('IS_AUTHENTICATED_FULLY') or is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                             <li><a href="{{ path('logout') }}">Déconnexion</a></li>
                         {% else %}
+                                <li><a href="{{ path('conversation') }}">Mes conversations</a></li>
                             <li><a href="{{ path('login') }}">Connexion</a></li>
                         {% endif %}
                     </ul>

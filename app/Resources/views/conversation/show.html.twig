@@ -1,32 +1,31 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Conversation</h1>
+    <h1>{{ conversation.titre }}</h1>
 
-    <table>
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ conversation.id }}</td>
-            </tr>
-            <tr>
-                <th>Titre</th>
-                <td>{{ conversation.titre }}</td>
-            </tr>
-        </tbody>
-    </table>
 
-    <ul>
-        <li>
-            <a href="{{ path('conversation_index') }}">Back to the list</a>
-        </li>
-        <li>
-            <a href="{{ path('conversation_edit', { 'id': conversation.id }) }}">Edit</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+        {% for message in conversation.messages %}
+            <div>
+                <div>{{ message.idUser}}{{  message.dateMessage|date('Y-m-d H:i:s') }}</div>
+                <div>{{ message.text }}</div>
+
+                <div>
+                    <ul>
+                        <li>
+                            <a href="{{ path('message_show', { 'id': message.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('message_edit', { 'id': message.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        {% endfor %}
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <input type="hidden" value="{{conversation.id}}" name="idConversation"/>
+    <input type="submit" value="Create" />
+    {{ form_end(form) }}
+
 {% endblock %}

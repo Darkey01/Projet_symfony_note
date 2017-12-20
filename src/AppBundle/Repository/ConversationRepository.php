@@ -10,4 +10,6 @@ namespace AppBundle\Repository;
  */
 class ConversationRepository extends \Doctrine\ORM\EntityRepository
 {
+
+
 }

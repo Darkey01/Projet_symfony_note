@@ -3,35 +3,7 @@
 {% block body %}
     <h1>Messages list</h1>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Text</th>
-                <th>Datemessage</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for message in messages %}
-            <tr>
-                <td><a href="{{ path('message_show', { 'id': message.id }) }}">{{ message.id }}</a></td>
-                <td>{{ message.text }}</td>
-                <td>{% if message.dateMessage %}{{ message.dateMessage|date('Y-m-d') }}{% endif %}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('message_show', { 'id': message.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('message_edit', { 'id': message.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+
 
     <ul>
         <li>

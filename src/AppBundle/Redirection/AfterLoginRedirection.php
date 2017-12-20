@@ -9,37 +9,36 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationSuccessHandlerI
 
 class AfterLoginRedirection implements AuthenticationSuccessHandlerInterface
 {
-/**
-* @var \Symfony\Component\Routing\RouterInterface
-*/
-private $router;
-/**
-* @param RouterInterface $router
-*/
-public function __construct(RouterInterface $router)
-{
-$this->router = $router;
-}
-/**
-* @param Request $request
-* @param TokenInterface $token
-* @return RedirectResponse
-*/
-public function onAuthenticationSuccess(Request $request, TokenInterface $token)
-{
+    /**
+     * @var \Symfony\Component\Routing\RouterInterface
+     */
+    private $router;
+    /**
+     * @param RouterInterface $router
+     */
+    public function __construct(RouterInterface $router)
+    {
+        $this->router = $router;
+    }
+    /**
+     * @param Request $request
+     * @param TokenInterface $token
+     * @return RedirectResponse
+     */
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token)
+    {
 // On récupère la liste des rôles d'un utilisateur
-$roles = $token->getRoles();
-$rolesTab = array_map(function ($role) {
-return $role->getRole();
-}, $roles);
+        $roles = $token->getRoles();
+        $rolesTab = array_map(function ($role) {
+            return $role->getRole();
+        }, $roles);
 // S'il s'agit d'un admin ou d'un super admin on le redirige vers le backoffice
-if (in_array('ROLE_ADMIN', $rolesTab, true))
-$redirection = new RedirectResponse($this->router->generate('acceuil_responsable'));
-//TODO changer la page d'accueil de l'admin
-elseif (in_array('ROLE_ETUDIANT', $rolesTab, true))
-$redirection = new RedirectResponse($this->router->generate('site_accueilEtudiant'));
-else
-$redirection = new RedirectResponse($this->router->generate('site_homepage'));
-return $redirection;
-}
+        if (in_array('ROLE_ADMIN', $rolesTab, true))
+            $redirection = new RedirectResponse($this->router->generate('accueil_admin'));
+        elseif (in_array('ROLE_PROPRIETAIRE', $rolesTab, true))
+            $redirection = new RedirectResponse($this->router->generate('accueil_proprietaire'));
+        else
+            $redirection = new RedirectResponse($this->router->generate('login'));
+        return $redirection;
+    }
 }

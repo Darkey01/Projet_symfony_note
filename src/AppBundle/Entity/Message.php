@@ -45,6 +45,13 @@ class Message
      */
     private $idConversation;
 
+
+
+    public function __construct()
+    {
+        $this->dateMessage = new \DateTime();
+    }
+
     /**
      * @return int
      */

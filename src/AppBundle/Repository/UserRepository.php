@@ -8,8 +8,15 @@
 
 namespace AppBundle\Repository;
 
-class ProprietaireRepository extends \Doctrine\ORM\EntityRepository
+class UserRepository extends \Doctrine\ORM\EntityRepository
 {
-
+    public function loadUserByUsername($username)
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.username = :username')
+            ->setParameter('username', $username)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }
 

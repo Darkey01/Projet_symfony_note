@@ -5,19 +5,20 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Charge;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Charge controller.
  *
- * @Route("charge")
+ * @Route("/proprietaire/charge")
  */
 class ChargeController extends Controller
 {
     /**
      * Lists all charge entities.
      *
-     * @Route("/", name="charge_index")
+     * @Route("/", name="accueil_proprietaire")
      * @Method("GET")
      */
     public function indexAction()

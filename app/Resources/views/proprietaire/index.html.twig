@@ -8,7 +8,6 @@
             <tr>
                 <th>Id</th>
                 <th>Name</th>
-                <th>Mail</th>
                 <th>Password</th>
                 <th>Actions</th>
             </tr>
@@ -17,9 +16,8 @@
         {% for proprietaire in proprietaires %}
             <tr>
                 <td><a href="{{ path('proprietaire_show', { 'id': proprietaire.id }) }}">{{ proprietaire.id }}</a></td>
-                <td>{{ proprietaire.name }}</td>
-                <td>{{ proprietaire.mail }}</td>
-                <td>{{ proprietaire.password }}</td>
+                <td>{{ proprietaire.user.username }}</td>
+                <td>{{ proprietaire.user.password }}</td>
                 <td>
                     <ul>
                         <li>

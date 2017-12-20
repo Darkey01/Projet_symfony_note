@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Conversation;
+use AppBundle\Entity\Message;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
@@ -10,21 +11,20 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component
 /**
  * Conversation controller.
  *
- * @Route("conversation")
+ * @Route("/proprietaire/conversation")
  */
 class ConversationController extends Controller
 {
     /**
      * Lists all conversation entities.
      *
-     * @Route("/", name="conversation_index")
+     * @Route("/", name="conversation")
      * @Method("GET")
      */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
-        $conversations = $em->getRepository('AppBundle:Conversation')->findAll();
+        $conversations = $this->getUser()->getIdProprietaire()->getConversations();
 
         return $this->render('conversation/index.html.twig', array(
             'conversations' => $conversations,
@@ -40,7 +40,7 @@ class ConversationController extends Controller
     public function newAction(Request $request)
     {
         $conversation = new Conversation();
-        $form = $this->createForm('AppBundle\Form\ConversationType', $conversation);
+        $form = $this->createForm('AppBundle\Form\ConversationType', $conversation,array('user' => $this->getUser()->getId()));
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -61,15 +61,23 @@ class ConversationController extends Controller
      * Finds and displays a conversation entity.
      *
      * @Route("/{id}", name="conversation_show")
-     * @Method("GET")
+     * @Method({"GET", "POST"})
      */
-    public function showAction(Conversation $conversation)
+    public function showAction(Request $request, Conversation $conversation)
     {
-        $deleteForm = $this->createDeleteForm($conversation);
-
+        $message = new Message();
+        $form = $this->createForm('AppBundle\Form\MessageType', $message);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+         $message->setIdConversation($conversation);
+         $message->setIdUser($this->getUser()->getIdProprietaire());
+         $em = $this->getDoctrine()->getManager();
+         $em->persist($message);
+         $em->flush();
+        }
         return $this->render('conversation/show.html.twig', array(
             'conversation' => $conversation,
-            'delete_form' => $deleteForm->createView(),
+            'form' => $form->createView(),
         ));
     }
 

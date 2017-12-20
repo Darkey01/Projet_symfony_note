@@ -24,6 +24,12 @@ class Proprietaire
     private $id;
 
     /**
+     * @ORM\OneToOne(targetEntity="User")
+     */
+    private $user;
+
+
+    /**
      * @ORM\ManyToMany(targetEntity="Conversation")
      * @ORM\JoinTable(name="personnesConversations",
      *     joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
@@ -83,6 +89,9 @@ class Proprietaire
         return $this->id;
     }
 
+    public function __toString() {
+        return $this->getUser()->getUserName();
+    }
     /**
      * @param mixed $id
      */
@@ -94,50 +103,19 @@ class Proprietaire
     /**
      * @return mixed
      */
-    public function getName()
+    public function getUser()
     {
-        return $this->name;
+        return $this->user;
     }
 
     /**
-     * @param mixed $name
+     * @param mixed $user
      */
-    public function setName($name)
+    public function setUser($user)
     {
-        $this->name = $name;
+        $this->user = $user;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getMail()
-    {
-        return $this->mail;
-    }
-
-    /**
-     * @param mixed $mail
-     */
-    public function setMail($mail)
-    {
-        $this->mail = $mail;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPassword()
-    {
-        return $this->password;
-    }
-
-    /**
-     * @param mixed $password
-     */
-    public function setPassword($password)
-    {
-        $this->password = $password;
-    }
 
     /**
      * @return mixed
