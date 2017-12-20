@@ -90,7 +90,7 @@ class ConversationController extends Controller
         return $this->render('conversation/show.html.twig', array(
             'conversation' => $conversation,
             'form' => $form->createView(),
-            'userIdActive' => $this->getUser()->getId()
+            'userIdActive' => $this->getUser()->getidProprietaire()->getId()
         ));
     }
 
@@ -102,7 +102,6 @@ class ConversationController extends Controller
      */
     public function editAction(Request $request, Conversation $conversation)
     {
-        $deleteForm = $this->createDeleteForm($conversation);
         $editForm = $this->createForm('AppBundle\Form\ConversationType', $conversation);
         $editForm->handleRequest($request);
 
@@ -115,7 +114,6 @@ class ConversationController extends Controller
         return $this->render('conversation/edit.html.twig', array(
             'conversation' => $conversation,
             'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
         ));
     }
 

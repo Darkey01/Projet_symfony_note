@@ -10,12 +10,7 @@
 
     <ul>
         <li>
-            <a href="{{ path('message_index') }}">Back to the list</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete" class="btn btn-default" />
-            {{ form_end(delete_form) }}
+            <a href="{{ path('conversation_show' , { 'id': message.idConversation.id }) }}">Back to the conversation</a>
         </li>
     </ul>
 {% endblock %}

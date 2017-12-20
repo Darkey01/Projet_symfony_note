@@ -38,7 +38,7 @@ class Conversation
     }
 
     /**
-         * @ORM\OneToMany(targetEntity="Message", mappedBy="idConversation", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="Message", mappedBy="idConversation", cascade={"remove"})
      */
     private $messages;
 

@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 
 use Doctrine\ORM\Mapping as ORM;
+use \Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Charge
@@ -13,6 +14,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Charge
 {
+
+    public function __construct() {
+        $this->proprietaires = new ArrayCollection();
+    }
+
     /**
      * @var int
      *
@@ -55,6 +61,11 @@ class Charge
      * @ORM\ManyToMany(targetEntity="Proprietaire" , mappedBy="charges")
      */
     private $proprietaires;
+
+    public function addPropietaire(Proprietaire $proprietaire)
+    {
+        $this->proprietaires[] = $proprietaire;
+    }
 
     /**
      * @var string

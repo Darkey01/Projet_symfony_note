@@ -81,20 +81,18 @@ class MessageController extends Controller
      */
     public function editAction(Request $request, Message $message)
     {
-        $deleteForm = $this->createDeleteForm($message);
         $editForm = $this->createForm('AppBundle\Form\MessageType', $message);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('message_edit', array('id' => $message->getId()));
+            return $this->redirectToRoute('conversation_show', array('id' => $message->getIdConversation()->getId()));
         }
 
         return $this->render('message/edit.html.twig', array(
             'message' => $message,
             'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
         ));
     }
 

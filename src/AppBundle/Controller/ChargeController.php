@@ -64,11 +64,14 @@ class ChargeController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $charge->setStatut('A payer');
+            foreach($charge->getProprietaires() as $proprietaire){
+                $proprietaire->addCharge($charge);
+            }
             $em = $this->getDoctrine()->getManager();
             $em->persist($charge);
             $em->flush();
 
-            return $this->redirectToRoute('charge_admin_show', array('id' => $charge->getId()));
+            return $this->redirectToRoute('listChargeAdmin');
         }
 
         return $this->render('charge/new.html.twig', array(

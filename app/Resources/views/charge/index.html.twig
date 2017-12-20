@@ -2,29 +2,34 @@
 
 {% block body %}
     <h1>Liste des charges</h1>
-<td>
-    <ul>
-    <li>
-    <a href="{{ path('addCharge') }}">Nouvelle charge</a>
-    </li>
-    </ul>
-</td>
+    {% if is_granted('ROLE_ADMIN')%}
+        <ul>
+            <li>
+                <a href="{{ path('addCharge') }}">Nouvelle charge</a>
+            </li>
+        </ul>
+    {% endif %}
     <table class="table">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Titre</th>
-                <th>Montant</th>
-                <th>Date echeance</th>
-                <th>Statut</th>
-                <th>Piece jointe</th>
-                <th>Actions</th>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <th>Titre</th>
+            <th>Montant</th>
+            <th>Date echeance</th>
+            <th>Statut</th>
+            <th>Piece jointe</th>
+            <th>Actions</th>
+        </tr>
         </thead>
         <tbody>
         {% for charge in charges %}
             <tr>
-                <td><a href="{{ path('charge_proprietaire_show', { 'id': charge.id }) }}">{{ charge.id }}</a></td>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <td><a href="{{ path('charge_admin_show', { 'id': charge.id }) }}">{{ charge.id }}</a></td>
+                {% endif %}
+                {% if is_granted('ROLE_PROPRIETAIRE') %}
+                    <td><a href="{{ path('charge_proprietaire_show', { 'id': charge.id }) }}">{{ charge.id }}</a></td>
+                {% endif %}
                 <td>{{ charge.titre }}</td>
                 <td>{{ charge.montant }}</td>
                 <td>{% if charge.dateEcheance %}{{ charge.dateEcheance|date('Y-m-d') }}{% endif %}</td>
@@ -33,7 +38,12 @@
                 <td>
                     <ul>
                         <li>
-                            <a href="{{ path('charge_proprietaire_show', { 'id': charge.id }) }}">show</a>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <a href="{{ path('charge_admin_show', { 'id': charge.id }) }}">show</a>
+                            {% endif %}
+                            {% if is_granted('ROLE_PROPRIETAIRE') %}
+                                <a href="{{ path('charge_proprietaire_show', { 'id': charge.id }) }}">show</a>
+                            {% endif %}
                         </li>
                         <li>
                             <a href="{{ path('charge_edit', { 'id': charge.id }) }}">edit</a>

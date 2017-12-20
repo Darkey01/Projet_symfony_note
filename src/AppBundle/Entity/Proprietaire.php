@@ -17,6 +17,10 @@ use \Doctrine\Common\Collections\ArrayCollection;
  */
 class Proprietaire
 {
+    public function __construct() {
+        $this->conversations = new ArrayCollection();
+        $this->charges = new ArrayCollection();
+    }
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -34,12 +38,7 @@ class Proprietaire
      * @ORM\ManyToMany(targetEntity="Conversation", inversedBy="personnes")
      * @ORM\JoinTable(name="personnesConversations")
      */
-
     private $conversations;
-
-    public function __construct() {
-        $this->conversations = new ArrayCollection();
-    }
 
     public function addConversation(Conversation $conversation)
     {
@@ -49,18 +48,22 @@ class Proprietaire
 
 
     /**
-     * @ORM\ManyToMany(targetEntity="Charge")
-     * @ORM\JoinTable(name="personnesCharges",
-     *     joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="charge_id", referencedColumnName="id")}
-     *     )
+     * @ORM\ManyToMany(targetEntity="Charge", inversedBy="$proprietaires")
+     * @ORM\JoinTable(name="personnesCharges")
      */
     private $charges;
+
+    public function addCharge(Charge $charge)
+    {
+        $charge->addPropietaire($this); // synchronously updating inverse side
+        $this->charges[] = $charge;
+    }
 
     /**
      * @ORM\OneToMany(targetEntity="Versement", mappedBy="proprietaire")
      */
     private $versements;
+
 
     /**
      * @ORM\OneToMany(targetEntity="Projet", mappedBy="proprietaire")
@@ -73,7 +76,6 @@ class Proprietaire
      *     joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
      *     inverseJoinColumns={@ORM\JoinColumn(name="projet_id", referencedColumnName="id")}
      *     )
-
      */
     private $projets;
 

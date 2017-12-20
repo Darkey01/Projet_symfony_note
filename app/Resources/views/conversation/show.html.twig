@@ -5,11 +5,11 @@
 
 
         {% for message in conversation.messages %}
-            <div>
-                <div>{{ message.idUser}}  {{  message.dateMessage|date('Y-m-d H:i:s') }}</div>
-                <div>{{ message.text }}</div>
-
-                <div>
+            <div style="padding: 15px ; border-bottom: solid">
+                <div><h4>{{ message.idUser}} </h4> {{  message.dateMessage|date('Y-m-d H:i:s') }}</div>
+                <div style="display: inline-block ; width: 80%">{{ message.text }}</div>
+                {% if userIdActive==message.idUser.id %}
+                <div style="display: inline-block ; width: 15%">
                     <ul>
                         <li>
                             <a href="{{ path('message_edit', { 'id': message.id }) }}">edit</a>
@@ -19,13 +19,16 @@
                         </li>
                     </ul>
                 </div>
+                {% endif %}
             </div>
         {% endfor %}
 
+    <div style="margin-top: 15px">
+        <h2>Ajouter un message</h2>
     {{ form_start(form) }}
     {{ form_widget(form) }}
         <input type="hidden" value="{{conversation.id}}" name="idConversation" class="btn btn-default" />
         <input type="submit" value="Create" class="btn btn-default" />
     {{ form_end(form) }}
-
+    </div>
 {% endblock %}
