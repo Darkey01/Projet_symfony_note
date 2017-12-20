@@ -1,17 +1,23 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Charges list</h1>
-
-    <table>
+    <h1>Liste des charges</h1>
+<td>
+    <ul>
+    <li>
+    <a href="{{ path('addCharge') }}">Nouvelle charge</a>
+    </li>
+    </ul>
+</td>
+    <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Titre</th>
                 <th>Montant</th>
-                <th>Dateecheance</th>
+                <th>Date echeance</th>
                 <th>Statut</th>
-                <th>Piecejointe</th>
+                <th>Piece jointe</th>
                 <th>Actions</th>
             </tr>
         </thead>
