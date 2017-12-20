@@ -24,8 +24,8 @@
 
     {{ form_start(form) }}
     {{ form_widget(form) }}
-        <input type="hidden" value="{{conversation.id}}" name="idConversation"/>
-        <input type="submit" value="Create" />
+        <input type="hidden" value="{{conversation.id}}" name="idConversation" class="btn btn-default" />
+        <input type="submit" value="Create" class="btn btn-default" />
     {{ form_end(form) }}
 
 {% endblock %}

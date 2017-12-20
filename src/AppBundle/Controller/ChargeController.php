@@ -108,7 +108,7 @@ class ChargeController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('charge_edit', array('id' => $charge->getId()));
+            return $this->redirectToRoute('listChargeAdmin', array('id' => $charge->getId()));
         }
 
         return $this->render('charge/edit.html.twig', array(
