@@ -12,7 +12,10 @@
                 <div>
                     <ul>
                         <li>
-                            <a href="{{ path('message_show', { 'id': message.id }) }}">show</a>
+                            <a href="{{ path('message_edit', { 'id': message.id }) }}">edit</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('message_delete', { 'id': message.id }) }}">delete</a>
                         </li>
                     </ul>
                 </div>
@@ -21,8 +24,8 @@
 
     {{ form_start(form) }}
     {{ form_widget(form) }}
-    <input type="hidden" value="{{conversation.id}}" name="idConversation"/>
-    <input type="submit" value="Create" />
+        <input type="hidden" value="{{conversation.id}}" name="idConversation"/>
+        <input type="submit" value="Create" />
     {{ form_end(form) }}
 
 {% endblock %}

@@ -78,7 +78,7 @@ class Proprietaire
     private $projets;
 
     /**
-     * @ORM\OneToMany(targetEntity="Message", mappedBy="idUser")
+     * @ORM\OneToMany(targetEntity="Message", mappedBy="idUser",  cascade={"persist"})
      */
     private $messages;
 

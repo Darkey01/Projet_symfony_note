@@ -37,7 +37,6 @@
                         {% if is_granted('IS_AUTHENTICATED_FULLY') or is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                             <li><a href="{{ path('logout') }}">Déconnexion</a></li>
                         {% else %}
-                                <li><a href="{{ path('conversation') }}">Mes conversations</a></li>
                             <li><a href="{{ path('login') }}">Connexion</a></li>
                         {% endif %}
                     </ul>

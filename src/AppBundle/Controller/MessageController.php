@@ -101,36 +101,16 @@ class MessageController extends Controller
     /**
      * Deletes a message entity.
      *
-     * @Route("/{id}", name="message_delete")
-     * @Method("DELETE")
+     * @Route("/{id}/delete", name="message_delete")
+     * @Method("GET")
      */
     public function deleteAction(Request $request, Message $message)
     {
-        $form = $this->createDeleteForm($message);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
+            $conversation = $message->getIdConversation();
             $em = $this->getDoctrine()->getManager();
             $em->remove($message);
             $em->flush();
-        }
 
-        return $this->redirectToRoute('message_index');
-    }
-
-    /**
-     * Creates a form to delete a message entity.
-     *
-     * @param Message $message The message entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm(Message $message)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('message_delete', array('id' => $message->getId())))
-            ->setMethod('DELETE')
-            ->getForm()
-        ;
+        return $this->redirectToRoute('conversation_show', array('id' => $conversation->getId()));
     }
 }
