@@ -36,7 +36,7 @@ class Message
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="dateMessage", type="date")
+     * @ORM\Column(name="dateMessage", type="datetime")
      */
     private $dateMessage;
 
@@ -49,7 +49,8 @@ class Message
 
     public function __construct()
     {
-        $this->dateMessage = new \DateTime();
+        $this->dateMessage = new \DateTime('NOW');
+
     }
 
     /**

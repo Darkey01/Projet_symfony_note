@@ -90,6 +90,7 @@ class ConversationController extends Controller
         return $this->render('conversation/show.html.twig', array(
             'conversation' => $conversation,
             'form' => $form->createView(),
+            'userIdActive' => $this->getUser()->getId()
         ));
     }
 
