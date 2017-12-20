@@ -20,6 +20,7 @@ class ProprietaireController extends Controller
      * Lists all proprietaire entities.
      *
      * @Route("/accueil", name="accueil_admin")
+     * @Route("/", name="accueil_admin")
      * @Method("GET")
      */
     public function indexAction()
@@ -80,7 +81,7 @@ class ProprietaireController extends Controller
     /**
      * Finds and displays a proprietaire entity.
      *
-     * @Route("/{id}", name="proprietaire_show")
+     * @Route("/proprietaire/{id}", name="proprietaire_show")
      * @Method("GET")
      */
     public function showAction(Proprietaire $proprietaire)

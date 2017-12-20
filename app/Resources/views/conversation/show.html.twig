@@ -6,16 +6,13 @@
 
         {% for message in conversation.messages %}
             <div>
-                <div>{{ message.idUser}}{{  message.dateMessage|date('Y-m-d H:i:s') }}</div>
+                <div>{{ message.idUser}}  {{  message.dateMessage|date('Y-m-d H:i:s') }}</div>
                 <div>{{ message.text }}</div>
 
                 <div>
                     <ul>
                         <li>
                             <a href="{{ path('message_show', { 'id': message.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('message_edit', { 'id': message.id }) }}">edit</a>
                         </li>
                     </ul>
                 </div>

@@ -9,6 +9,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use \Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Table(name="proprietaire")
@@ -30,13 +31,22 @@ class Proprietaire
 
 
     /**
-     * @ORM\ManyToMany(targetEntity="Conversation")
-     * @ORM\JoinTable(name="personnesConversations",
-     *     joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="conversation_id", referencedColumnName="id")}
-     *     )
+     * @ORM\ManyToMany(targetEntity="Conversation", inversedBy="personnes")
+     * @ORM\JoinTable(name="personnesConversations")
      */
+
     private $conversations;
+
+    public function __construct() {
+        $this->conversations = new ArrayCollection();
+    }
+
+    public function addConversation(Conversation $conversation)
+    {
+        $conversation->addPropietaire($this); // synchronously updating inverse side
+        $this->conversations[] = $conversation;
+    }
+
 
     /**
      * @ORM\ManyToMany(targetEntity="Charge")

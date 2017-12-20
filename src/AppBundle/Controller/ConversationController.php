@@ -24,7 +24,9 @@ class ConversationController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $conversations = $this->getUser()->getIdProprietaire()->getConversations();
+        $repositConversation = $this->getDoctrine()->getRepository('AppBundle:Conversation');
+
+        $conversations =  $this->getUser()->getIdProprietaire()->getConversations();
 
         return $this->render('conversation/index.html.twig', array(
             'conversations' => $conversations,
@@ -43,7 +45,17 @@ class ConversationController extends Controller
         $form = $this->createForm('AppBundle\Form\ConversationType', $conversation,array('user' => $this->getUser()->getId()));
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()){
+            foreach($conversation->getPersonnes() as $personne){
+                $personne->addConversation($conversation);
+            }
+            $repositoryProprietaire = $this->getDoctrine()->getManager()->getRepository('AppBundle:Proprietaire');
+            $Proprietaire = $repositoryProprietaire->find($this->getUser()->getIdProprietaire());
+            //$conversation->getPersonnes()->add($Proprietaire);
+            $Proprietaire->addConversation($conversation);
+
+
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($conversation);
             $em->flush();

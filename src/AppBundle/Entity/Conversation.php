@@ -3,6 +3,8 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * Conversation
@@ -25,6 +27,15 @@ class Conversation
      * @ORM\ManyToMany(targetEntity="Proprietaire", mappedBy="conversations")
      */
     private $personnes;
+
+    public function __construct() {
+        $this->personnes = new ArrayCollection();
+    }
+
+    public function addPropietaire(Proprietaire $proprietaire)
+    {
+        $this->personnes[] = $proprietaire;
+    }
 
     /**
      * @ORM\OneToMany(targetEntity="Message", mappedBy="idConversation")
