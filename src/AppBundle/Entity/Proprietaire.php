@@ -48,7 +48,7 @@ class Proprietaire
 
 
     /**
-     * @ORM\ManyToMany(targetEntity="Charge", inversedBy="$proprietaires")
+     * @ORM\ManyToMany(targetEntity="Charge", inversedBy="proprietaires")
      * @ORM\JoinTable(name="personnesCharges")
      */
     private $charges;
@@ -71,13 +71,16 @@ class Proprietaire
     private $projetsCrees;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Projet")
-     * @ORM\JoinTable(name="personnesProjet",
-     *     joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="projet_id", referencedColumnName="id")}
-     *     )
+     * @ORM\ManyToMany(targetEntity="Projet", inversedBy="personnesConcernee")
+     * @ORM\JoinTable(name="personnesProjet")
      */
     private $projets;
+
+    public function addProjet(Projet $projet)
+    {
+        $projet->addPropietaire($this); // synchronously updating inverse side
+        $this->$projet[] = $projet;
+    }
 
     /**
      * @ORM\OneToMany(targetEntity="Message", mappedBy="idUser",  cascade={"persist"})

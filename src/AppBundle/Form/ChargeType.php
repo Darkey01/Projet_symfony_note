@@ -22,7 +22,6 @@ class ChargeType extends AbstractType
                 return $er->createQueryBuilder('p')
                     ->join('p.user', 'u')
                     ->orderBy('u.username', 'ASC');
-
             },
             'label' => 'Utilisateur autorisé à voir',
             'multiple' => true

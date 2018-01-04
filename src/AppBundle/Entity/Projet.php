@@ -83,6 +83,11 @@ class Projet
      */
     private $personnesConcernees;
 
+    public function addPropietaire(Proprietaire $proprietaire)
+    {
+        $this->personnesConcernees[] = $proprietaire;
+    }
+
     /**
      * @return int
      */

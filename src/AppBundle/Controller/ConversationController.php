@@ -77,21 +77,34 @@ class ConversationController extends Controller
      */
     public function showAction(Request $request, Conversation $conversation)
     {
-        $message = new Message();
-        $form = $this->createForm('AppBundle\Form\MessageType', $message);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-         $message->setIdConversation($conversation);
-         $message->setIdUser($this->getUser()->getIdProprietaire());
-         $em = $this->getDoctrine()->getManager();
-         $em->persist($message);
-         $em->flush();
+        $user = $this->getUser()->getIdProprietaire();
+            $droit = false;
+        foreach($conversation->getPersonnes() as $personne){
+            if($personne == $user){
+             $droit = true;
+             break;
+            }
         }
-        return $this->render('conversation/show.html.twig', array(
-            'conversation' => $conversation,
-            'form' => $form->createView(),
-            'userIdActive' => $this->getUser()->getidProprietaire()->getId()
-        ));
+       if($droit){
+
+            $message = new Message();
+            $form = $this->createForm('AppBundle\Form\MessageType', $message);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $message->setIdConversation($conversation);
+                $message->setIdUser($this->getUser()->getIdProprietaire());
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($message);
+                $em->flush();
+            }
+            return $this->render('conversation/show.html.twig', array(
+                'conversation' => $conversation,
+                'form' => $form->createView(),
+                'userIdActive' => $this->getUser()->getidProprietaire()->getId()
+            ));
+        }else{
+            return $this->redirectToRoute('conversation');
+        }
     }
 
     /**
@@ -134,7 +147,7 @@ class ConversationController extends Controller
             $em->flush();
         }
 
-        return $this->redirectToRoute('conversation_index');
+        return $this->redirectToRoute('conversation');
     }
 
     /**
