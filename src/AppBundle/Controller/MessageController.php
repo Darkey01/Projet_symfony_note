@@ -65,11 +65,9 @@ class MessageController extends Controller
      */
     public function showAction(Message $message)
     {
-        $deleteForm = $this->createDeleteForm($message);
 
         return $this->render('message/show.html.twig', array(
             'message' => $message,
-            'delete_form' => $deleteForm->createView(),
         ));
     }
 

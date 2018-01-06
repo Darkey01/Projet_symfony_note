@@ -27,10 +27,6 @@
         <li>
             <a href="{{ path('message_edit', { 'id': message.id }) }}">Edit</a>
         </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete" class="btn btn-default" />
-            {{ form_end(delete_form) }}
-        </li>
+
     </ul>
 {% endblock %}

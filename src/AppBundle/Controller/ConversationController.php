@@ -50,9 +50,9 @@ class ConversationController extends Controller
                 $personne->addConversation($conversation);
             }
             $repositoryProprietaire = $this->getDoctrine()->getManager()->getRepository('AppBundle:Proprietaire');
-            $Proprietaire = $repositoryProprietaire->find($this->getUser()->getIdProprietaire());
+            $proprietaire = $repositoryProprietaire->find($this->getUser()->getIdProprietaire());
             //$conversation->getPersonnes()->add($Proprietaire);
-            $Proprietaire->addConversation($conversation);
+            $proprietaire->addConversation($conversation);
 
 
 

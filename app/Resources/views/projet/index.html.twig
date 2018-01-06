@@ -1,24 +1,22 @@
-{% extends 'base.html.twig' %}
+ {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Projets list</h1>
+    <h1>Liste des projets me concernant</h1>
 
-    <table>
+    <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Nom</th>
                 <th>Description</th>
                 <th>Statut</th>
-                <th>Dateouverture</th>
-                <th>Datecloture</th>
+                <th>Date d'ouverture</th>
+                <th>Date de cloture</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for projet in projets %}
             <tr>
-                <td><a href="{{ path('projet_show', { 'id': projet.id }) }}">{{ projet.id }}</a></td>
                 <td>{{ projet.nom }}</td>
                 <td>{{ projet.description }}</td>
                 <td>{{ projet.statut }}</td>
@@ -29,19 +27,15 @@
                         <li>
                             <a href="{{ path('projet_show', { 'id': projet.id }) }}">show</a>
                         </li>
+                        {% if app.user.idProprietaire == projet.proprietaire %}
                         <li>
                             <a href="{{ path('projet_edit', { 'id': projet.id }) }}">edit</a>
                         </li>
+                        {% endif %}
                     </ul>
                 </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('projet_new') }}">Create a new projet</a>
-        </li>
-    </ul>
 {% endblock %}

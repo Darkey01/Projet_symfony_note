@@ -79,7 +79,7 @@ class Proprietaire
     public function addProjet(Projet $projet)
     {
         $projet->addPropietaire($this); // synchronously updating inverse side
-        $this->$projet[] = $projet;
+        $this->projets[] = $projet;
     }
 
     /**

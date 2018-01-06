@@ -2,6 +2,8 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Projet;
+use AppBundle\Entity\ReponseSondage;
 use AppBundle\Entity\Sondage;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -34,16 +36,17 @@ class SondageController extends Controller
     /**
      * Creates a new sondage entity.
      *
-     * @Route("/new", name="sondage_new")
+     * @Route("/{id}/new", name="sondage_new")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request)
+    public function newAction(Request $request, Projet $projet)
     {
         $sondage = new Sondage();
         $form = $this->createForm('AppBundle\Form\SondageType', $sondage);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $sondage->setIdProjet($projet);
             $em = $this->getDoctrine()->getManager();
             $em->persist($sondage);
             $em->flush();
@@ -61,15 +64,26 @@ class SondageController extends Controller
      * Finds and displays a sondage entity.
      *
      * @Route("/{id}", name="sondage_show")
-     * @Method("GET")
+     * @Method({"GET", "POST"})
      */
-    public function showAction(Sondage $sondage)
+    public function showAction(Request $request, Sondage $sondage)
     {
-        $deleteForm = $this->createDeleteForm($sondage);
+        $reponse= New ReponseSondage();
+        $form =$this->createFormBuilder($reponse)->add('reponse')->getForm();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $reponse->setIdSondage($sondage);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($reponse);
+            $em->flush();
+            return $this->redirectToRoute('sondage_show', array('id' => $sondage->getId()));
+        }
 
         return $this->render('sondage/show.html.twig', array(
             'sondage' => $sondage,
-            'delete_form' => $deleteForm->createView(),
+            'form' => $form->createView(),
         ));
     }
 

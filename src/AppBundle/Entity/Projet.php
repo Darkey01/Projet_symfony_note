@@ -88,6 +88,11 @@ class Projet
         $this->personnesConcernees[] = $proprietaire;
     }
 
+    public function __toString()
+    {
+        return $this->getNom();
+    }
+
     /**
      * @return int
      */

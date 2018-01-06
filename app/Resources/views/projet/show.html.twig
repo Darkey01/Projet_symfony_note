@@ -1,48 +1,117 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Projet</h1>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h1>Projet {{ projet.nom }} </h1>
+        </div>
+        <div class="panel-body">
+            <table class="table">
+                <tbody>
 
-    <table>
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ projet.id }}</td>
-            </tr>
-            <tr>
-                <th>Nom</th>
-                <td>{{ projet.nom }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ projet.description }}</td>
-            </tr>
-            <tr>
-                <th>Statut</th>
-                <td>{{ projet.statut }}</td>
-            </tr>
-            <tr>
-                <th>Dateouverture</th>
-                <td>{% if projet.dateOuverture %}{{ projet.dateOuverture|date('Y-m-d') }}{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Datecloture</th>
-                <td>{% if projet.dateCloture %}{{ projet.dateCloture|date('Y-m-d') }}{% endif %}</td>
-            </tr>
-        </tbody>
-    </table>
+                <tr>
+                    <th>Description</th>
+                    <td>{{ projet.description }}</td>
+                </tr>
+                <tr>
+                    <th>Statut</th>
+                    <td>{{ projet.statut }}</td>
+                </tr>
+                <tr>
+                    <th>Dateouverture</th>
+                    <td>{% if projet.dateOuverture %}{{ projet.dateOuverture|date('Y-m-d') }}{% endif %}</td>
+                </tr>
+                <tr>
+                    <th>Datecloture</th>
+                    <td>{% if projet.dateCloture %}{{ projet.dateCloture|date('Y-m-d') }}{% endif %}</td>
+                </tr>
+                </tbody>
+            </table>
 
-    <ul>
-        <li>
-            <a href="{{ path('projet_index') }}">Back to the list</a>
-        </li>
-        <li>
-            <a href="{{ path('projet_edit', { 'id': projet.id }) }}">Edit</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+            <div class="panel panel-default">
+                <div class="panel-heading">Proprietaires concerné par le projet</div>
+                <div class="panel-body">
+                    <table class="table">
+                        <tbody>
+                        {% for proprietaire in projet.personnesConcernees%}
+                            <tr>
+                                <td>{{ proprietaire}}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#home">Discussion</a></li>
+                <li><a data-toggle="tab" href="#menu1">Sondages</a></li>
+                <li><a data-toggle="tab" href="#menu2">Pieces Jointes</a></li>
+            </ul>
+
+            <div class="tab-content">
+                <div id="home" class="tab-pane fade in active">
+
+                    {% for message in projet.filDiscussion.messages %}
+                        <div style="padding: 15px ; border-bottom: solid">
+                            <div><h4>{{ message.idUser}} </h4> {{  message.dateMessage|date('Y-m-d H:i:s') }}</div>
+                            <div style="display: inline-block ; width: 80%">{{ message.text }}</div>
+                            {% if app.user.idProprietaire==message.idUser  %}
+                                <div style="display: inline-block ; width: 15%">
+                                    <ul>
+                                        <li>
+                                            <a href="{{ path('message_edit', { 'id': message.id }) }}">edit</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ path('message_delete', { 'id': message.id }) }}">delete</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+
+                    <div style="margin-top: 15px">
+                        <h3>Ajouter un message</h3>
+                        {{ form_start(form) }}
+                        {{ form_widget(form) }}
+                        <input type="hidden" value="{{projet.filDiscussion.id}}" name="idConversation" class="btn btn-default" />
+                        <input type="submit" value="Create" class="btn btn-default" />
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+                <div id="menu1" class="tab-pane fade">
+                    {% if app.user.idProprietaire == projet.proprietaire %}
+                        <a href="{{ path('sondage_new', { 'id': projet.id } ) }}">Creer un sondage</a>
+                    {% endif %}
+
+                    <table class="table">
+                        <tbody>
+                        {% for sondage in projet.listeSondage %}
+                            <tr>
+                                <td><a href="{{ path('sondage_show', { 'id': sondage.id }) }}">{{ sondage.id }}</a></td>
+                                <td>{{ sondage.question }}</td>
+                                <td>
+                                    <ul>
+                                        {% for reponse in sondage.reponse%}
+                                        <li>
+                                            {{ reponse.reponse }}
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div id="menu2" class="tab-pane fade">
+                    <h3>Menu 2</h3>
+                    <p>Some content in menu 2.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
 {% endblock %}

@@ -21,7 +21,10 @@ class ProjetType extends AbstractType
                'class' => 'AppBundle\Entity\Proprietaire',
                'query_builder' => function (EntityRepository $er) use($options) {
                    return $er->createQueryBuilder('p')
+
                        ->join('p.user', 'u')
+                       ->where('u.id != :id')
+                       ->setParameter('id' , $options['user'] )
                        ->orderBy('u.username', 'ASC');
                },
                'label' => 'Utilisateurs liés au projet',
@@ -35,7 +38,8 @@ class ProjetType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Projet'
+            'data_class' => 'AppBundle\Entity\Projet',
+            'user'=>null,
         ));
     }
 

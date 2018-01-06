@@ -3,10 +3,13 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Conversation;
+use AppBundle\Entity\Message;
 use AppBundle\Entity\Projet;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Projet controller.
@@ -42,7 +45,7 @@ class ProjetController extends Controller
     public function newAction(Request $request)
     {
         $projet = new Projet();
-        $form = $this->createForm('AppBundle\Form\ProjetType', $projet);
+        $form = $this->createForm('AppBundle\Form\ProjetType', $projet,array('user' => $this->getUser()->getId()));
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -51,9 +54,17 @@ class ProjetController extends Controller
                 $proprietaire->addProjet($projet);
                 $proprietaire->addConversation($conversation);
             }
+
+            $repositoryProprietaire = $this->getDoctrine()->getManager()->getRepository('AppBundle:Proprietaire');
+            $proprietaire = $repositoryProprietaire->find($this->getUser()->getIdProprietaire());
+            //$conversation->getPersonnes()->add($Proprietaire);
+            $proprietaire->addConversation($conversation);
+            $proprietaire->addProjet($projet);
             $projet->setProprietaire($this->getUser()->getIdProprietaire());
             $projet->setFilDiscussion($conversation);
             $projet->setStatut("En discussion");
+            $conversation->setProjetId($projet);
+            $conversation->setTitre("Projet ". $projet->getNom());
             $em = $this->getDoctrine()->getManager();
 
             $em->persist($conversation);
@@ -73,15 +84,25 @@ class ProjetController extends Controller
      * Finds and displays a projet entity.
      *
      * @Route("/{id}", name="projet_show")
-     * @Method("GET")
+     * @Method({"GET", "POST"})
      */
-    public function showAction(Projet $projet)
+    public function showAction(Request $request, Projet $projet)
     {
-        $deleteForm = $this->createDeleteForm($projet);
+        $message = new Message();
+        $form = $this->createForm('AppBundle\Form\MessageType', $message );
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $message->setIdConversation($projet->getFilDiscussion());
+            $message->setIdUser($this->getUser()->getIdProprietaire());
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($message);
+            $em->flush();
+        }
 
         return $this->render('projet/show.html.twig', array(
             'projet' => $projet,
-            'delete_form' => $deleteForm->createView(),
+            'form' => $form->createView(),
         ));
     }
 
@@ -93,8 +114,14 @@ class ProjetController extends Controller
      */
     public function editAction(Request $request, Projet $projet)
     {
-        $deleteForm = $this->createDeleteForm($projet);
-        $editForm = $this->createForm('AppBundle\Form\ProjetType', $projet);
+        $editForm = $this->createFormBuilder($projet)->add('description')->add('statut', ChoiceType::class, array(
+            'choices'  => array(
+                'En discussion' => 'En discussion',
+                'En attente d\'éxécution' => 'En attente d execution',
+                'Exécuté' => 'Execute',
+            ),
+        ))->getForm();
+
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -106,7 +133,6 @@ class ProjetController extends Controller
         return $this->render('projet/edit.html.twig', array(
             'projet' => $projet,
             'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -130,19 +156,4 @@ class ProjetController extends Controller
         return $this->redirectToRoute('projet_index');
     }
 
-    /**
-     * Creates a form to delete a projet entity.
-     *
-     * @param Projet $projet The projet entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm(Projet $projet)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('projet_delete', array('id' => $projet->getId())))
-            ->setMethod('DELETE')
-            ->getForm()
-        ;
-    }
 }
