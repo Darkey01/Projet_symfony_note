@@ -7,7 +7,7 @@
     <ul>
         {% for reponse in sondage.reponse%}
             <li>
-                {{ reponse.reponse }}
+                <p>Reponse {{ loop.index }} : {{ reponse.reponse }}</p>
             </li>
         {% endfor %}
 
