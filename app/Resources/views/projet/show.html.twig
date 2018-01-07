@@ -93,11 +93,15 @@
                                 <td>{{ sondage.question }}</td>
                                 <td>
                                     <ul>
+                                        <form>
+                                            <select>
                                         {% for reponse in sondage.reponse%}
-                                        <li>
-                                            {{ reponse.reponse }}
-                                        </li>
+
+                                            <option value="{{ reponse.id }}">{{ reponse.reponse }}</option>
+
                                         {% endfor %}
+                                            </select>
+                                        </form>
                                     </ul>
                                 </td>
                             </tr>
