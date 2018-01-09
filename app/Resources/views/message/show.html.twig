@@ -10,11 +10,11 @@
                 <td>{{ message.id }}</td>
             </tr>
             <tr>
-                <th>Text</th>
+                <th>Texte</th>
                 <td>{{ message.text }}</td>
             </tr>
             <tr>
-                <th>Datemessage</th>
+                <th>Date du message</th>
                 <td>{% if message.dateMessage %}{{ message.dateMessage|date('Y-m-d') }}{% endif %}</td>
             </tr>
         </tbody>
@@ -22,10 +22,10 @@
 
     <ul>
         <li>
-            <a href="{{ path('message_index') }}">Back to the list</a>
+            <a href="{{ path('message_index') }}">Retour à la liste</a>
         </li>
         <li>
-            <a href="{{ path('message_edit', { 'id': message.id }) }}">Edit</a>
+            <a href="{{ path('message_edit', { 'id': message.id }) }}">Editer</a>
         </li>
 
     </ul>

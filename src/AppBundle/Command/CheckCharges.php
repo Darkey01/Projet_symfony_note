@@ -30,7 +30,7 @@ class CheckCharges extends ContainerAwareCommand
         $chargeRepository = $this->getContainer()->get('doctrine')->getRepository('AppBundle:Charge');
         $charges = $chargeRepository->findAll();
         $chargeDateDepasse = array();
-        $message_txt = "Voici la liste des tâches de la co-propriétée impayées et dont la data est arrivée a échéance : ";
+        $message_txt = "Voici la liste des tâches de la co-propriétée impayées et dont la date est arrivée à échéance : ";
         foreach ($charges as $charge) {
             $dateNow = new \DateTime("NOW");
 

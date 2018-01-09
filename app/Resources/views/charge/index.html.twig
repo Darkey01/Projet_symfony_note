@@ -15,9 +15,9 @@
             <th>Id</th>
             <th>Titre</th>
             <th>Montant</th>
-            <th>Date echeance</th>
+            <th>Date d'échéance</th>
             <th>Statut</th>
-            <th>Piece jointe</th>
+            <th>Pièce jointe</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -39,17 +39,17 @@
                     <ul>
                         <li>
                             {% if is_granted('ROLE_ADMIN') %}
-                                <a href="{{ path('charge_admin_show', { 'id': charge.id }) }}">show</a>
+                                <a href="{{ path('charge_admin_show', { 'id': charge.id }) }}">Regarder</a>
                             {% endif %}
                             {% if is_granted('ROLE_PROPRIETAIRE') %}
-                                <a href="{{ path('charge_proprietaire_show', { 'id': charge.id }) }}">show</a>
+                                <a href="{{ path('charge_proprietaire_show', { 'id': charge.id }) }}">Regarder</a>
                             {% endif %}
                         </li>
                         <li>
-                            <a href="{{ path('charge_edit', { 'id': charge.id }) }}">edit</a>
+                            <a href="{{ path('charge_edit', { 'id': charge.id }) }}">Editer</a>
                         </li>
                         <li>
-                            <a href="{{ path('charge_delete', { 'id': charge.id }) }}">delete</a>
+                            <a href="{{ path('charge_delete', { 'id': charge.id }) }}">Supprimer</a>
                         </li>
                     </ul>
                 </td>

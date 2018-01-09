@@ -18,18 +18,18 @@
                     <td>{{ projet.statut }}</td>
                 </tr>
                 <tr>
-                    <th>Dateouverture</th>
+                    <th>Date d'ouverture</th>
                     <td>{% if projet.dateOuverture %}{{ projet.dateOuverture|date('Y-m-d') }}{% endif %}</td>
                 </tr>
                 <tr>
-                    <th>Datecloture</th>
+                    <th>Date de cloture</th>
                     <td>{% if projet.dateCloture %}{{ projet.dateCloture|date('Y-m-d') }}{% endif %}</td>
                 </tr>
                 </tbody>
             </table>
 
             <div class="panel panel-default">
-                <div class="panel-heading">Proprietaires concerné par le projet</div>
+                <div class="panel-heading">Proprietaires concernés par le projet</div>
                 <div class="panel-body">
                     <table class="table">
                         <tbody>
@@ -60,10 +60,10 @@
                                 <div style="display: inline-block ; width: 15%">
                                     <ul>
                                         <li>
-                                            <a href="{{ path('message_edit', { 'id': message.id }) }}">edit</a>
+                                            <a href="{{ path('message_edit', { 'id': message.id }) }}">Editer</a>
                                         </li>
                                         <li>
-                                            <a href="{{ path('message_delete', { 'id': message.id }) }}">delete</a>
+                                            <a href="{{ path('message_delete', { 'id': message.id }) }}">Supprimer</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -82,7 +82,7 @@
                 </div>
                 <div id="menu1" class="tab-pane fade">
                     {% if app.user.idProprietaire == projet.proprietaire %}
-                        <a href="{{ path('sondage_new', { 'id': projet.id } ) }}">Creer un sondage</a>
+                        <a href="{{ path('sondage_new', { 'id': projet.id } ) }}">Créer un sondage</a>
                     {% endif %}
 
                     <table class="table">

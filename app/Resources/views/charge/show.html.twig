@@ -4,10 +4,10 @@
     <h1>Charge</h1>
     <ul class="nav navbar-nav">
         <li>
-            <a href="{{ path('charge_edit', { 'id': charge.id }) }}">Edit</a>
+            <a href="{{ path('charge_edit', { 'id': charge.id }) }}">Editer</a>
         </li>
         <li>
-            <a href="{{ path('charge_delete', { 'id': charge.id }) }}">Delete</a>
+            <a href="{{ path('charge_delete', { 'id': charge.id }) }}">Supprimer</a>
         </li>
     </ul>
 
@@ -26,7 +26,7 @@
             <td>{{ charge.montant }}</td>
         </tr>
         <tr>
-            <th>Dateecheance</th>
+            <th>Date d'échéance</th>
             <td>{% if charge.dateEcheance %}{{ charge.dateEcheance|date('Y-m-d') }}{% endif %}</td>
         </tr>
         <tr>

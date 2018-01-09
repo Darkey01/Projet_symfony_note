@@ -1,15 +1,15 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Liste des proprietaires</h1>
+    <h1>Liste des propriétaires</h1>
 
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Name</th>
+                <th>Nom</th>
                 <th>Email</th>
-                <th>Password</th>
+                <th>Mot de passe</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -23,7 +23,7 @@
                 <td>
                     <ul>
                         <li>
-                            <a href="{{ path('proprietaire_show', { 'id': proprietaire.id }) }}">show</a>
+                            <a href="{{ path('proprietaire_show', { 'id': proprietaire.id }) }}">Regarder</a>
                         </li>
                     </ul>
                 </td>

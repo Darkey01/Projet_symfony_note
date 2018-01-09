@@ -25,11 +25,11 @@
                 <td>
                     <ul>
                         <li>
-                            <a href="{{ path('projet_show', { 'id': projet.id }) }}">show</a>
+                            <a href="{{ path('projet_show', { 'id': projet.id }) }}">Regarder</a>
                         </li>
                         {% if app.user.idProprietaire == projet.proprietaire %}
                         <li>
-                            <a href="{{ path('projet_edit', { 'id': projet.id }) }}">edit</a>
+                            <a href="{{ path('projet_edit', { 'id': projet.id }) }}">Editer</a>
                         </li>
                         {% endif %}
                     </ul>
