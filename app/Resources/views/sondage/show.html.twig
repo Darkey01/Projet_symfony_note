@@ -3,7 +3,8 @@
 {% block body %}
     <h1>Sondage {{ sondage.id }}</h1>
 
-    <td>{{ sondage.question }}</td>
+    <a class="" href="{{ path('projet_show', { 'id': sondage.idprojet.id }) }}">Retour au projet</a>
+    <p>{{ sondage.question }}</p>
     <ul>
         {% for reponse in sondage.reponse%}
             <li>
@@ -12,9 +13,11 @@
         {% endfor %}
 
     </ul>
+
+    {% if app.user.idproprietaire == sondage.idprojet.proprietaire %}
     {{ form_start(form) }}
     {{ form_widget(form) }}
     <input type="submit" value="Ajouter la réponse" class="btn btn-default"/>
     {{ form_end(form) }}
-
+    {% endif %}
 {% endblock %}

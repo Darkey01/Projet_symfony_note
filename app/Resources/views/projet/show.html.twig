@@ -46,6 +46,7 @@
             <ul class="nav nav-tabs">
                 <li class="active"><a data-toggle="tab" href="#home">Discussion</a></li>
                 <li><a data-toggle="tab" href="#menu1">Sondages</a></li>
+                <li><a data-toggle="tab" href="#activite">Activités</a></li>
                 <li><a data-toggle="tab" href="#menu2">Pieces Jointes</a></li>
             </ul>
 
@@ -75,8 +76,8 @@
                         <h3>Ajouter un message</h3>
                         {{ form_start(form) }}
                         {{ form_widget(form) }}
-                        <input type="hidden" value="{{projet.filDiscussion.id}}" name="idConversation" class="btn btn-default" />
-                        <input type="submit" value="Create" class="btn btn-default" />
+                        <input type="hidden" value="{{projet.filDiscussion.id}}" name="idConversation"/>
+                        <input type="submit" value="Créer" class="btn btn-default" />
                         {{ form_end(form) }}
                     </div>
                 </div>
@@ -92,26 +93,75 @@
                                 <td><a href="{{ path('sondage_show', { 'id': sondage.id }) }}">{{ sondage.id }}</a></td>
                                 <td>{{ sondage.question }}</td>
                                 <td>
-                                    <ul>
-                                        <form>
-                                            <select>
-                                        {% for reponse in sondage.reponse%}
-
-                                            <option value="{{ reponse.id }}">{{ reponse.reponse }}</option>
-
+                                    {% if app.user.idproprietaire.reponses|length > 0 %}
+                                        {% set dejavote = 'false' %}
+                                        {% set reponseuser = null %}
+                                        {% for repuser in  app.user.idproprietaire.reponses if dejavote == 'false' %}
+                                            {% if repuser in sondage.reponse %}
+                                                {% set dejavote = 'true' %}
+                                                {% set reponseuser = repuser %}
+                                            {% endif %}
                                         {% endfor %}
-                                            </select>
+                                        {% if dejavote == 'true' %}
+                                            Vous avez voté : {{ reponseuser.reponse }}
+                                            {% for reponse in sondage.reponse%}
+                                                <label class="radio-inline">{{ reponse.reponse }} : {{ reponse.users|length }} vote(s)  </label>
+                                            {% endfor %}
+                                        {% else %}
+                                            <form name="form{{ sondage.id  }}" method="post" action="/proprietaire/projet/addvote/{{ sondage.id }}">
+                                                {% for reponse in sondage.reponse%}
+                                                    <label class="radio-inline">  <input type="radio" required name="reponseSondage{{ sondage.id }}" value="{{ reponse.id }}" >{{ reponse.reponse }}</label>
+                                                {% endfor %}
+
+                                                <input type="submit" class="btn btn-default">
+                                            </form>
+                                        {% endif  %}
+                                    {% else %}
+                                        <form name="form{{ sondage.id  }}" method="post" action="/proprietaire/projet/addvote/{{ sondage.id }}">
+                                            {% for reponse in sondage.reponse%}
+                                                <label class="radio-inline">  <input type="radio" required name="reponseSondage{{ sondage.id }}" value="{{ reponse.id }}" >{{ reponse.reponse }}     </label>
+                                            {% endfor %}
+
+                                            <input type="submit" class="btn btn-default">
                                         </form>
-                                    </ul>
+                                    {% endif %}
                                 </td>
                             </tr>
                         {% endfor %}
                         </tbody>
                     </table>
                 </div>
+                <div id="activite" class="tab-pane fade">
+                    <h3>Liste des activités liées au projet</h3>
+                    <table class="table">
+                        <tbody>
+                        {% if projet.activites|length == 0%}
+                            Aucune activité
+                        {% else %}
+                            {% for activite in projet.activites %}
+                                <tr>
+                                    <td>{{ activite.titre}} créer par {{ activite.redacteur.user.username }}</td>
+                                    <td>
+                                        Date : {{ activite.date|date('Y-m-d') }}
+                                    </td>
+                                    <td>Note optionnelle : {% if activite.note != null %} {{ activite.note }} {% else %} Aucune {% endif %}</td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+                        </tbody>
+                    </table>
+
+                    <div style="margin-top: 15px">
+                        <h3>Journaliser une activité</h3>
+                        {{ form_start(formActivite) }}
+                        {{ form_widget(formActivite) }}
+                        <input type="submit" value="Journaliser" class="btn btn-default" />
+                        {{ form_end(formActivite) }}
+                    </div>
+                </div>
                 <div id="menu2" class="tab-pane fade">
-                    <h3>Menu 2</h3>
-                    <p>Some content in menu 2.</p>
+                    <h3>Pieces jointes a faire</h3>
+
                 </div>
             </div>
 

@@ -83,6 +83,29 @@ class Projet
      */
     private $personnesConcernees;
 
+    /**
+     *
+     * @ORM\OneToMany(targetEntity="Activite", mappedBy="projet")
+     */
+    private $activites;
+
+    /**
+     * @return mixed
+     */
+    public function getActivites()
+    {
+        return $this->activites;
+    }
+
+    /**
+     * @param mixed $activites
+     */
+    public function setActivites($activites)
+    {
+        $this->activites = $activites;
+    }
+
+
     public function addPropietaire(Proprietaire $proprietaire)
     {
         $this->personnesConcernees[] = $proprietaire;

@@ -88,13 +88,18 @@ class Proprietaire
     private $messages;
 
     /**
-     * @ORM\ManyToMany(targetEntity="ReponseSondage")
-     * @ORM\JoinTable(name="Votes",
-     *     joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="reponse_id", referencedColumnName="id")}
-     *     )
+     *
+     *  /**
+     * @ORM\ManyToMany(targetEntity="ReponseSondage", inversedBy="users")
+     * @ORM\JoinTable(name="votes")
      */
     private $reponses;
+
+    public function addReponse(ReponseSondage $reponse)
+    {
+        $reponse->addPropietaire($this); // synchronously updating inverse side
+        $this->reponses[] = $reponse;
+    }
 
     /**
      * @return mixed

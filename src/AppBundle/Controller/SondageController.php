@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Projet;
 use AppBundle\Entity\ReponseSondage;
 use AppBundle\Entity\Sondage;
+use AppBundle\Service\CheckDroit;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
@@ -12,7 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component
 /**
  * Sondage controller.
  *
- * @Route("sondage")
+ * @Route("propietaire/sondage")
  */
 class SondageController extends Controller
 {
@@ -41,6 +42,7 @@ class SondageController extends Controller
      */
     public function newAction(Request $request, Projet $projet)
     {
+        if($this->getUser()->getIdProprietaire() == $projet->getProprietaire()) {
         $sondage = new Sondage();
         $form = $this->createForm('AppBundle\Form\SondageType', $sondage);
         $form->handleRequest($request);
@@ -58,6 +60,9 @@ class SondageController extends Controller
             'sondage' => $sondage,
             'form' => $form->createView(),
         ));
+        }else{
+            return $this->redirectToRoute('projet_index');
+        }
     }
 
     /**
@@ -68,6 +73,7 @@ class SondageController extends Controller
      */
     public function showAction(Request $request, Sondage $sondage)
     {
+
         $reponse= New ReponseSondage();
         $form =$this->createFormBuilder($reponse)->add('reponse')->getForm();
         $form->handleRequest($request);
@@ -85,6 +91,7 @@ class SondageController extends Controller
             'sondage' => $sondage,
             'form' => $form->createView(),
         ));
+
     }
 
     /**

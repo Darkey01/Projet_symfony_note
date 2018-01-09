@@ -13,7 +13,7 @@ class ActiviteType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('titre')->add('note')->add('date')->add('redacteur');
+        $builder->add('titre')->add('note')->add('date');
     }/**
      * {@inheritdoc}
      */

@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Conversation;
 use AppBundle\Entity\Message;
+use AppBundle\Service\CheckDroit;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
@@ -75,18 +76,9 @@ class ConversationController extends Controller
      * @Route("/{id}", name="conversation_show")
      * @Method({"GET", "POST"})
      */
-    public function showAction(Request $request, Conversation $conversation)
+    public function showAction(Request $request,CheckDroit $checkDroit, Conversation $conversation)
     {
-        $user = $this->getUser()->getIdProprietaire();
-            $droit = false;
-        foreach($conversation->getPersonnes() as $personne){
-            if($personne == $user){
-             $droit = true;
-             break;
-            }
-        }
-       if($droit){
-
+        if($checkDroit->checkDroitConversation($this->getUser()->getIdProprietaire(), $conversation)) {
             $message = new Message();
             $form = $this->createForm('AppBundle\Form\MessageType', $message);
             $form->handleRequest($request);
@@ -113,21 +105,25 @@ class ConversationController extends Controller
      * @Route("/{id}/edit", name="conversation_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request, Conversation $conversation)
+    public function editAction(Request $request,CheckDroit $checkDroit, Conversation $conversation)
     {
-        $editForm = $this->createForm('AppBundle\Form\ConversationType', $conversation);
-        $editForm->handleRequest($request);
+        if($checkDroit->checkDroitConversation($this->getUser()->getIdProprietaire(), $conversation)) {
+            $editForm = $this->createForm('AppBundle\Form\ConversationType', $conversation);
+            $editForm->handleRequest($request);
 
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            if ($editForm->isSubmitted() && $editForm->isValid()) {
+                $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('conversation_edit', array('id' => $conversation->getId()));
+                return $this->redirectToRoute('conversation_edit', array('id' => $conversation->getId()));
+            }
+
+            return $this->render('conversation/edit.html.twig', array(
+                'conversation' => $conversation,
+                'edit_form' => $editForm->createView(),
+            ));
+        }else{
+            return $this->redirectToRoute('conversation');
         }
-
-        return $this->render('conversation/edit.html.twig', array(
-            'conversation' => $conversation,
-            'edit_form' => $editForm->createView(),
-        ));
     }
 
     /**
@@ -136,17 +132,19 @@ class ConversationController extends Controller
      * @Route("/{id}", name="conversation_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, Conversation $conversation)
+    public function deleteAction(Request $request,CheckDroit $checkDroit, Conversation $conversation)
     {
-        $form = $this->createDeleteForm($conversation);
-        $form->handleRequest($request);
+        if($checkDroit->checkDroitConversation($this->getUser()->getIdProprietaire(), $conversation)) {
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($conversation);
-            $em->flush();
+            $form = $this->createDeleteForm($conversation);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->remove($conversation);
+                $em->flush();
+            }
         }
-
         return $this->redirectToRoute('conversation');
     }
 

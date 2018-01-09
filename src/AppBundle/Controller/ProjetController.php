@@ -2,9 +2,13 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Activite;
 use AppBundle\Entity\Conversation;
 use AppBundle\Entity\Message;
 use AppBundle\Entity\Projet;
+use AppBundle\Entity\ReponseSondage;
+use AppBundle\Entity\Sondage;
+use AppBundle\Service\CheckDroit;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -86,24 +90,63 @@ class ProjetController extends Controller
      * @Route("/{id}", name="projet_show")
      * @Method({"GET", "POST"})
      */
-    public function showAction(Request $request, Projet $projet)
+    public function showAction(Request $request,CheckDroit $checkDroit, Projet $projet)
     {
-        $message = new Message();
-        $form = $this->createForm('AppBundle\Form\MessageType', $message );
-        $form->handleRequest($request);
+        if($checkDroit->checkDroitProjet($this->getUser()->getIdProprietaire(), $projet)) {
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $message->setIdConversation($projet->getFilDiscussion());
-            $message->setIdUser($this->getUser()->getIdProprietaire());
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($message);
-            $em->flush();
+            $message = new Message();
+            $form = $this->createForm('AppBundle\Form\MessageType', $message);
+            $form->handleRequest($request);
+            $activite = new Activite();
+            $formActivite = $this->createForm('AppBundle\Form\ActiviteType', $activite);
+            $formActivite->handleRequest($request);
+
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $message->setIdConversation($projet->getFilDiscussion());
+                $message->setIdUser($this->getUser()->getIdProprietaire());
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($message);
+                $em->flush();
+            }
+            if ($formActivite->isSubmitted() && $formActivite->isValid()) {
+                $activite->setProjet($projet);
+                $activite->setRedacteur($this->getUser()->getIdProprietaire());
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($activite);
+                $em->flush();
+            }
+            return $this->render('projet/show.html.twig', array(
+                'projet' => $projet,
+                'form' => $form->createView(),
+                'formActivite' => $formActivite->createView()
+            ));
+        }else{
+            return $this->redirectToRoute('projet_index');
         }
+    }
 
-        return $this->render('projet/show.html.twig', array(
-            'projet' => $projet,
-            'form' => $form->createView(),
-        ));
+
+    /**
+     * Finds and displays a projet entity.
+     *
+     * @Route("/addvote/{id}", name="projet_sondage_vote")
+     * @Method({"GET", "POST"})
+     */
+    public function voteAction(Request $request,CheckDroit $checkDroit, Sondage $sondage)
+    {
+        if($checkDroit->checkDroitProjet($this->getUser()->getIdProprietaire(), $sondage->getIdProjet())) {
+
+            $em = $this->getDoctrine()->getManager();
+            $repositoryReponse = $em->getRepository('AppBundle:ReponseSondage');
+            $reponse = $repositoryReponse->find($request->get('reponseSondage' . $sondage->getId()));
+
+            $this->getUser()->getIdProprietaire()->addReponse($reponse);
+            $em->flush();
+            return $this->redirectToRoute('projet_show', array('id' => $sondage->getIdProjet()->getId()));
+        }else{
+            return $this->redirectToRoute('projet_index');
+        }
     }
 
     /**
@@ -112,28 +155,32 @@ class ProjetController extends Controller
      * @Route("/{id}/edit", name="projet_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request, Projet $projet)
+    public function editAction(Request $request,CheckDroit $checkDroit, Projet $projet)
     {
-        $editForm = $this->createFormBuilder($projet)->add('description')->add('statut', ChoiceType::class, array(
-            'choices'  => array(
-                'En discussion' => 'En discussion',
-                'En attente d\'éxécution' => 'En attente d execution',
-                'Exécuté' => 'Execute',
-            ),
-        ))->getForm();
+        if($checkDroit->checkDroitProjet($this->getUser()->getIdProprietaire(), $projet)) {
+            $editForm = $this->createFormBuilder($projet)->add('description')->add('statut', ChoiceType::class, array(
+                'choices'  => array(
+                    'En discussion' => 'En discussion',
+                    'En attente d\'éxécution' => 'En attente d execution',
+                    'Exécuté' => 'Execute',
+                ),
+            ))->getForm();
 
-        $editForm->handleRequest($request);
+            $editForm->handleRequest($request);
 
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            if ($editForm->isSubmitted() && $editForm->isValid()) {
+                $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('projet_edit', array('id' => $projet->getId()));
+                return $this->redirectToRoute('projet_show', array('id' => $projet->getId()));
+            }
+
+            return $this->render('projet/edit.html.twig', array(
+                'projet' => $projet,
+                'edit_form' => $editForm->createView(),
+            ));
+        }else{
+            return $this->redirectToRoute('projet_index');
         }
-
-        return $this->render('projet/edit.html.twig', array(
-            'projet' => $projet,
-            'edit_form' => $editForm->createView(),
-        ));
     }
 
     /**
@@ -142,8 +189,9 @@ class ProjetController extends Controller
      * @Route("/{id}", name="projet_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, Projet $projet)
+    public function deleteAction(Request $request,CheckDroit $checkDroit, Projet $projet)
     {
+        if($checkDroit->checkDroitProjet($this->getUser()->getIdProprietaire(), $projet)) {
         $form = $this->createDeleteForm($projet);
         $form->handleRequest($request);
 
@@ -154,6 +202,9 @@ class ProjetController extends Controller
         }
 
         return $this->redirectToRoute('projet_index');
+    }else{
+            return $this->redirectToRoute('projet_index');
+        }
     }
 
 }

@@ -36,7 +36,12 @@ class ReponseSondage
     /**
      * @ORM\ManyToMany(targetEntity="Proprietaire", mappedBy="reponses")
      */
-     private $users;
+    private $users;
+
+    public function addPropietaire(Proprietaire $proprietaire)
+    {
+        $this->users[] = $proprietaire;
+    }
 
     /**
      * @return int

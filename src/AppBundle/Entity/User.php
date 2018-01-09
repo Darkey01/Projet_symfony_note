@@ -58,6 +58,8 @@ class User implements UserInterface, \Serializable
      */
     private $email;
 
+
+
     /**
      * @return mixed
      */

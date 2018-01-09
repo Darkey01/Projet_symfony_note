@@ -49,6 +49,30 @@ class Activite
     private $redacteur;
 
     /**
+     *
+     * @ORM\ManyToOne(targetEntity="Projet")
+     */
+        private $projet;
+
+    /**
+     * @return mixed
+     */
+    public function getProjet()
+    {
+        return $this->projet;
+    }
+
+    /**
+     * @param mixed $projet
+     */
+    public function setProjet($projet)
+    {
+        $this->projet = $projet;
+    }
+
+
+
+    /**
      * @return int
      */
     public function getId()

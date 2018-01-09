@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Charge;
+use AppBundle\Service\CheckDroit;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -24,9 +25,7 @@ class ChargeController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $charges = $em->getRepository('AppBundle:Charge')->findAll();
+        $charges = $this->getUser()->getIdProprietaire()->getCharges();
 
         return $this->render('charge/index.html.twig', array(
             'charges' => $charges,
@@ -86,14 +85,15 @@ class ChargeController extends Controller
      * @Route("proprietaire/charge/{id}", name="charge_proprietaire_show")
      * @Method("GET")
      */
-    public function showAction(Charge $charge)
+    public function showAction(Charge $charge,CheckDroit $checkDroit)
     {
-        $deleteForm = $this->createDeleteForm($charge);
-
-        return $this->render('charge/show.html.twig', array(
-            'charge' => $charge,
-            'delete_form' => $deleteForm->createView(),
-        ));
+        if($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN') || $checkDroit->checkDroitCharge($this->getUser()->getIdProprietaire(), $charge)) {
+            return $this->render('charge/show.html.twig', array(
+                'charge' => $charge,
+            ));
+        }else{
+            return $this->redirectToRoute('accueil_proprietaire');
+        }
     }
 
     /**
@@ -104,7 +104,6 @@ class ChargeController extends Controller
      */
     public function editAction(Request $request, Charge $charge)
     {
-        $deleteForm = $this->createDeleteForm($charge);
         $editForm = $this->createForm('AppBundle\Form\ChargeType', $charge);
         $editForm->handleRequest($request);
 
@@ -117,7 +116,6 @@ class ChargeController extends Controller
         return $this->render('charge/edit.html.twig', array(
             'charge' => $charge,
             'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
         ));
     }
 

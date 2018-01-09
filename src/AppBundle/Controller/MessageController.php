@@ -103,10 +103,14 @@ class MessageController extends Controller
     public function deleteAction(Request $request, Message $message)
     {
             $conversation = $message->getIdConversation();
+            $projet = $conversation->getProjetId();
             $em = $this->getDoctrine()->getManager();
             $em->remove($message);
             $em->flush();
-
-        return $this->redirectToRoute('conversation_show', array('id' => $conversation->getId()));
+        if($projet == null) {
+            return $this->redirectToRoute('conversation_show', array('id' => $conversation->getId()));
+        }else{
+            return $this->redirectToRoute('projet_show', array('id' => $projet->getId()));
+        }
     }
 }
