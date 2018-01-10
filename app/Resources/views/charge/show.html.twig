@@ -54,4 +54,54 @@
         </div>
     </div>
 
+    <div class="panel panel-default">
+        <div class="panel-heading">Versement effectués</div>
+        <div class="panel-body">
+            <table class="table">
+                <tbody>
+                {%if charge.versements|length <1 %}
+                    Aucune versements effectués
+                {% endif %}
+
+                {% for versement in charge.versements %}
+                    <tr>
+                        <td>{{versement.proprietaire}}</td>
+                        <td>{{versement.date}}</td>
+                        <td>{{ versement.montant }}</td>
+                        <td>{{ versement.type }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">Versement restants</div>
+        <div class="panel-body">
+            <table class="table">
+                <tbody>
+                {% set montanttotprop = charge.montant / charge.proprietaires|length %}
+                <tbody>
+                {% for proprietaire in charge.proprietaires %}
+                    {% set montantpayeprop = 0 %}
+                    {% for versement in proprietaire.versements %}
+                        {% if versement.chargeliee == charge %}
+                            {% set montantpayeprop = montantpayeprop + versement.montant %}
+                        {% endif %}
+                    {% endfor %}
+                    {% if montanttotprop - montantpayeprop > 0  %}
+                    <tr>
+                        <td>{{ proprietaire}}</td>
+                        <td>Charge restante à payé: {{ montanttotprop - montantpayeprop }} </td>
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
 {% endblock %}
