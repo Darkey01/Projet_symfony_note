@@ -39,10 +39,10 @@
                     <ul>
                         <li>
                             {% if is_granted('ROLE_ADMIN') %}
-                                <a href="{{ path('charge_admin_show', { 'id': charge.id }) }}">Regarder</a>
+                                <a href="{{ path('charge_admin_show', { 'id': charge.id }) }}">Consulter</a>
                             {% endif %}
                             {% if is_granted('ROLE_PROPRIETAIRE') %}
-                                <a href="{{ path('charge_proprietaire_show', { 'id': charge.id }) }}">Regarder</a>
+                                <a href="{{ path('charge_proprietaire_show', { 'id': charge.id }) }}">Consulter</a>
                             {% endif %}
                         </li>
                         <li>
