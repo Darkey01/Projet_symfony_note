@@ -47,15 +47,24 @@ class ConversationController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()){
-            foreach($conversation->getPersonnes() as $personne){
-                $personne->addConversation($conversation);
-            }
             $repositoryProprietaire = $this->getDoctrine()->getManager()->getRepository('AppBundle:Proprietaire');
             $proprietaire = $repositoryProprietaire->find($this->getUser()->getIdProprietaire());
+
+            foreach($conversation->getPersonnes() as $personne) {
+                $personne->addConversation($conversation);
+                if ($personne->getUser()->getEmail() != null) {
+                    $message = \Swift_Message::newInstance()
+                        ->setSubject("Notification : Création d'un sujet de conversation" . $conversation->getTitre())
+                        ->setFrom('no_reply@yopmail.com')
+                        ->setTo($personne->getUser()->getEmail())
+                        ->setBody("Madame, Monsieur, " . $proprietaire . " viens de créer un conversation vous concernant. Cordialement");
+                    $this->get('mailer')->send($message);
+                }
+            }
+
+
             //$conversation->getPersonnes()->add($Proprietaire);
             $proprietaire->addConversation($conversation);
-
-
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($conversation);
@@ -85,6 +94,20 @@ class ConversationController extends Controller
             if ($form->isSubmitted() && $form->isValid()) {
                 $message->setIdConversation($conversation);
                 $message->setIdUser($this->getUser()->getIdProprietaire());
+
+                foreach($conversation->getPersonnes() as $personne) {
+                    if ($personne != $this->getUser()->getIdProprietaire()) {
+                        if ($personne->getUser()->getEmail() != null) {
+                            $message = \Swift_Message::newInstance()
+                                ->setSubject("Notification : Une réponse a été émise a la conversation" . $conversation->getTitre())
+                                ->setFrom('noreply@yopmail.com')
+                                ->setTo($personne->getUser()->getEmail())
+                                ->setBody("Madame, Monsieur, " . $this->getUser()->getIdProprietaire() . " viens répondre a la conversation " . $conversation->getTitre() . " . Cordialement");
+                            $this->get('mailer')->send($message);
+                        }
+                    }
+                }
+
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($message);
                 $em->flush();

@@ -20,6 +20,7 @@ class Proprietaire
     public function __construct() {
         $this->conversations = new ArrayCollection();
         $this->charges = new ArrayCollection();
+
     }
     /**
      * @ORM\Id

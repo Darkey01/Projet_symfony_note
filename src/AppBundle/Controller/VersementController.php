@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Charge;
 use AppBundle\Entity\Versement;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -10,7 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component
 /**
  * Versement controller.
  *
- * @Route("versement")
+ * @Route("charge/versement")
  */
 class VersementController extends Controller
 {
@@ -34,25 +35,38 @@ class VersementController extends Controller
     /**
      * Creates a new versement entity.
      *
-     * @Route("/new", name="versement_new")
+     * @Route("/{id}/new", name="versement_new")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request)
+    public function newAction(Request $request, Charge $charge)
     {
         $versement = new Versement();
-        $form = $this->createForm('AppBundle\Form\VersementType', $versement);
+        $montanttotprop = $charge->getMontant() / count($charge->getProprietaires());
+        $montantpayeprop = 0;
+        foreach ($this->getUser()->getIdProprietaire()->getVersements() as $versementUser) {
+            if ($versementUser->getChargeLiee() == $charge)
+            {
+                $montantpayeprop = $montantpayeprop + $versementUser->getMontant();
+            }
+        }
+        $montantmax =  $montanttotprop - $montantpayeprop;
+        $form = $this->createForm('AppBundle\Form\VersementType', $versement, array('max' => $montantmax));
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $versement->setChargeLiee($charge);
+            $versement->setProprietaire($this->getUser()->getIdProprietaire());
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($versement);
             $em->flush();
 
-            return $this->redirectToRoute('versement_show', array('id' => $versement->getId()));
+            return $this->redirectToRoute('charge_proprietaire_show', array('id' => $charge->getId()));
         }
 
         return $this->render('versement/new.html.twig', array(
             'versement' => $versement,
+            'charge' => $charge,
             'form' => $form->createView(),
         ));
     }
@@ -131,6 +145,6 @@ class VersementController extends Controller
             ->setAction($this->generateUrl('versement_delete', array('id' => $versement->getId())))
             ->setMethod('DELETE')
             ->getForm()
-        ;
+            ;
     }
 }

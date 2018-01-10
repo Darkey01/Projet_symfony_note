@@ -3,14 +3,14 @@
 {% block body %}
     <h1>Création d'un versement</h1>
 
+
+
+
     {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <input type="submit" value="Create" class="btn btn-default"/>
+
+    {{ form_widget(form) }}
+    <input type="submit" value="Créer" class="btn btn-default"/>
     {{ form_end(form) }}
 
-    <ul>
-        <li>
-            <a href="{{ path('versement_index') }}">Retour à la liste</a>
-        </li>
-    </ul>
+
 {% endblock %}

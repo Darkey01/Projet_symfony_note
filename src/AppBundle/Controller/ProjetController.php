@@ -57,7 +57,18 @@ class ProjetController extends Controller
             foreach($projet->getPersonnesConcernees() as $proprietaire){
                 $proprietaire->addProjet($projet);
                 $proprietaire->addConversation($conversation);
+                if ($proprietaire != $this->getUser()->getIdProprietaire()) {
+                    if ($proprietaire->getUser()->getEmail() != null) {
+                        $message = \Swift_Message::newInstance()
+                            ->setSubject("Notification : modification " . $projet->getNom())
+                            ->setFrom('noreply@yopmail.com')
+                            ->setTo($proprietaire->getUser()->getEmail())
+                            ->setBody("Madame, Monsieur, " . $this->getUser()->getIdProprietaire() . " viens de créer un projet "  . $projet->getNom() . " concernant la co-propriété et vous concernant également. Cordialement");
+                        $this->get('mailer')->send($message);
+                    }
+                }
             }
+
 
             $repositoryProprietaire = $this->getDoctrine()->getManager()->getRepository('AppBundle:Proprietaire');
             $proprietaire = $repositoryProprietaire->find($this->getUser()->getIdProprietaire());
@@ -171,6 +182,19 @@ class ProjetController extends Controller
             if ($editForm->isSubmitted() && $editForm->isValid()) {
                 $this->getDoctrine()->getManager()->flush();
 
+                foreach($projet->getPersonnesConcernees() as $personne) {
+                    if ($personne != $this->getUser()->getIdProprietaire()) {
+                        if ($personne->getUser()->getEmail() != null) {
+                            $message = \Swift_Message::newInstance()
+                                ->setSubject("Notification : modification " . $projet->getNom())
+                                ->setFrom('noreply@yopmail.com')
+                                ->setTo($personne->getUser()->getEmail())
+                                ->setBody("Madame, Monsieur, " . $this->getUser()->getIdProprietaire() . " viens d'apporter une modification au projet" . $projet->getNom() . " . Cordialement");
+                            $this->get('mailer')->send($message);
+                        }
+                    }
+                }
+
                 return $this->redirectToRoute('projet_show', array('id' => $projet->getId()));
             }
 
@@ -192,17 +216,17 @@ class ProjetController extends Controller
     public function deleteAction(Request $request,CheckDroit $checkDroit, Projet $projet)
     {
         if($checkDroit->checkDroitProjet($this->getUser()->getIdProprietaire(), $projet)) {
-        $form = $this->createDeleteForm($projet);
-        $form->handleRequest($request);
+            $form = $this->createDeleteForm($projet);
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($projet);
-            $em->flush();
-        }
+            if ($form->isSubmitted() && $form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->remove($projet);
+                $em->flush();
+            }
 
-        return $this->redirectToRoute('projet_index');
-    }else{
+            return $this->redirectToRoute('projet_index');
+        }else{
             return $this->redirectToRoute('projet_index');
         }
     }

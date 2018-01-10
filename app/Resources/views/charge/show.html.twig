@@ -66,7 +66,7 @@
                 {% for versement in charge.versements %}
                     <tr>
                         <td>{{versement.proprietaire}}</td>
-                        <td>{{versement.date}}</td>
+                        <td>{{versement.date|date('Y-m-d')  }}</td>
                         <td>{{ versement.montant }}</td>
                         <td>{{ versement.type }}</td>
                     </tr>
@@ -80,7 +80,6 @@
         <div class="panel-heading">Versement restants</div>
         <div class="panel-body">
             <table class="table">
-                <tbody>
                 {% set montanttotprop = charge.montant / charge.proprietaires|length %}
                 <tbody>
                 {% for proprietaire in charge.proprietaires %}
@@ -92,8 +91,9 @@
                     {% endfor %}
                     {% if montanttotprop - montantpayeprop > 0  %}
                     <tr>
-                        <td>{{ proprietaire}}</td>
+                        <td>{{proprietaire}}</td>
                         <td>Charge restante à payé: {{ montanttotprop - montantpayeprop }} </td>
+                        {% if app.user.idproprietaire == proprietaire  %}<td><a  href="{{ path('versement_new', { 'id': charge.id }) }}">Effectuer un virement</a> </td>{% endif %}
                     </tr>
                     {% endif %}
                 {% endfor %}
