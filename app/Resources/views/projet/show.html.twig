@@ -160,8 +160,29 @@
                     </div>
                 </div>
                 <div id="menu2" class="tab-pane fade">
-                    <h3>Pieces jointes à faire</h3>
+                    <h3>Liste des pieces jointes du projet</h3>
+                    <table class="table">
+                        <tbody>
+                        {% if projet.piecesjointes|length == 0%}
+                            Aucune piece jointe
+                        {% else %}
+                            {% for pc in projet.piecesjointes%}
+                                <tr>
+                                    <td>{{ pc.nom}}</td>
+                                    <td>{{ pc.fichier }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+                        </tbody>
+                    </table>
 
+                    <div style="margin-top: 15px">
+                        <h3>Joindre une piece jointe</h3>
+                        {{ form_start(formPc) }}
+                        {{ form_widget(formPc) }}
+                        <input type="submit" value="Ajouter" class="btn btn-default" />
+                        {{ form_end(formPc) }}
+                    </div>
                 </div>
             </div>
 

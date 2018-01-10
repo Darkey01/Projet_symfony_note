@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Activite;
 use AppBundle\Entity\Conversation;
 use AppBundle\Entity\Message;
+use AppBundle\Entity\PieceJointe;
 use AppBundle\Entity\Projet;
 use AppBundle\Entity\ReponseSondage;
 use AppBundle\Entity\Sondage;
@@ -111,6 +112,9 @@ class ProjetController extends Controller
             $activite = new Activite();
             $formActivite = $this->createForm('AppBundle\Form\ActiviteType', $activite);
             $formActivite->handleRequest($request);
+            $pieceJointe = new PieceJointe();
+            $formPc = $this->createForm('AppBundle\Form\PieceJointeType', $pieceJointe);
+            $formPc->handleRequest($request);
 
 
             if ($form->isSubmitted() && $form->isValid()) {
@@ -127,10 +131,18 @@ class ProjetController extends Controller
                 $em->persist($activite);
                 $em->flush();
             }
+
+            if($formPc->isSubmitted() && $formPc->isValid()) {
+                $pieceJointe->setIdProjet($projet);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($pieceJointe);
+                $em->flush();
+            }
             return $this->render('projet/show.html.twig', array(
                 'projet' => $projet,
                 'form' => $form->createView(),
-                'formActivite' => $formActivite->createView()
+                'formActivite' => $formActivite->createView(),
+                'formPc' => $formPc->createView(),
             ));
         }else{
             return $this->redirectToRoute('projet_index');
