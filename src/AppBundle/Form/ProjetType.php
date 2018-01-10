@@ -17,7 +17,7 @@ class ProjetType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('nom')->add('description')
-            ->add('dateOuverture',DateType::class,['label' => 'Date d\'ouverture'])->add('dateCloture')
+            ->add('dateOuverture',DateType::class,['label' => 'Date d\'ouverture'])->add('dateCloture',DateType::class,['label' => 'Date de cloture'])
            ->add('personnesConcernees', EntityType::class, [
                'class' => 'AppBundle\Entity\Proprietaire',
                'query_builder' => function (EntityRepository $er) use($options) {

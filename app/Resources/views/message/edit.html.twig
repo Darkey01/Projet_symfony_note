@@ -5,12 +5,12 @@
 
     {{ form_start(edit_form) }}
         {{ form_widget(edit_form) }}
-        <input type="submit" value="Edit" class="btn btn-default" />
+        <input type="submit" value="Editer" class="btn btn-default" />
     {{ form_end(edit_form) }}
 
     <ul>
         <li>
-            <a href="{{ path('conversation_show' , { 'id': message.idConversation.id }) }}">Back to the conversation</a>
+            <a href="{{ path('conversation_show' , { 'id': message.idConversation.id }) }}">Retour à la conversation</a>
         </li>
     </ul>
 {% endblock %}
