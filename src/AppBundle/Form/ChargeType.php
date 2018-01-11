@@ -4,6 +4,7 @@ namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -26,6 +27,8 @@ class ChargeType extends AbstractType
             },
             'label' => 'Utilisateur autorisé à voir',
             'multiple' => true
+        ])->add('pieceJointe', FileType::class,[
+            'required' => false
         ]);
     }
     /**

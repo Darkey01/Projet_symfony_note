@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Charge;
+use AppBundle\Entity\PieceJointe;
 use AppBundle\Service\CheckDroit;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -61,7 +62,31 @@ class ChargeController extends Controller
         $form = $this->createForm('AppBundle\Form\ChargeType', $charge);
         $form->handleRequest($request);
 
+
         if ($form->isSubmitted() && $form->isValid()) {
+            if($form['pieceJointe']->getData() != null){
+                $pieceJointe = new PieceJointe();
+                $pieceJointe->setCharge($charge);
+                $dir = 'uploads';
+                $file = $form['pieceJointe']->getData();
+                $extension = $file->guessExtension();
+                if ($extension == 'pdf' || $extension == 'doc' || $extension == 'docx') {
+                    $uniqId = uniqid();
+                    $file->move($dir, $uniqId . '.' . $extension);
+                    $final_url = $dir . '/' . $uniqId . '.' . $extension;
+                    $pieceJointe->setChemin($final_url);
+                    $pieceJointe->setType("Facture");
+                    $pieceJointe->setNom("Facture ".$charge->getTitre());
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($pieceJointe);
+                    $charge->setPieceJointe($pieceJointe);
+                    $em->flush();
+                    $this->addFlash('info', "Piece jointe uploder !");
+                }else {
+                    $this->addFlash('error', 'Extension invalide');
+                }
+            }
+
             $charge->setStatut('A payer');
             foreach($charge->getProprietaires() as $proprietaire){
                 $proprietaire->addCharge($charge);
@@ -127,9 +152,9 @@ class ChargeController extends Controller
      */
     public function deleteAction(Request $request, Charge $charge)
     {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($charge);
-            $em->flush();
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($charge);
+        $em->flush();
 
         return $this->redirectToRoute('listChargeAdmin');
     }
@@ -147,6 +172,6 @@ class ChargeController extends Controller
             ->setAction($this->generateUrl('charge_admin_show', array('id' => $charge->getId())))
             ->setMethod('DELETE')
             ->getForm()
-        ;
+            ;
     }
 }

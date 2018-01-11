@@ -34,8 +34,9 @@
             <td>{{ charge.statut }}</td>
         </tr>
         <tr>
-            <th>Piecejointe</th>
-            <td>{{ charge.pieceJointe }}</td>
+            <th>Facture</th>
+            <td>{% if charge.piecejointe != null %}<a href="{{asset(charge.piecejointe.chemin)}}">{{ charge.piecejointe.nom }}</a>{% endif %} </td>
+
         </tr>
         </tbody>
     </table>

@@ -34,7 +34,10 @@
                 <td>{{ charge.montant }}</td>
                 <td>{% if charge.dateEcheance %}{{ charge.dateEcheance|date('Y-m-d') }}{% endif %}</td>
                 <td>{{ charge.statut }}</td>
-                <td>{{ charge.pieceJointe }}</td>
+
+                <td>{% if charge.piecejointe != null %}<a href="{{asset(charge.piecejointe.chemin)}}">{{ charge.piecejointe.nom }}</a>{% endif %} </td>
+
+
                 <td>
                     <ul>
                         <li>

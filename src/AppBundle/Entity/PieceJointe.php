@@ -53,6 +53,29 @@ class PieceJointe
     private $idProjet;
 
     /**
+     * @ORM\OneToOne(targetEntity="Charge",cascade={"persist"})
+     *
+     */
+    private $charge;
+
+    /**
+     * @return mixed
+     */
+    public function getCharge()
+    {
+        return $this->charge;
+    }
+
+    /**
+     * @param mixed $charge
+     */
+    public function setCharge($charge)
+    {
+        $this->charge = $charge;
+    }
+
+
+    /**
      * @return string
      */
     public function getChemin()

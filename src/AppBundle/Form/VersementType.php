@@ -19,7 +19,7 @@ class VersementType extends AbstractType
     {
         $builder->add('montant', IntegerType::class, [
             'attr' => array(
-                'min'=>1,
+                'min'=>0.01,
                 'max'=> $options['max'],
                 'step' => 0.01
             ) ,
