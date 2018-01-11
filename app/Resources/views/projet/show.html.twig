@@ -167,10 +167,10 @@
                             Aucune piece jointe
                         {% else %}
                             {% for pc in projet.piecesjointes%}
-                                <tr>
-                                    <td>{{ pc.nom}}</td>
-                                    <td>{{ pc.fichier }}</td>
-                                </tr>
+                                <ul><li>
+                                        <a href="{{ asset(pc.chemin)}}" target="_blank">({{ pc.type }}) {{ pc.nom}}</a>
+                                    </li>
+                                </ul>
                             {% endfor %}
                         {% endif %}
                         </tbody>

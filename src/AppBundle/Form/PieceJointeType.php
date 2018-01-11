@@ -14,7 +14,7 @@ class PieceJointeType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('nom')->add('type' )->add('fichier', FileType::class);
+        $builder->add('nom')->add('type' )->add('chemin', FileType::class, ["label" => "Fichier"]);
     }
     
     /**

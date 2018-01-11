@@ -123,6 +123,7 @@ class ProjetController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($message);
                 $em->flush();
+                return $this->redirectToRoute('projet_show', array('id' => $projet->getId()));
             }
             if ($formActivite->isSubmitted() && $formActivite->isValid()) {
                 $activite->setProjet($projet);
@@ -130,13 +131,29 @@ class ProjetController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($activite);
                 $em->flush();
+                return $this->redirectToRoute('projet_show', array('id' => $projet->getId()));
             }
 
             if($formPc->isSubmitted() && $formPc->isValid()) {
                 $pieceJointe->setIdProjet($projet);
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($pieceJointe);
-                $em->flush();
+                $data = $formPc->getData();
+                $dir = 'uploads';
+                $file = $formPc['chemin']->getData();
+                $extension = $file->guessExtension();
+                if ($extension == 'pdf' || $extension == 'doc' || $extension == 'docx') {
+                    $uniqId = uniqid();
+                    $file->move($dir, $uniqId . '.' . $extension);
+                    $final_url = $dir . '/' . $uniqId . '.' . $extension;
+                    $pieceJointe->setChemin($final_url);
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($pieceJointe);
+                    $em->flush();
+                    $this->addFlash('info', "Piece jointe uploder !");
+                }else{
+                    $this->addFlash('error','Extension invalide');
+                }
+                return $this->redirectToRoute('projet_show', array('id' => $projet->getId()));
+
             }
             return $this->render('projet/show.html.twig', array(
                 'projet' => $projet,

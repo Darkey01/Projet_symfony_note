@@ -38,9 +38,9 @@ class PieceJointe
     /**
      * @var string
      *
-     * @ORM\Column(name="fichier", type="blob")
+     * @ORM\Column(name="chemin", type="string", length=255, unique=false)
      */
-    private $fichier;
+    private $chemin;
 
     /**
      * @ORM\ManyToOne(targetEntity="Versement")
@@ -51,6 +51,22 @@ class PieceJointe
      * @ORM\ManyToOne(targetEntity="Projet")
      */
     private $idProjet;
+
+    /**
+     * @return string
+     */
+    public function getChemin()
+    {
+        return $this->chemin;
+    }
+
+    /**
+     * @param string $chemin
+     */
+    public function setChemin($chemin)
+    {
+        $this->chemin = $chemin;
+    }
 
     /**
      * @return int
