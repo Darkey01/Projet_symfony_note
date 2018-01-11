@@ -3,6 +3,7 @@
 namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -16,7 +17,7 @@ class ChargeType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('titre')->add('montant')->add('dateEcheance')->add('proprietaires', EntityType::class, [
+        $builder->add('titre')->add('montant')->add('dateEcheance',DateType::class,['label' => 'Date d\'échéance'])->add('proprietaires', EntityType::class, [
             'class' => 'AppBundle\Entity\Proprietaire',
             'query_builder' => function (EntityRepository $er) use($options) {
                 return $er->createQueryBuilder('p')
