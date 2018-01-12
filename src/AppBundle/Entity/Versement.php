@@ -22,7 +22,7 @@ class Versement
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Proprietaire", inversedBy="versements" )
+     * @ORM\ManyToOne(targetEntity="Proprietaire", inversedBy="versements")
      */
     private $proprietaire;
 
@@ -43,7 +43,6 @@ class Versement
     /**
      * @ORM\OneToMany(targetEntity="PieceJointe", mappedBy="versement")
      */
-
     private $piecesJointes;
 
     /**
@@ -55,6 +54,7 @@ class Versement
 
     /**
      * @ORM\ManyToOne(targetEntity="Charge",inversedBy="versements")
+     * @ORM\JoinColumn(name="charge_id", referencedColumnName="id")
      */
     private $chargeLiee;
 

@@ -4,6 +4,7 @@ namespace AppBundle\Form;
 
 use AppBundle\Form\FilePathToFileTransformer;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -30,7 +31,15 @@ class PieceJointeType extends AbstractType
 
         $builder
             ->add('nom')
-            ->add('type')
+            ->add('type', ChoiceType::class, array(
+                'choices'  => array(
+                    'Facture' => 'Facture',
+                    'Devis' => 'Devis',
+                    'Preuve de  versement'=>'Preuve de versement',
+                    'Proprosition de contrat' => 'Proposition de contrat',
+                    'Autre' => 'Autre'
+                ),
+            ))
             ->add('chemin', FileType::class, ["label" => "Fichier"]);
 
         if ($isEdit) {

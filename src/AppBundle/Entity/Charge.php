@@ -84,7 +84,8 @@ class Charge
 
 
     /**
-     * @ORM\OneToMany(targetEntity="Versement", mappedBy="chargeLiee")
+     * @ORM\OneToMany(targetEntity="Versement", mappedBy="chargeLiee", cascade={"all"})
+     * @ORM\JoinColumn(name="versement_id", referencedColumnName="id")
      */
     private $versements;
 

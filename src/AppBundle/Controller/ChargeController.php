@@ -124,7 +124,7 @@ class ChargeController extends Controller
     /**
      * Displays a form to edit an existing charge entity.
      *
-     * @Route("/{id}/edit", name="charge_edit")
+     * @Route("admin/{id}/edit", name="charge_edit")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, Charge $charge)
@@ -147,7 +147,7 @@ class ChargeController extends Controller
     /**
      * Deletes a charge entity.
      *
-     * @Route("/delete/{id}", name="charge_delete")
+     * @Route("admin/delete/{id}", name="charge_delete")
      * @Method("GET")
      */
     public function deleteAction(Request $request, Charge $charge)

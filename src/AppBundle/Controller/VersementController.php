@@ -99,7 +99,7 @@ class VersementController extends Controller
     public function showAction(Request $request, Versement $versement)
     {
         $pieceJointe = new PieceJointe();
-        $formPc = $this->createForm('AppBundle\Form\PieceJointeType', $pieceJointe);
+        $formPc = $this->createForm('AppBundle\Form\PieceJointeType', $pieceJointe, ['isEdit'=>false]);
         $formPc->handleRequest($request);
 
         if($formPc->isSubmitted() && $formPc->isValid()) {

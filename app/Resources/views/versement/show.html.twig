@@ -2,23 +2,27 @@
 
 {% block body %}
     <h1>Versement</h1>
-    <a href="{{ path('versement_proprirtaire_index') }}">Aller à la liste de vos Versements</a>
+    {% if(is_granted('ROLE_ADMIN')) %}
+        <a href="{{ path('versement_index') }}">Aller à la liste des versements</a>
+    {% else %}
+        <a href="{{ path('versement_proprirtaire_index') }}">Aller à la liste de vos versements</a>
+    {% endif %}
     <a href="{{ path('charge_proprietaire_show', { 'id': versement.chargeliee.id }) }}">Consulter la charge correspondante</a>
 
     <table class="table">
         <tbody>
-            <tr>
-                <th>Montant</th>
-                <td>{{ versement.montant }}</td>
-            </tr>
-            <tr>
-                <th>Date</th>
-                <td>{% if versement.date %}{{ versement.date|date('Y-m-d') }}{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Type</th>
-                <td>{{ versement.type }}</td>
-            </tr>
+        <tr>
+            <th>Montant</th>
+            <td>{{ versement.montant }}</td>
+        </tr>
+        <tr>
+            <th>Date</th>
+            <td>{% if versement.date %}{{ versement.date|date('Y-m-d') }}{% endif %}</td>
+        </tr>
+        <tr>
+            <th>Type</th>
+            <td>{{ versement.type }}</td>
+        </tr>
         </tbody>
     </table>
 
