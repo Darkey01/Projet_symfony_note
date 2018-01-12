@@ -116,7 +116,7 @@ class VersementController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($pieceJointe);
                 $em->flush();
-                $this->addFlash('info', "Piece jointe uploder !");
+                $this->addFlash('info', "Pièce jointe uploader !");
             } else {
                 $this->addFlash('error', 'Extension invalide');
             }

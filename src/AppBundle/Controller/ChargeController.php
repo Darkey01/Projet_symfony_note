@@ -81,7 +81,7 @@ class ChargeController extends Controller
                     $em->persist($pieceJointe);
                     $charge->setPieceJointe($pieceJointe);
                     $em->flush();
-                    $this->addFlash('info', "Piece jointe uploder !");
+                    $this->addFlash('info', "Pièce jointe uploader !");
                 }else {
                     $this->addFlash('error', 'Extension invalide');
                 }

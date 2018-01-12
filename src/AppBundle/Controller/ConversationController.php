@@ -103,7 +103,7 @@ class ConversationController extends Controller
                                 ->setSubject("Notification : Une réponse a été émise a la conversation" . $conversation->getTitre())
                                 ->setFrom('noreply@yopmail.com')
                                 ->setTo($personne->getUser()->getEmail())
-                                ->setBody("Madame, Monsieur, " . $this->getUser()->getIdProprietaire() . " viens répondre a la conversation " . $conversation->getTitre() . " . Cordialement");
+                                ->setBody("Madame, Monsieur, " . $this->getUser()->getIdProprietaire() . " viens répondre à la conversation " . $conversation->getTitre() . " . Cordialement");
                             $this->get('mailer')->send($message);
                         }
                     }

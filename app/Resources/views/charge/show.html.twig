@@ -94,7 +94,7 @@
                     <tr>
                         <td>{{proprietaire}}</td>
                         <td>Charge restante à payé: {{ montanttotprop - montantpayeprop }} </td>
-                        {% if app.user.idproprietaire == proprietaire  %}<td><a  href="{{ path('versement_new', { 'id': charge.id }) }}">Effectuer un virement</a> </td>{% endif %}
+                        {% if app.user.idproprietaire == proprietaire  %}<td><a  href="{{ path('versement_new', { 'id': charge.id }) }}">Effectuer un versement</a> </td>{% endif %}
                     </tr>
                     {% endif %}
                 {% endfor %}
