@@ -13,6 +13,12 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Activite
 {
+
+    public function __construct()
+    {
+        $this->date = new \DateTime('now');
+
+    }
     /**
      * @var int
      *

@@ -12,6 +12,14 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Contrat
 {
+
+
+    public function __construct()
+    {
+        $this->dateFin = new \DateTime('now');
+        $this->dateSignature = new \DateTime('now');
+
+    }
     /**
      * @var int
      *
