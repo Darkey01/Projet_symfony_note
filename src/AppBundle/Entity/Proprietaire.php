@@ -72,7 +72,7 @@ class Proprietaire
     private $projetsCrees;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Projet", mappedBy="personnesConcernees")
+     * @ORM\ManyToMany(targetEntity="Projet", inversedBy="personnesConcernees")
      * @ORM\JoinTable(name="personnesProjet")
      */
     private $projets;

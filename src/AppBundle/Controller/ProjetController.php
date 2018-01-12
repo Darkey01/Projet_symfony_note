@@ -50,7 +50,7 @@ class ProjetController extends Controller
     public function newAction(Request $request)
     {
         $projet = new Projet();
-        $form = $this->createForm('AppBundle\Form\ProjetType', $projet,array('user' => $this->getUser()->getId()));
+        $form = $this->createForm('AppBundle\Form\ProjetType', $projet,array('user' => $this->getUser()->getId(),'isEdit'=>false));
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -113,7 +113,7 @@ class ProjetController extends Controller
             $formActivite = $this->createForm('AppBundle\Form\ActiviteType', $activite);
             $formActivite->handleRequest($request);
             $pieceJointe = new PieceJointe();
-            $formPc = $this->createForm('AppBundle\Form\PieceJointeType', $pieceJointe);
+            $formPc = $this->createForm('AppBundle\Form\PieceJointeType', $pieceJointe,['isEdit'=>false]);
             $formPc->handleRequest($request);
 
 

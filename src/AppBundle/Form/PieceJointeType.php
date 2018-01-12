@@ -45,7 +45,7 @@ class PieceJointeType extends AbstractType
     {
         $resolver->setRequired('isEdit');
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\PieceJointeFile'
+            'data_class' => 'AppBundle\Entity\PieceJointe'
         ));
     }
 
