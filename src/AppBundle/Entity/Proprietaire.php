@@ -41,6 +41,29 @@ class Proprietaire
      */
     private $conversations;
 
+
+    /**
+     *
+     * @ORM\OneToMany(targetEntity="Activite", mappedBy="redacteur")
+     */
+    private $activites;
+
+    /**
+     * @return mixed
+     */
+    public function getActivites()
+    {
+        return $this->activites;
+    }
+
+    /**
+     * @param mixed $activites
+     */
+    public function setActivites($activites)
+    {
+        $this->activites = $activites;
+    }
+
     public function addConversation(Conversation $conversation)
     {
         $conversation->addPropietaire($this); // synchronously updating inverse side

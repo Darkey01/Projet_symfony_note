@@ -50,7 +50,7 @@ class Activite
     private $date;
 
     /**
-     * @ORM\OneToOne(targetEntity="Proprietaire")
+     * @ORM\ManyToOne(targetEntity="Proprietaire" , inversedBy="activites")
      */
     private $redacteur;
 
