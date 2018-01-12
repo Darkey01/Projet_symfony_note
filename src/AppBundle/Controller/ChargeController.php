@@ -59,7 +59,7 @@ class ChargeController extends Controller
     public function newAction(Request $request)
     {
         $charge = new Charge();
-        $form = $this->createForm('AppBundle\Form\ChargeType', $charge);
+        $form = $this->createForm('AppBundle\Form\ChargeType', $charge, ['isEdit' => false]);
         $form->handleRequest($request);
 
 
@@ -129,7 +129,7 @@ class ChargeController extends Controller
      */
     public function editAction(Request $request, Charge $charge)
     {
-        $editForm = $this->createForm('AppBundle\Form\ChargeType', $charge);
+        $editForm = $this->createForm('AppBundle\Form\ChargeType', $charge, ['isEdit' => true]);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {

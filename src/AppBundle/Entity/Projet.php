@@ -74,12 +74,12 @@ class Projet
     private $piecesJointes;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Proprietaire")
+     * @ORM\ManyToOne(targetEntity="Proprietaire", inversedBy="projetsCrees" )
      */
     private $proprietaire;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Proprietaire" , mappedBy="projets")
+     * @ORM\ManyToMany(targetEntity="Proprietaire" , inversedBy="projets")
      */
     private $personnesConcernees;
 

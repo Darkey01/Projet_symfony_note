@@ -125,6 +125,7 @@ class ProjetController extends Controller
                 $em->flush();
                 return $this->redirectToRoute('projet_show', array('id' => $projet->getId()));
             }
+
             if ($formActivite->isSubmitted() && $formActivite->isValid()) {
                 $activite->setProjet($projet);
                 $activite->setRedacteur($this->getUser()->getIdProprietaire());

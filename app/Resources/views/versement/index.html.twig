@@ -6,38 +6,47 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
+                <th>Personne</th>
                 <th>Montant</th>
                 <th>Date</th>
                 <th>Type</th>
+                <th>Pieces Jointes</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for versement in versements %}
             <tr>
-                <td><a href="{{ path('versement_show', { 'id': versement.id }) }}">{{ versement.id }}</a></td>
+                <td>{{ versement.proprietaire }}</td>
                 <td>{{ versement.montant }}</td>
                 <td>{% if versement.date %}{{ versement.date|date('Y-m-d') }}{% endif %}</td>
                 <td>{{ versement.type }}</td>
+                <td>
+                    {% if versement.piecesjointes == null%}
+                        Aucune piece jointe
+                    {% else %}
+                        {% for pc in versement.piecesjointes%}
+                            <ul><li>
+                                    <a href="{{ asset(pc.chemin)}}" target="_blank">({{ pc.type }}) {{ pc.nom}}</a>
+                                </li>
+                            </ul>
+                        {% endfor %}
+                    {% endif %}
+                </td>
                 <td>
                     <ul>
                         <li>
                             <a href="{{ path('versement_show', { 'id': versement.id }) }}">Consulter</a>
                         </li>
-                        <li>
+                       <!-- <li>
                             <a href="{{ path('versement_edit', { 'id': versement.id }) }}">Editer</a>
-                        </li>
+                        </li> -->
                     </ul>
                 </td>
+
+
             </tr>
         {% endfor %}
         </tbody>
     </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('versement_new') }}">Créer un nouveau versement</a>
-        </li>
-    </ul>
 {% endblock %}

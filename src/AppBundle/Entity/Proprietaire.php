@@ -20,7 +20,7 @@ class Proprietaire
     public function __construct() {
         $this->conversations = new ArrayCollection();
         $this->charges = new ArrayCollection();
-
+        $this->versements = new ArrayCollection();
     }
     /**
      * @ORM\Id
@@ -72,7 +72,7 @@ class Proprietaire
     private $projetsCrees;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Projet", inversedBy="personnesConcernee")
+     * @ORM\ManyToMany(targetEntity="Projet", mappedBy="personnesConcernees")
      * @ORM\JoinTable(name="personnesProjet")
      */
     private $projets;

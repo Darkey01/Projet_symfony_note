@@ -22,7 +22,7 @@ class ReponseSondage
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Sondage")
+     * @ORM\ManyToOne(targetEntity="Sondage", inversedBy="reponse")
      */
     private $idSondage;
 

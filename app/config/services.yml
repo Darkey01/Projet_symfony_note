@@ -38,3 +38,6 @@ services:
     # AppBundle\Service\ExampleService:
     #     arguments:
     #         $someArgument: 'some_value'
+    AppBundle\Form\FilePathToFileTransformer:
+        arguments:
+            $uploadDirectory: 'uploads'

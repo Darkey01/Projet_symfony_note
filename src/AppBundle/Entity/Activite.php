@@ -50,7 +50,7 @@ class Activite
 
     /**
      *
-     * @ORM\ManyToOne(targetEntity="Projet")
+     * @ORM\ManyToOne(targetEntity="Projet",inversedBy="activites")
      */
         private $projet;
 

@@ -42,18 +42,20 @@
                     <ul>
                         <li>
                             {% if is_granted('ROLE_ADMIN') %}
-                                <a href="{{ path('charge_admin_show', { 'id': charge.id }) }}">Consulter</a>
-                            {% endif %}
-                            {% if is_granted('ROLE_PROPRIETAIRE') %}
-                                <a href="{{ path('charge_proprietaire_show', { 'id': charge.id }) }}">Consulter</a>
-                            {% endif %}
-                        </li>
+                            <a href="{{ path('charge_admin_show', { 'id': charge.id }) }}">Consulter</a>
                         <li>
                             <a href="{{ path('charge_edit', { 'id': charge.id }) }}">Editer</a>
                         </li>
                         <li>
                             <a href="{{ path('charge_delete', { 'id': charge.id }) }}">Supprimer</a>
                         </li>
+                        {% endif %}
+                        {% if is_granted('ROLE_PROPRIETAIRE') %}
+                            <a href="{{ path('charge_proprietaire_show', { 'id': charge.id }) }}">Consulter</a>
+                        {% endif %}
+                        </li>
+
+
                     </ul>
                 </td>
             </tr>

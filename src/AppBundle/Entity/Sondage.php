@@ -34,7 +34,7 @@ class Sondage
     private $reponse;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Projet")
+     * @ORM\ManyToOne(targetEntity="Projet",inversedBy="listeSondage")
      */
     private $idProjet;
 

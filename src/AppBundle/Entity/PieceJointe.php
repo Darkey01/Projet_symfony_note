@@ -43,12 +43,12 @@ class PieceJointe
     private $chemin;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Versement")
+     * @ORM\ManyToOne(targetEntity="Versement", inversedBy="piecesJointes")
      */
     private $versement;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Projet")
+     * @ORM\ManyToOne(targetEntity="Projet",inversedBy="piecesJointes")
      */
     private $idProjet;
 
@@ -64,6 +64,11 @@ class PieceJointe
     public function getCharge()
     {
         return $this->charge;
+    }
+
+    public function __toString()
+    {
+        return $this->getNom();
     }
 
     /**
