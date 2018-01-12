@@ -68,6 +68,7 @@ class SecurityController extends Controller
         $user->setPassword($encoded);
         $user->setRoles(array('ROLE_ADMIN'));
         $user->setUsername('Reynald');
+        $user->setEmail("reynald@yopmail.fr");
         $em = $this->getDoctrine()->getManager();
         $em->persist($user);
         $em->flush();
@@ -75,6 +76,7 @@ class SecurityController extends Controller
         $encoder = $this->get('security.password_encoder');
         $encoded = $encoder->encodePassword($user, 'jojo');
         $user->setPassword($encoded);
+        $user->setEmail("jordan@yopmail.fr");
         $user->setRoles(array('ROLE_ADMIN'));
         $user->setUsername('Jordan');
         $em = $this->getDoctrine()->getManager();
@@ -83,6 +85,7 @@ class SecurityController extends Controller
         $user = new User();
         $encoder = $this->get('security.password_encoder');
         $encoded = $encoder->encodePassword($user, 'root');
+        $user->setEmail("root@yopmail.fr");
         $user->setPassword($encoded);
         $user->setRoles(array('ROLE_ADMIN'));
         $user->setUsername('root');

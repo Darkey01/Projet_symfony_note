@@ -59,7 +59,7 @@ class Projet
 
     /**
      * @ORM\OneToOne(targetEntity="Conversation")
-     * @ORM\JoinColumn(name="projetId", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="conversation_id", referencedColumnName="id", nullable=false)
      */
     private $filDiscussion;
 
