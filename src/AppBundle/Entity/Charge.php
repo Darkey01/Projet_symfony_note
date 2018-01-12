@@ -17,8 +17,9 @@ class Charge
 
     public function __construct() {
         $this->proprietaires = new ArrayCollection();
-    }
+        $this->dateEcheance = new \DateTime('now');
 
+    }
     /**
      * @var int
      *

@@ -12,6 +12,13 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Projet
 {
+
+    public function __construct()
+    {
+        $this->dateOuverture = new \DateTime('now');
+        $this->dateCloture = new \DateTime('tomorrow');
+    }
+
     /**
      * @var int
      *
