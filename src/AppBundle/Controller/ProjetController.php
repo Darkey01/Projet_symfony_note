@@ -50,7 +50,7 @@ class ProjetController extends Controller
     public function newAction(Request $request)
     {
         $projet = new Projet();
-        $form = $this->createForm('AppBundle\Form\ProjetType', $projet,array('user' => $this->getUser()->getId(),'isEdit'=>false));
+        $form = $this->createForm('AppBundle\Form\ProjetType', $projet,array('user' => $this->getUser()->getId()));
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
