@@ -4,6 +4,7 @@
     <h1>Liste des projets me concernant</h1>
 
     <table class="table">
+        {% if projets|length >0 %}
         <thead>
             <tr>
                 <th>Nom</th>
@@ -37,5 +38,8 @@
             </tr>
         {% endfor %}
         </tbody>
+        {% else %}
+            <tr><td>Vous n'avez aucun projet vous concernant!</td></tr>
+        {% endif %}
     </table>
 {% endblock %}

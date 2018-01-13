@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Bienvenue sur votre accueil</h1>
+
+    <div class="col-lg-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"> <span class="glyphicon glyphicon-comment"></span> Vos 15 dernieres conversations actives</h3>
+            </div>
+            <div class="panel-body">
+                <div class="list-group">
+                    {% for conversation in app.user.idProprietaire.conversations|slice(0,15) %}
+
+                        <a href="{{ path('conversation_show', { 'id': conversation.id }) }}" class="list-group-item">
+                            {{ conversation.titre}} ({{ conversation.messages|length }} messages)
+                        </a>
+
+                    {% endfor %}
+                </div>
+                <div class="text-right">
+                    <a href="{{ path('conversation') }}">Voir toutes les conversations <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><span class="glyphicon glyphicon-folder-open"></span>  Vos 15 projets en cours</h3>
+            </div>
+            <div class="panel-body">
+                <div class="list-group">
+                    {% for projet in app.user.idProprietaire.projets|slice(0,15) if projet.statut != 'Execute' %}
+
+                        <a href="{{ path('projet_show', { 'id': projet.id }) }}" class="list-group-item">
+                            {{ projet.nom}} ({{ projet.statut}})
+                        </a>
+
+                    {% endfor %}
+                </div>
+                <div class="text-right">
+                    <a href="{{ path('projet_index') }}">Voir toutes les projets <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><span class="glyphicon glyphicon-credit-card"></span></i> Vos virements à effectuer</h3>
+            </div>
+            <div class="panel-body">
+                <div class="list-group">
+                    {% for charge in charges|slice(0,15)%}
+
+                        <a href="{{ path('charge_proprietaire_show', { 'id': charge.id }) }}" class="list-group-item">
+                            {{charge.titre }} : {{ attribute(montants, charge.id) }}€ due
+                        </a>
+
+                    {% endfor %}
+                </div>
+                <div class="text-right">
+                    <a href="{{ path('accueil_proprietaire') }}">Voir toutes vos charges <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

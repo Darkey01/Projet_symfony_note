@@ -17,6 +17,8 @@ class Projet
     {
         $this->dateOuverture = new \DateTime('now');
         $this->dateCloture = new \DateTime('tomorrow');
+        $conversation = New Conversation();
+        $this->filDiscussion = $conversation;
     }
 
     /**

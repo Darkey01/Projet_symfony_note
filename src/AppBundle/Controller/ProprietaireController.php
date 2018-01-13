@@ -47,7 +47,7 @@ class ProprietaireController extends Controller
             $user->setRoles(array('ROLE_PROPRIETAIRE'));
             $pwdnotencoded = "user".$i;
             $user->setUsername("user".$i);
-                        $user->setEmail('user'.$i.'@yopmail.fr');
+            $user->setEmail('user'.$i.'@yopmail.fr');
             $encoder = $this->get('security.password_encoder');
             $encoded = $encoder->encodePassword($user, $pwdnotencoded);
             $user->setPassword($encoded);
@@ -78,7 +78,7 @@ class ProprietaireController extends Controller
     public function newAction(Request $request)
     {
         $user = new User();
-        $user->setRoles(array('ROLE_PROPRIETAIRE'));
+
         $form = $this->createForm('AppBundle\Form\UserType', $user);
         $form->handleRequest($request);
 
@@ -89,13 +89,15 @@ class ProprietaireController extends Controller
             $encoder = $this->get('security.password_encoder');
             $encoded = $encoder->encodePassword($user,$pwdnotencoded);
             $user->setPassword($encoded);
-            $proprietaire = new Proprietaire();
-            $proprietaire->setUser($user);
-            $user->setIdProprietaire($proprietaire);
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($proprietaire);
-            $em->flush();
-
+            $user->setRoles([$form['roles']->getData()]);
+            if($form['roles']->getData() == "ROLE_PROPRIETAIRE") {
+                $proprietaire = new Proprietaire();
+                $proprietaire->setUser($user);
+                $user->setIdProprietaire($proprietaire);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($proprietaire);
+                $em->flush();
+            }
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);

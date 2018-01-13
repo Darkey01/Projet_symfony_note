@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * pieceJointe
  *
  * @ORM\Table(name="piece_jointe")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\pieceJointeRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\PieceJointeRepository")
  */
 class PieceJointe
 {
@@ -53,7 +53,7 @@ class PieceJointe
     private $idProjet;
 
     /**
-     * @ORM\OneToOne(targetEntity="Charge",cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="Charge")
      *
      */
     private $charge;

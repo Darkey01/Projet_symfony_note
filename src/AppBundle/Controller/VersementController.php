@@ -5,6 +5,8 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Charge;
 use AppBundle\Entity\PieceJointe;
 use AppBundle\Entity\Versement;
+use AppBundle\Service\UploaderPieceJointe;
+use AppBundle\Service\VerificationCharge;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
@@ -36,12 +38,12 @@ class VersementController extends Controller
     /**
      * Lists all versement entities.
      *
-     * @Route("/", name="versement_proprirtaire_index")
+     * @Route("/proprietaire/", name="versement_proprietaire_index")
      * @Method("GET")
      */
     public function mesversementAction()
     {
-        $versements = $this->getUser()->getIdProprrietaire()->getVersements();
+        $versements = $this->getUser()->getIdProprietaire()->getVersements();
 
         return $this->render('versement/index.html.twig', array(
             'versements' => $versements,
@@ -54,7 +56,7 @@ class VersementController extends Controller
      * @Route("/{id}/new", name="versement_new")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request, Charge $charge)
+    public function newAction(Request $request,VerificationCharge $verificationCharge, Charge $charge)
     {
         $versement = new Versement();
         $montanttotprop = $charge->getMontant() / count($charge->getProprietaires());
@@ -71,13 +73,11 @@ class VersementController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $versement->setChargeLiee($charge);
-
             $versement->setProprietaire($this->getUser()->getIdProprietaire());
-
             $em = $this->getDoctrine()->getManager();
             $em->persist($versement);
             $em->flush();
-
+            $verificationCharge->checkMontant($charge);
             return $this->redirectToRoute('versement_show', array('id' => $versement->getId()));
         }
 
@@ -88,44 +88,33 @@ class VersementController extends Controller
         ));
     }
 
-
-
     /**
      * Finds and displays a versement entity.
      *
      * @Route("/{id}", name="versement_show")
      * @Method({"GET","POST"})
      */
-    public function showAction(Request $request, Versement $versement)
+    public function showAction(Request $request,UploaderPieceJointe $uploaderPieceJointe, Versement $versement)
     {
         $pieceJointe = new PieceJointe();
-        $formPc = $this->createForm('AppBundle\Form\PieceJointeType', $pieceJointe, ['isEdit'=>false]);
+        $formPc = $this->createForm('AppBundle\Form\PieceJointeType', $pieceJointe, ['isEdit' => false]);
         $formPc->handleRequest($request);
 
-        if($formPc->isSubmitted() && $formPc->isValid()) {
+        if ($formPc->isSubmitted() && $formPc->isValid()) {
             $pieceJointe->setVersement($versement);
-            $data = $formPc->getData();
-            $dir = 'uploads';
-            $file = $formPc['chemin']->getData();
-            $extension = $file->guessExtension();
-            if ($extension == 'pdf' || $extension == 'doc' || $extension == 'docx') {
-                $uniqId = uniqid();
-                $file->move($dir, $uniqId . '.' . $extension);
-                $final_url = $dir . '/' . $uniqId . '.' . $extension;
-                $pieceJointe->setChemin($final_url);
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($pieceJointe);
-                $em->flush();
+
+            if ($uploaderPieceJointe->upload($pieceJointe, $formPc)) {
                 $this->addFlash('info', "Pièce jointe uploader !");
             } else {
                 $this->addFlash('error', 'Extension invalide');
-            }
 
+            }
         }
         return $this->render('versement/show.html.twig', array(
             'versement' => $versement,
             'formPc' => $formPc->createView()
         ));
+
     }
 
     /**

@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Conversation;
 use AppBundle\Entity\Message;
 use AppBundle\Service\CheckDroit;
+use AppBundle\Service\SendMail;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -41,7 +42,7 @@ class ConversationController extends Controller
      * @Route("/new", name="conversation_new")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request)
+    public function newAction(Request $request, SendMail $sendMail)
     {
         $conversation = new Conversation();
         $form = $this->createForm('AppBundle\Form\ConversationType', $conversation,array('user' => $this->getUser()->getId()));
@@ -53,14 +54,7 @@ class ConversationController extends Controller
 
             foreach($conversation->getPersonnes() as $personne) {
                 $personne->addConversation($conversation);
-                if ($personne->getUser()->getEmail() != null) {
-                    $message = \Swift_Message::newInstance()
-                        ->setSubject("Notification : Création d'un sujet de conversation" . $conversation->getTitre())
-                        ->setFrom('no_reply@yopmail.com')
-                        ->setTo($personne->getUser()->getEmail())
-                        ->setBody("Madame, Monsieur, " . $proprietaire . " viens de créer un conversation vous concernant. Cordialement");
-                    $this->get('mailer')->send($message);
-                }
+                $sendMail->sendMailNewConversation($personne,$this->getUser()->getIdProprietaire(), $conversation);
             }
 
 
@@ -86,7 +80,7 @@ class ConversationController extends Controller
      * @Route("/{id}", name="conversation_show")
      * @Method({"GET", "POST"})
      */
-    public function showAction(Request $request,CheckDroit $checkDroit, Conversation $conversation)
+    public function showAction(Request $request,CheckDroit $checkDroit,SendMail $sendMail, Conversation $conversation)
     {
         if($checkDroit->checkDroitConversation($this->getUser()->getIdProprietaire(), $conversation)) {
             $message = new Message();
@@ -98,14 +92,7 @@ class ConversationController extends Controller
 
                 foreach($conversation->getPersonnes() as $personne) {
                     if ($personne != $this->getUser()->getIdProprietaire()) {
-                        if ($personne->getUser()->getEmail() != null) {
-                            $message = \Swift_Message::newInstance()
-                                ->setSubject("Notification : Une réponse a été émise a la conversation" . $conversation->getTitre())
-                                ->setFrom('noreply@yopmail.com')
-                                ->setTo($personne->getUser()->getEmail())
-                                ->setBody("Madame, Monsieur, " . $this->getUser()->getIdProprietaire() . " viens répondre à la conversation " . $conversation->getTitre() . " . Cordialement");
-                            $this->get('mailer')->send($message);
-                        }
+                     $sendMail->sendMailNewMessageConversation($personne,$this->getUser()->getIdProprietaire(),$conversation);
                     }
                 }
 
@@ -185,6 +172,6 @@ class ConversationController extends Controller
             ->setAction($this->generateUrl('conversation_delete', array('id' => $conversation->getId())))
             ->setMethod('DELETE')
             ->getForm()
-        ;
+            ;
     }
 }

@@ -71,7 +71,7 @@ class Charge
     /**
      * @var string
      *
-     * @ORM\OneToOne(targetEntity="PieceJointe",cascade={"remove"})
+     * @ORM\OneToOne(targetEntity="PieceJointe", cascade={"all"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $pieceJointe;

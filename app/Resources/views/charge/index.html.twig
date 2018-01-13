@@ -10,6 +10,7 @@
         </ul>
     {% endif %}
     <table class="table">
+        {% if charges|length >0 %}
         <thead>
         <tr>
             <th>Id</th>
@@ -22,6 +23,7 @@
         </tr>
         </thead>
         <tbody>
+
         {% for charge in charges %}
             <tr>
                 {% if is_granted('ROLE_ADMIN') %}
@@ -60,7 +62,14 @@
                 </td>
             </tr>
         {% endfor %}
+
+
         </tbody>
+        {% else %}
+            <tr>
+                <td>Vous n'avez aucune charge !</td>
+            </tr>
+        {% endif %}
     </table>
 
 

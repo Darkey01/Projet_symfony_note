@@ -4,7 +4,10 @@
     <h1>Liste des versements</h1>
 
     <table class="table">
-        <thead>
+        {% if versements|length == 0%}
+            Il n'y aucun versement !
+        {% else %}
+            <thead>
             <tr>
                 <th>Personne</th>
                 <th>Montant</th>
@@ -13,40 +16,38 @@
                 <th>Pieces Jointes</th>
                 <th>Actions</th>
             </tr>
-        </thead>
-        <tbody>
-        {% for versement in versements %}
-            <tr>
-                <td>{{ versement.proprietaire }}</td>
-                <td>{{ versement.montant }}</td>
-                <td>{% if versement.date %}{{ versement.date|date('Y-m-d') }}{% endif %}</td>
-                <td>{{ versement.type }}</td>
-                <td>
-                    {% if versement.piecesjointes == null%}
-                        Aucune pièce jointe
-                    {% else %}
-                        {% for pc in versement.piecesjointes%}
-                            <ul><li>
-                                    <a href="{{ asset(pc.chemin)}}" target="_blank">({{ pc.type }}) {{ pc.nom}}</a>
-                                </li>
-                            </ul>
-                        {% endfor %}
-                    {% endif %}
-                </td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('versement_show', { 'id': versement.id }) }}">Consulter</a>
-                        </li>
-                       <!-- <li>
-                            <a href="{{ path('versement_edit', { 'id': versement.id }) }}">Editer</a>
-                        </li> -->
-                    </ul>
-                </td>
+            </thead>
+            <tbody>
+            {% for versement in versements %}
+                <tr>
+                    <td>{{ versement.proprietaire }}</td>
+                    <td>{{ versement.montant }}</td>
+                    <td>{% if versement.date %}{{ versement.date|date('Y-m-d') }}{% endif %}</td>
+                    <td>{{ versement.type }}</td>
+                    <td>
+                        {% if versement.piecesjointes == null%}
+                            Aucune pièce jointe
+                        {% else %}
+                            {% for pc in versement.piecesjointes%}
+                                <ul><li>
+                                        <a href="{{ asset(pc.chemin)}}" target="_blank">({{ pc.type }}) {{ pc.nom}}</a>
+                                    </li>
+                                </ul>
+                            {% endfor %}
+                        {% endif %}
+                    </td>
+                    <td>
+                        <ul>
+                            <li>
+                                <a href="{{ path('versement_show', { 'id': versement.id }) }}">Consulter</a>
+                            </li>
+                        </ul>
+                    </td>
 
 
-            </tr>
-        {% endfor %}
-        </tbody>
+                </tr>
+            {% endfor %}
+            </tbody>
+        {% endif %}
     </table>
 {% endblock %}

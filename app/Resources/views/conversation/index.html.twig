@@ -4,6 +4,7 @@
     <h1>Liste des conversations</h1>
 
     <table class="table">
+        {% if conversations|length >0 %}
         <thead>
             <tr>
                 <th>Id</th>
@@ -26,6 +27,9 @@
             </tr>
         {% endfor %}
         </tbody>
+        {% else %}
+        <tr><td>Vous n'avez aucune conversation !</td></tr>
+        {% endif %}
     </table>
 
 {% endblock %}

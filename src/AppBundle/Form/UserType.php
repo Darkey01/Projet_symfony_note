@@ -3,6 +3,7 @@
 namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -16,20 +17,16 @@ class UserType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('username',TextType::class,['label' => 'Username'])->add('email', EmailType::class)->add('password', PasswordType::class, ['label' => 'Mot de passe']);
-    }/**
-     * {@inheritdoc}
-     */
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\User'
-        ));
+        $builder->add('username', TextType::class, ['label' => 'Username'])->add('email', EmailType::class)->add('password', PasswordType::class, ['label' => 'Mot de passe'])
+            ->add('roles', ChoiceType::class, array(
+                    'choices' => array(
+                        'Proprietaire' => 'ROLE_PROPRIETAIRE',
+                        'Admin' => 'ROLE_ADMIN',
+                    ),
+                )
+            );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getBlockPrefix()
     {
         return 'appbundle_user';

@@ -3,6 +3,9 @@
 {% block body %}
     <h1>Liste des propriétaires</h1>
 
+    {% if proprietaires|length == 0%}
+        Il n'y aucun proprietaire dans cette co-proprietée ! Penser a en creer !
+    {% else %}
     <table class="table">
         <thead>
             <tr>
@@ -10,27 +13,19 @@
                 <th>Nom</th>
                 <th>Email</th>
                 <th>Mot de passe</th>
-                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for proprietaire in proprietaires %}
             <tr>
-                <td><a href="{{ path('proprietaire_show', { 'id': proprietaire.id }) }}">{{ proprietaire.id }}</a></td>
+                <td>{{ proprietaire.id }}</td>
                 <td>{{ proprietaire.user.username }}</td>
                 <td>{{ proprietaire.user.email }}</td>
                 <td>{{ proprietaire.user.password }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('proprietaire_show', { 'id': proprietaire.id }) }}">Consulter</a>
-                        </li>
-                    </ul>
-                </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-
+    {% endif %}
     
 {% endblock %}

@@ -2,7 +2,9 @@
 
 {% block body %}
     <h1>Charge</h1>
+{% if(is_granted('ROLE_ADMIN')) %}
     <ul class="nav navbar-nav">
+
         <li>
             <a href="{{ path('charge_edit', { 'id': charge.id }) }}">Editer</a>
         </li>
@@ -10,6 +12,7 @@
             <a href="{{ path('charge_delete', { 'id': charge.id }) }}">Supprimer</a>
         </li>
     </ul>
+{% endif %}
 
     <table class="table">
         <tbody>

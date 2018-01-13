@@ -10,6 +10,8 @@ use AppBundle\Entity\Projet;
 use AppBundle\Entity\ReponseSondage;
 use AppBundle\Entity\Sondage;
 use AppBundle\Service\CheckDroit;
+use AppBundle\Service\SendMail;
+use AppBundle\Service\UploaderPieceJointe;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -47,42 +49,32 @@ class ProjetController extends Controller
      * @Route("/new", name="projet_new")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request)
+    public function newAction(Request $request, SendMail $sendMail)
     {
         $projet = new Projet();
         $form = $this->createForm('AppBundle\Form\ProjetType', $projet,array('user' => $this->getUser()->getId()));
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $conversation = new Conversation();
+            $conversation = $projet->getFilDiscussion();
+            $conversation->setTitre("Projet ". $projet->getNom());
+            $conversation->setProjetId($projet);
             foreach($projet->getPersonnesConcernees() as $proprietaire){
                 $proprietaire->addProjet($projet);
                 $proprietaire->addConversation($conversation);
                 if ($proprietaire != $this->getUser()->getIdProprietaire()) {
-                    if ($proprietaire->getUser()->getEmail() != null) {
-                        $message = \Swift_Message::newInstance()
-                            ->setSubject("Notification : modification " . $projet->getNom())
-                            ->setFrom('noreply@yopmail.com')
-                            ->setTo($proprietaire->getUser()->getEmail())
-                            ->setBody("Madame, Monsieur, " . $this->getUser()->getIdProprietaire() . " viens de créer un projet "  . $projet->getNom() . " concernant la co-propriété et vous concernant également. Cordialement");
-                        $this->get('mailer')->send($message);
-                    }
+                    $sendMail->sendMailNewProjet($proprietaire,$this->getUser()->getIdProprietaire(), $projet);
                 }
             }
-
-
             $repositoryProprietaire = $this->getDoctrine()->getManager()->getRepository('AppBundle:Proprietaire');
             $proprietaire = $repositoryProprietaire->find($this->getUser()->getIdProprietaire());
-            //$conversation->getPersonnes()->add($Proprietaire);
             $proprietaire->addConversation($conversation);
             $proprietaire->addProjet($projet);
             $projet->setProprietaire($this->getUser()->getIdProprietaire());
             $projet->setFilDiscussion($conversation);
             $projet->setStatut("En discussion");
-            $conversation->setProjetId($projet);
-            $conversation->setTitre("Projet ". $projet->getNom());
-            $em = $this->getDoctrine()->getManager();
 
+            $em = $this->getDoctrine()->getManager();
             $em->persist($conversation);
             $em->persist($projet);
             $em->flush();
@@ -102,7 +94,7 @@ class ProjetController extends Controller
      * @Route("/{id}", name="projet_show")
      * @Method({"GET", "POST"})
      */
-    public function showAction(Request $request,CheckDroit $checkDroit, Projet $projet)
+    public function showAction(Request $request,CheckDroit $checkDroit,UploaderPieceJointe $uploaderPieceJointe, Projet $projet)
     {
         if($checkDroit->checkDroitProjet($this->getUser()->getIdProprietaire(), $projet)) {
 
@@ -137,21 +129,12 @@ class ProjetController extends Controller
 
             if($formPc->isSubmitted() && $formPc->isValid()) {
                 $pieceJointe->setIdProjet($projet);
-                $data = $formPc->getData();
-                $dir = 'uploads';
-                $file = $formPc['chemin']->getData();
-                $extension = $file->guessExtension();
-                if ($extension == 'pdf' || $extension == 'doc' || $extension == 'docx') {
-                    $uniqId = uniqid();
-                    $file->move($dir, $uniqId . '.' . $extension);
-                    $final_url = $dir . '/' . $uniqId . '.' . $extension;
-                    $pieceJointe->setChemin($final_url);
-                    $em = $this->getDoctrine()->getManager();
-                    $em->persist($pieceJointe);
-                    $em->flush();
+
+                if ($uploaderPieceJointe->upload($pieceJointe, $formPc)) {
                     $this->addFlash('info', "Pièce jointe uploader !");
-                }else{
-                    $this->addFlash('error','Extension invalide');
+                } else {
+                    $this->addFlash('error', 'Extension invalide');
+
                 }
                 return $this->redirectToRoute('projet_show', array('id' => $projet->getId()));
 
@@ -196,7 +179,7 @@ class ProjetController extends Controller
      * @Route("/{id}/edit", name="projet_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request,CheckDroit $checkDroit, Projet $projet)
+    public function editAction(Request $request,CheckDroit $checkDroit,SendMail $sendMail, Projet $projet)
     {
         if($checkDroit->checkDroitProjet($this->getUser()->getIdProprietaire(), $projet)) {
             $editForm = $this->createFormBuilder($projet)->add('description')->add('statut', ChoiceType::class, array(
@@ -213,16 +196,7 @@ class ProjetController extends Controller
                 $this->getDoctrine()->getManager()->flush();
 
                 foreach($projet->getPersonnesConcernees() as $personne) {
-                    if ($personne != $this->getUser()->getIdProprietaire()) {
-                        if ($personne->getUser()->getEmail() != null) {
-                            $message = \Swift_Message::newInstance()
-                                ->setSubject("Notification : modification " . $projet->getNom())
-                                ->setFrom('noreply@yopmail.com')
-                                ->setTo($personne->getUser()->getEmail())
-                                ->setBody("Madame, Monsieur, " . $this->getUser()->getIdProprietaire() . " viens d'apporter une modification au projet" . $projet->getNom() . " . Cordialement");
-                            $this->get('mailer')->send($message);
-                        }
-                    }
+                   $sendMail->sendMailEditProjet($personne,$this->getUser()->getIdProprietaire(), $projet);
                 }
 
                 return $this->redirectToRoute('projet_show', array('id' => $projet->getId()));

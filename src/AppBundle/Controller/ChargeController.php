@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Charge;
 use AppBundle\Entity\PieceJointe;
 use AppBundle\Service\CheckDroit;
+use AppBundle\Service\UploaderPieceJointe;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -56,7 +57,7 @@ class ChargeController extends Controller
      * @Route("admin/charge/new", name="addCharge")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request)
+    public function newAction(Request $request,UploaderPieceJointe $uploaderPieceJointe)
     {
         $charge = new Charge();
         $form = $this->createForm('AppBundle\Form\ChargeType', $charge, ['isEdit' => false]);
@@ -64,34 +65,24 @@ class ChargeController extends Controller
 
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
             if($form['pieceJointe']->getData() != null){
                 $pieceJointe = new PieceJointe();
                 $pieceJointe->setCharge($charge);
-                $dir = 'uploads';
-                $file = $form['pieceJointe']->getData();
-                $extension = $file->guessExtension();
-                if ($extension == 'pdf' || $extension == 'doc' || $extension == 'docx') {
-                    $uniqId = uniqid();
-                    $file->move($dir, $uniqId . '.' . $extension);
-                    $final_url = $dir . '/' . $uniqId . '.' . $extension;
-                    $pieceJointe->setChemin($final_url);
-                    $pieceJointe->setType("Facture");
-                    $pieceJointe->setNom("Facture ".$charge->getTitre());
-                    $em = $this->getDoctrine()->getManager();
-                    $em->persist($pieceJointe);
+
+                if ($uploaderPieceJointe->uploadFactureCharge($pieceJointe, $form,$charge->getTitre()) != null) {
+
                     $charge->setPieceJointe($pieceJointe);
-                    $em->flush();
-                    $this->addFlash('info', "Pièce jointe uploader !");
-                }else {
+                    $em->persist($pieceJointe);
+                } else {
                     $this->addFlash('error', 'Extension invalide');
                 }
             }
-
             $charge->setStatut('A payer');
             foreach($charge->getProprietaires() as $proprietaire){
                 $proprietaire->addCharge($charge);
             }
-            $em = $this->getDoctrine()->getManager();
+
             $em->persist($charge);
             $em->flush();
 
@@ -127,14 +118,34 @@ class ChargeController extends Controller
      * @Route("admin/{id}/edit", name="charge_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request, Charge $charge)
+    public function editAction(Request $request, Charge $charge, UploaderPieceJointe$uploaderPieceJointe)
     {
         $editForm = $this->createForm('AppBundle\Form\ChargeType', $charge, ['isEdit' => true]);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $em = $this->getDoctrine()->getManager();
+            $pc = $em->getRepository(PieceJointe::class)->findOneBy(['charge' => $charge->getId()]);
+            if ($pc != null) {
+                $pc->setCharge(null);
+            }
+            if($editForm['pieceJointe']->getData() != null){
 
+                $pieceJointe = new PieceJointe();
+                $pieceJointe->setCharge($charge);
+
+                if ($uploaderPieceJointe->uploadEditFactureCharge($pieceJointe,  $editForm,$charge->getTitre()) != null ) {
+                    $this->addFlash('info', "Pièce jointe uploader !");
+                    $charge->setPieceJointe(null);$em->flush();
+                    $charge->setPieceJointe($pieceJointe);
+
+                    $em->persist($pieceJointe);
+
+                } else {
+                    $this->addFlash('error', 'Extension invalide');
+                }
+            }
+            $em->flush();
             return $this->redirectToRoute('listChargeAdmin', array('id' => $charge->getId()));
         }
 
@@ -144,34 +155,39 @@ class ChargeController extends Controller
         ));
     }
 
-    /**
-     * Deletes a charge entity.
-     *
-     * @Route("admin/delete/{id}", name="charge_delete")
-     * @Method("GET")
-     */
-    public function deleteAction(Request $request, Charge $charge)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($charge);
-        $em->flush();
-
-        return $this->redirectToRoute('listChargeAdmin');
+/**
+ * Deletes a charge entity.
+ *
+ * @Route("admin/delete/{id}", name="charge_delete")
+ * @Method("GET")
+ */
+public function deleteAction(Request $request, Charge $charge)
+{
+    $em = $this->getDoctrine()->getManager();
+    $pc = $em->getRepository(PieceJointe::class)->findOneBy(['charge' => $charge->getId()]);
+    if ($pc != null) {
+        $pc->setCharge(null);
     }
+    $em->flush();
+    $em->remove($charge);
+    $em->flush();
 
-    /**
-     * Creates a form to delete a charge entity.
-     *
-     * @param Charge $charge The charge entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm(Charge $charge)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('charge_admin_show', array('id' => $charge->getId())))
-            ->setMethod('DELETE')
-            ->getForm()
-            ;
-    }
+    return $this->redirectToRoute('listChargeAdmin');
+}
+
+/**
+ * Creates a form to delete a charge entity.
+ *
+ * @param Charge $charge The charge entity
+ *
+ * @return \Symfony\Component\Form\Form The form
+ */
+private function createDeleteForm(Charge $charge)
+{
+    return $this->createFormBuilder()
+        ->setAction($this->generateUrl('charge_admin_show', array('id' => $charge->getId())))
+        ->setMethod('DELETE')
+        ->getForm()
+        ;
+}
 }

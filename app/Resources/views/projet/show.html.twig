@@ -52,26 +52,28 @@
 
             <div class="tab-content">
                 <div id="home" class="tab-pane fade in active">
-
-                    {% for message in projet.filDiscussion.messages %}
-                        <div style="padding: 15px ; border-bottom: solid">
-                            <div><h4>{{ message.idUser}} </h4> {{  message.dateMessage|date('Y-m-d H:i:s') }}</div>
-                            <div style="display: inline-block ; width: 80%">{{ message.text }}</div>
-                            {% if app.user.idProprietaire==message.idUser  %}
-                                <div style="display: inline-block ; width: 15%">
-                                    <ul>
-                                        <li>
-                                            <a href="{{ path('message_edit', { 'id': message.id }) }}">Editer</a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ path('message_delete', { 'id': message.id }) }}">Supprimer</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            {% endif %}
-                        </div>
-                    {% endfor %}
-
+                    {% if projet.filDiscussion.messages|length == 0%}
+                        Il n'y aucun message dans cette conversation !
+                    {% else %}
+                        {% for message in projet.filDiscussion.messages %}
+                            <div style="padding: 15px ; border-bottom: solid">
+                                <div><h4>{{ message.idUser}} </h4> {{  message.dateMessage|date('Y-m-d H:i:s') }}</div>
+                                <div style="display: inline-block ; width: 80%">{{ message.text }}</div>
+                                {% if app.user.idProprietaire==message.idUser  %}
+                                    <div style="display: inline-block ; width: 15%">
+                                        <ul>
+                                            <li>
+                                                <a href="{{ path('message_edit', { 'id': message.id }) }}">Editer</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ path('message_delete', { 'id': message.id }) }}">Supprimer</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
                     <div style="margin-top: 15px">
                         <h3>Ajouter un message</h3>
                         {{ form_start(form) }}
@@ -80,6 +82,7 @@
                         <input type="submit" value="Créer" class="btn btn-default" />
                         {{ form_end(form) }}
                     </div>
+
                 </div>
                 <div id="menu1" class="tab-pane fade">
                     {% if app.user.idProprietaire == projet.proprietaire %}
