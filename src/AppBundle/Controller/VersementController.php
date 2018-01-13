@@ -71,7 +71,7 @@ class VersementController extends Controller
         $form = $this->createForm('AppBundle\Form\VersementType', $versement, array('max' => $montantmax));
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->isSubmitted() && $form->isValid()) {
             $versement->setChargeLiee($charge);
             $versement->setProprietaire($this->getUser()->getIdProprietaire());
             $em = $this->getDoctrine()->getManager();
@@ -105,10 +105,12 @@ class VersementController extends Controller
 
             if ($uploaderPieceJointe->upload($pieceJointe, $formPc)) {
                 $this->addFlash('info', "Pièce jointe uploader !");
+                $versement->setPiecesJointes($pieceJointe);
             } else {
                 $this->addFlash('error', 'Extension invalide');
 
             }
+            return $this->redirectToRoute('versement_show', array('id' => $versement->getId()));
         }
         return $this->render('versement/show.html.twig', array(
             'versement' => $versement,
